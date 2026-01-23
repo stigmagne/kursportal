@@ -3,69 +3,93 @@
 @theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Force sharp corners for all rounded utilities */
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius: 0;
 }
 
 :root {
   /* Neo-Brutalist Light Theme */
-  --background: 0 0% 100%;    /* Pure White */
-  --foreground: 0 0% 0%;      /* Pure Black */
-  
+  --background: 0 0% 100%;
+  /* Pure White */
+  --foreground: 0 0% 0%;
+  /* Pure Black */
+
   --card: 0 0% 100%;
   --card-foreground: 0 0% 0%;
-  
+
   --popover: 0 0% 100%;
   --popover-foreground: 0 0% 0%;
-  
-  --primary: 260 100% 60%;    /* Vibrant Purple */
+
+  --primary: 260 100% 60%;
+  /* Vibrant Purple */
   --primary-foreground: 0 0% 100%;
-  
-  --secondary: 47 100% 50%;   /* Vibrant Yellow */
+
+  --secondary: 47 100% 50%;
+  /* Vibrant Yellow */
   --secondary-foreground: 0 0% 0%;
-  
+
   --muted: 0 0% 96%;
   --muted-foreground: 0 0% 40%;
-  
-  --accent: 180 100% 50%;     /* Vibrant Cyan */
+
+  --accent: 180 100% 50%;
+  /* Vibrant Cyan */
   --accent-foreground: 0 0% 0%;
-  
-  --destructive: 0 100% 50%;  /* Pure Red */
+
+  --destructive: 0 100% 50%;
+  /* Pure Red */
   --destructive-foreground: 0 0% 100%;
 
-  --border: 0 0% 0%;          /* Pure Black Border */
+  --border: 0 0% 0%;
+  /* Pure Black Border */
   --input: 0 0% 0%;
   --ring: 0 0% 0%;
-  
-  --radius: 0rem;             /* Sharp corners */
+
+  --radius: 0rem;
+  /* Sharp corners */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     /* Neo-Brutalist Dark Theme (Inverted) */
-    --background: 0 0% 5%;      /* Near Black */
-    --foreground: 0 0% 100%;    /* Pure White */
-    
+    --background: 0 0% 5%;
+    /* Near Black */
+    --foreground: 0 0% 100%;
+    /* Pure White */
+
     --card: 0 0% 5%;
     --card-foreground: 0 0% 100%;
-    
+
     --popover: 0 0% 5%;
     --popover-foreground: 0 0% 100%;
-    
-    --primary: 260 100% 70%;    /* Lighter Purple */
+
+    --primary: 260 100% 70%;
+    /* Lighter Purple */
     --primary-foreground: 0 0% 0%;
-    
-    --secondary: 47 100% 50%;   /* Vibrant Yellow */
+
+    --secondary: 47 100% 50%;
+    /* Vibrant Yellow */
     --secondary-foreground: 0 0% 0%;
-    
+
     --muted: 0 0% 20%;
     --muted-foreground: 0 0% 70%;
-    
-    --accent: 180 100% 50%;     /* Vibrant Cyan */
+
+    --accent: 180 100% 50%;
+    /* Vibrant Cyan */
     --accent-foreground: 0 0% 0%;
-    
+
     --destructive: 0 100% 60%;
     --destructive-foreground: 0 0% 0%;
-    
-    --border: 0 0% 100%;        /* White Border in Dark Mode */
+
+    --border: 0 0% 100%;
+    /* White Border in Dark Mode */
     --input: 0 0% 100%;
     --ring: 0 0% 100%;
   }
