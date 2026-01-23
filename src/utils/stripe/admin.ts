@@ -1,13 +1,26 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import Stripe from 'stripe';
 import { stripe } from './server';
 
 // Note: This must be used in a secure server-side context (e.g. Webhook handler)
 // We use the SERVICE_ROLE_KEY to bypass RLS when writing webhooks data to the DB.
-const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-);
+let supabaseAdminInstance: SupabaseClient | null = null;
+
+function getSupabaseAdmin(): SupabaseClient {
+    if (!supabaseAdminInstance) {
+        supabaseAdminInstance = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+            process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+        );
+    }
+    return supabaseAdminInstance;
+}
+
+const supabaseAdmin = new Proxy({} as SupabaseClient, {
+    get(_, prop) {
+        return (getSupabaseAdmin() as any)[prop];
+    }
+});
 
 const toDateTime = (secs: number) => {
     var t = new Date('1970-01-01T00:30:00Z'); // Unix epoch start.
