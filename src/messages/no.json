@@ -1,0 +1,648 @@
+{
+    "Navbar": {
+        "dashboard": "Oversikt",
+        "courses": "Kurs",
+        "journal": "Journal",
+        "myCourses": "Mine kurs",
+        "profile": "Profil",
+        "admin": "Admin",
+        "signIn": "Logg inn",
+        "signOut": "Logg ut",
+        "pricing": "Priser"
+    },
+    "Home": {
+        "new_courses": "Nye kurs tilgjengelig",
+        "hero_title_1": "Mestre din",
+        "hero_title_highlight": "Vekst",
+        "hero_title_2": "Sikre dine",
+        "hero_title_highlight_2": "Tanker",
+        "hero_subtitle": "En premium hub for interaktiv læring, quiz og null-kunnskap privat journalføring. Dine data tilhører deg.",
+        "start_learning": "Start Læring",
+        "private_journal": "Privat Journal",
+        "features": {
+            "interactive_courses": "Interaktive Kurs",
+            "interactive_courses_desc": "Dykk dypt i strukturert innhold designet for læring og vekst.",
+            "smart_quizzes": "Smarte Quizer",
+            "smart_quizzes_desc": "Test kunnskapen din med dynamiske quizer som sporer fremgangen din.",
+            "zk_journal": "Null-Kunnskap Journal",
+            "zk_journal_desc": "Skriv fritt. Journalen din er kryptert på enheten din. Selv ikke vi kan lese den."
+        }
+    },
+    "Login": {
+        "welcome_back": "Velkommen Tilbake",
+        "create_account": "Opprett Konto",
+        "enter_credentials": "Skriv inn legitimasjon for å få tilgang.",
+        "join_hub": "Bli med i huben for å starte læringsreisen.",
+        "email_label": "E-post",
+        "password_label": "Passord",
+        "i_am_label": "Jeg er...",
+        "sibling": "Søsken",
+        "sibling_desc": "Søsken til noen med en vanskelig oppvekst",
+        "parent": "Foreldre",
+        "parent_desc": "Forelder som ønsker å forstå og støtte",
+        "healthcare": "Helsepersonell",
+        "healthcare_desc": "Helsepersonell som gir støtte",
+        "sign_in_btn": "Logg Inn",
+        "sign_up_btn": "Registrer deg",
+        "no_account": "Har du ikke konto? ",
+        "has_account": "Har du allerede konto? ",
+        "sign_up_link": "Registrer deg",
+        "sign_in_link": "Logg inn",
+        "invitation_code": "Invitasjonskode",
+        "invitation_placeholder": "Skriv inn invitasjonskode på 8 tegn.",
+        "invitation_help": "Du trenger en invitasjonskode for å registrere deg. Kontakt en administrator hvis du ikke har en."
+    },
+    "Dashboard": {
+        "title": "Min Læringsplattform",
+        "subtitle_courses": "Her er en oversikt over dine kurs og fremgang.",
+        "subtitle_certificates": "Se dine oppnådde sertifikater",
+        "tab_courses": "Mine Kurs",
+        "tab_certificates": "Mine Sertifikater",
+        "search_placeholder": "Søk i dine kurs...",
+        "filter_all": "Alle status",
+        "filter_in_progress": "Pågående",
+        "filter_completed": "Fullført",
+        "sort_recent": "Nylig påmeldt",
+        "sort_progress": "Fremgang",
+        "sort_name": "Navn (A-Å)",
+        "results_found": "{count} resultat(er) funnet",
+        "no_match": "Ingen kurs matcher søket ditt.",
+        "no_courses": "Du er ikke påmeldt noen kurs enda.",
+        "unknown_quiz": "Ukjent Quiz",
+        "unknown_course": "Ukjent Kurs",
+        "empty_title": "Ingen kurs enda",
+        "empty_desc": "Du har ikke meldt deg på noen kurs. Start din læringsreise ved å utforske kurskatalogen!",
+        "browse_courses": "Utforsk Kurs",
+        "loading_certs": "Laster sertifikater...",
+        "activity_title": "Siste aktivitet",
+        "no_activity": "Ingen aktivitet enda",
+        "badges_title": "Dine utmerkelser",
+        "no_badges": "Ingen utmerkelser enda",
+        "quiz_results_title": "Siste quiz-resultater",
+        "no_quiz_results": "Ingen quizer tatt enda",
+        "continue_learning": "Fortsett der du slapp",
+        "progress": "Fremgang",
+        "resume_course": "Fortsett kurset",
+        "recommended_title": "Anbefalte kurs for deg",
+        "view_course": "Se kurs",
+        "no_certs_title": "Ingen sertifikater enda",
+        "no_certs_desc": "Fullfør kurs for å motta sertifikater!",
+        "earned_certs": "Du har opptjent {count} sertifikat(er)",
+        "member_status": "Medlemsstatus",
+        "no_subscription": "Du har ikke et aktivt abonnement.",
+        "view_plans": "Se planer",
+        "subscription": "Abonnement",
+        "status": "Status",
+        "renews": "Fornyes",
+        "manage_subscription": "Administrer abonnement"
+    },
+    "Pricing": {
+        "title": "Priser",
+        "subtitle": "Velg planen som passer best for deg",
+        "subscribe": "Abonner",
+        "no_products": "Ingen produkter tilgjengelig for øyeblikket. Kom tilbake senere."
+    },
+    "Journal": {
+        "title": "Min Dagbok",
+        "subtitle": "Et privat rom for refleksjon. Alle oppføringer er ende-til-ende kryptert.",
+        "new_entry": "Ny Oppføring",
+        "export_data": "Eksporter Data",
+        "vault_locked": "Kryptert",
+        "vault_unlocked": "Låst Opp",
+        "vault_locked_desc": "Skriv inn din passordfrase for å se innhold",
+        "vault_unlocked_desc": "Din dagbok er synlig. Ikke glem å låse når du er ferdig.",
+        "enter_passphrase": "Skriv din hemmelige passordfrase",
+        "lock_vault": "Lås Dagbok",
+        "unlock": "Lås opp",
+        "no_entries": "Ingen journaloppføringer enda.",
+        "delete_entry": "Slett oppføring",
+        "decryption_failed": "Dekryptering feilet",
+        "encrypted_content": "Kryptert innhold",
+        "alerts": {
+            "derive_key_failed": "Kunne ikke generere nøkkel",
+            "enter_passphrase": "Vennligst oppgi passordfrasen din for å låse opp og eksportere dagboken.",
+            "export_failed": "Eksport feilet. Vennligst sjekk passordfrasen.",
+            "delete_confirm": "Er du sikker på at du vil slette denne oppføringen? Dette kan ikke angres.",
+            "delete_failed": "Kunne ikke slette oppføring"
+        }
+    },
+    "Profile": {
+        "title": "Din Profil",
+        "subtitle": "Administrer din kontoinformasjon",
+        "click_upload": "Klikk for å laste opp",
+        "full_name": "Fullt Navn",
+        "bio": "Bio",
+        "bio_placeholder": "Fortell oss litt om deg selv...",
+        "save_changes": "Lagre endringer",
+        "cancel": "Avbryt",
+        "no_name": "Inget navn satt",
+        "no_bio": "Ingen bio enda",
+        "joined": "Ble medlem",
+        "edit_profile": "Rediger Profil",
+        "categories": "Dine Grupper",
+        "categories_desc": "Du har tilgang til kurs for disse gruppene",
+        "no_activity": "Ingen aktivitet ennå. Start å lære for å se fremgangen din!",
+        "earned_badges": "Opptjente Badges",
+        "locked_badges": "Låste Badges",
+        "activity_log": "Aktivitetslogg",
+        "badges": "Badges",
+        "overview": "Oversikt",
+        "alerts": {
+            "update_error": "Feil ved oppdatering av profil",
+            "upload_error": "Feil ved opplasting av avatar"
+        }
+    },
+    "Courses": {
+        "title": "Kurskatalog",
+        "subtitle": "Utforsk vår samling av kurs designet for å hjelpe deg å vokse. Start læringen i dag i ditt eget tempo.",
+        "start_course": "Start Kurs",
+        "no_courses_yet": "Ingen kurs enda",
+        "check_back": "Kom tilbake senere for nye kurs",
+        "filter_by_tags": "Filtrer på emner",
+        "clear_filters": "Nullstill filter",
+        "no_results_filters": "Ingen kurs funnet med valgte filter",
+        "no_description": "Ingen beskrivelse tilgjengelig."
+    },
+    "Admin": {
+        "title": "Admin Oversikt",
+        "subtitle": "Plattformoversikt og administrasjon",
+        "roles": {
+            "admin": "Administrator",
+            "student": "Medlem",
+            "user": "Bruker",
+            "member": "Medlem"
+        },
+        "create_course": "Opprett Kurs",
+        "stats": {
+            "users": "Totalt Brukere",
+            "active_courses": "Aktive Kurs",
+            "completions": "Kurs Fullført",
+            "enrollments": "Totalt Påmeldte",
+            "total_courses": "{count} totalt",
+            "trend_monthly": "+12% denne måneden",
+            "completion_rate": "{rate}% fullføringsgrad"
+        },
+        "recent_activity": {
+            "title": "Siste Aktivitet",
+            "no_activity": "Ingen nylig aktivitet",
+            "started": "startet",
+            "completed": "fullførte",
+            "user": "Bruker",
+            "course": "et kurs"
+        },
+        "health": {
+            "title": "Systemstatus",
+            "operational": "Operativt",
+            "warning": "Advarsel",
+            "error": "Feil",
+            "database": "Database",
+            "auth": "Autentisering",
+            "encryption": "Innholdskryptering",
+            "db_detail": "{courses} kurs, {users} brukere",
+            "auth_detail": "Alle tjenester operative",
+            "encryption_detail": "Null-kunnskap aktiv"
+        },
+        "quick_actions": {
+            "title": "Hurtighandlinger",
+            "manage_courses": "Administrer Kurs",
+            "manage_courses_desc": "Rediger innhold og quizer",
+            "manage_categories": "Administrer Kategorier",
+            "manage_categories_desc": "Organiser og tildel kurs",
+            "user_mgmt": "Brukeradministrasjon",
+            "user_mgmt_desc": "{count} registrerte",
+            "analytics": "Analytics Oversikt",
+            "analytics_desc": "Plattforminnsikt og målinger"
+        },
+        "registrations": {
+            "title": "Nylige Registreringer",
+            "cols": {
+                "user": "Bruker",
+                "role": "Rolle",
+                "joined": "Ble medlem"
+            },
+            "no_registrations": "Ingen nylige registreringer",
+            "anonymous": "Anonym Bruker"
+        }
+    },
+    "CourseCard": {
+        "completed": "Fullført",
+        "progress": "Fremgang",
+        "review": "Se igjen",
+        "resume": "Fortsett",
+        "details": "Detaljer",
+        "enrolled": "Påmeldt"
+    },
+    "CourseDetails": {
+        "back_to_catalog": "Tilbake til oversikt",
+        "no_content": "Inget innhold lagt til enda.",
+        "course_content": "Kursinnhold"
+    },
+    "EnrollButton": {
+        "enroll": "Meld deg på",
+        "enrolling": "Melder på...",
+        "continue": "Fortsett Læring →",
+        "error": "Kunne ikke melde deg på kurset"
+    },
+    "CourseSidebar": {
+        "title": "Din Fremgang",
+        "completed": "Fullført",
+        "mark_complete": "Marker som ferdig",
+        "error": "Kunne ikke oppdatere fremgang"
+    },
+    "Quiz": {
+        "subtitle": "Test kunnskapen din",
+        "complete_title": "Quiz fullført!",
+        "passed": "Bra jobbet! Du besto.",
+        "failed": "Fortsett å studere og prøv igjen.",
+        "retry": "Prøv på nytt",
+        "back_courses": "Tilbake til kurs",
+        "submit": "Send inn quiz",
+        "submitted": "Quiz sendt inn!",
+        "no_quiz": "Ingen quiz tilgjengelig for dette kurset ennå.",
+        "time_up": "Tiden er ute! Quiz automatisk innsendt.",
+        "error_saving": "Kunne ikke lagre quiz-forsøk",
+        "show_review": "Vis gjennomgang",
+        "hide_review": "Skjul gjennomgang",
+        "explanation": "Forklaring",
+        "history": "Historikk",
+        "previous_attempts": "Tidligere forsøk"
+    },
+    "AdminCourses": {
+        "title": "Kurs",
+        "new_course": "Nytt Kurs",
+        "table": {
+            "title": "Tittel",
+            "status": "Status",
+            "created": "Opprettet",
+            "actions": "Handlinger"
+        },
+        "status": {
+            "archived": "Arkivert",
+            "paused": "Pauset",
+            "published": "Publisert",
+            "draft": "Utkast",
+            "read_only": "Skrivebeskyttet"
+        },
+        "actions": {
+            "view": "Se som student",
+            "edit": "Rediger kurs",
+            "resume": "Gjenoppta kurs",
+            "pause": "Pause kurs",
+            "archive": "Arkiver kurs",
+            "delete": "Slett kurs"
+        },
+        "empty": "Ingen kurs funnet. Opprett et for å komme i gang.",
+        "delete_confirm": {
+            "title": "Slett Kurs?",
+            "message": "Slett \"{title}\"?\n\nDette kurset har ingen påmeldte medlemmer og vil bli slettet permanent.",
+            "confirm": "Slett"
+        },
+        "archive_confirm": "Arkiver \"{title}\"? Påmeldte medlemmer vil fortsatt ha tilgang, men nye påmeldinger stoppes.",
+        "delete_blocked": {
+            "title": "Kan ikke slette kurs",
+            "message": "\"{title}\" har påmeldte medlemmer og kan ikke slettes.\n\nFor å beskytte brukerdata kan du:\n• Arkivere kurset\n• Avpublisere det for å skjule det for medlemmer\n\nSletting er kun tillatt for kurs uten påmeldinger."
+        }
+    },
+    "Invites": {
+        "title": "Administrer Invitasjoner",
+        "subtitle": "Opprett og administrer invitasjonskoder for ulike brukergrupper og undergrupper.",
+        "create": {
+            "title": "Ny Invitasjon",
+            "category_label": "Hovedgruppe",
+            "subgroup_label": "Undergruppe",
+            "subgroup_placeholder": "f.eks. NFTSC, Sykehuset i Vestfold",
+            "subgroup_desc": "Dette definerer det lokale fellesskapet eller avdelingen.",
+            "max_uses_label": "Maks antall bruk",
+            "expires_label": "Utløper om (dager)",
+            "generate_btn": "Generer Invitasjonskode",
+            "generating": "Genererer...",
+            "success": "Invitasjon opprettet!",
+            "result_title": "Invitasjon Opprettet!",
+            "expires_at": "Utløper:",
+            "copy_btn": "Kopier kode",
+            "alerts": {
+                "subgroup_required": "Undergruppe navn er påkrevd",
+                "create_error": "Kunne ikke opprette invitasjon: ",
+                "code_copied": "Koden er kopiert til utklippstavlen!"
+            }
+        },
+        "tips": {
+            "title": "Tips",
+            "tip1": "Lag separate koder for ulike hovedgrupper (f.eks. en for Foreldre, en for Søsken) innenfor samme Undergruppe.",
+            "tip2": "Undergruppe-navnet må være nøyaktig likt for at brukere skal kunne se hverandre.",
+            "tip3": "Brukere kan ikke endre sin undergruppe etter registrering uten hjelp fra administrator."
+        },
+        "list": {
+            "title": "Aktive Invitasjoner",
+            "refresh": "Oppdater",
+            "cols": {
+                "code": "Kode",
+                "group": "Hovedgruppe",
+                "subgroup": "Undergruppe",
+                "usage": "Bruk",
+                "status": "Status",
+                "actions": "Handlinger"
+            },
+            "status": {
+                "active": "Aktiv",
+                "expired": "Utløpt",
+                "fully_used": "Oppbrukt"
+            },
+            "empty": "Ingen invitasjoner opprettet enda."
+        }
+    },
+    "AdminTags": {
+        "title": "Tags",
+        "search_placeholder": "Søk i tags...",
+        "new_tag": "Ny Tag",
+        "table": {
+            "name": "Navn",
+            "slug": "Slug",
+            "actions": "Handlinger"
+        },
+        "loading": "Laster tags...",
+        "empty": "Ingen tags opprettet enda",
+        "no_results": "Ingen tags funnet",
+        "create": {
+            "title": "Opprett ny tag",
+            "desc": "Tags brukes til å kategorisere kurs.",
+            "name_label": "Navn på tag",
+            "placeholder": "F.eks. Psykisk Helse",
+            "slug_preview": "Slug:",
+            "cancel": "Avbryt",
+            "submit": "Opprett"
+        },
+        "alerts": {
+            "load_error": "Kunne ikke laste tags",
+            "delete_confirm": "Er du sikker på at du vil slette taggen \"{name}\"?",
+            "delete_success": "Tag slettet",
+            "delete_error": "Kunne ikke slette tag",
+            "create_success": "Tag opprettet",
+            "create_error": "Kunne ikke opprette tag",
+            "exists_error": "En tag med dette navnet finnes allerede"
+        }
+    },
+    "AdminCategories": {
+        "title": "Kategoriadministrasjon",
+        "subtitle": "Organiser kurs i kategorier og tildel medlemmer",
+        "create": "Ny Kategori",
+        "courses_count": "{count} kurs",
+        "members_count": "{count} medlemmer",
+        "no_description": "Ingen beskrivelse",
+        "empty": "Ingen kategorier enda. Opprett en for å starte.",
+        "delete_confirm": "Er du sikker på at du vil slette \"{name}\"? Dette vil fjerne den fra alle kurs og brukere."
+    },
+    "AdminUsers": {
+        "title": "Brukeradministrasjon",
+        "subtitle": "Administrer brukerkontoer og kategorier",
+        "filters": {
+            "search_placeholder": "Søk etter navn...",
+            "group": "Gruppe",
+            "subgroup": "Undergruppe",
+            "role": "Rolle",
+            "all_groups": "Alle grupper",
+            "all_subgroups": "Alle undergrupper",
+            "all_roles": "Alle roller",
+            "clear": "Nullstill filtre"
+        },
+        "table": {
+            "name": "Fullt Navn",
+            "category": "Gruppe",
+            "subgroup": "Undergruppe",
+            "role": "Rolle",
+            "joined": "Ble medlem"
+        },
+        "categories": {
+            "not_set": "Ikke satt",
+            "sibling": "Søsken",
+            "parent": "Foreldre",
+            "healthcare": "Helsepersonell",
+            "søsken": "Søsken",
+            "foreldre": "Foreldre",
+            "helsepersonell": "Helsepersonell"
+        },
+        "roles": {
+            "admin": "Administrator",
+            "student": "Medlem",
+            "user": "Bruker",
+            "member": "Medlem"
+        },
+        "unknown_user": "Ukjent Bruker",
+        "actions": {
+            "edit": "Rediger",
+            "ban": "Midlertidig utestengelse",
+            "ban_permanent": "Permanent utestengelse",
+            "anonymize": "Anonymiser"
+        },
+        "status": {
+            "banned": "Bannlyst"
+        },
+        "edit_dialog": {
+            "title": "Rediger Bruker",
+            "save": "Lagre Endringer",
+            "cancel": "Avbryt"
+        },
+        "ban_dialog": {
+            "title": "Utesteng Bruker",
+            "description": "Velg varighet for utestengelsen. Brukerens data beholdes, men innlogging blokkeres.",
+            "duration": {
+                "label": "Varighet",
+                "24h": "24 timer",
+                "7d": "7 dager",
+                "30d": "30 dager",
+                "permanent": "Permanent (Ubestemt tid)",
+                "none": "Opphev utestengelse"
+            },
+            "confirm": "Lagre",
+            "cancel": "Avbryt"
+        },
+        "anonymize_dialog": {
+            "title": "Anonymiser Bruker",
+            "warning": "ADVARSEL: Dette er en irreversibel handling. Brukerens navn og e-post vil bli fjernet permanent for å oppfylle GDPR-krav. Brukeren vil også bli permanent utestengt.",
+            "confirm": "Jeg forstår, anonymiser bruker",
+            "cancel": "Avbryt"
+        }
+    },
+    "AdminSidebar": {
+        "panel_title": "Admin Panel",
+        "dashboard": "Oversikt",
+        "courses": "Kurs",
+        "invitations": "Invitasjoner",
+        "tags": "Tags",
+        "users": "Brukere",
+        "analytics": "Analyse",
+        "settings": "Innstillinger",
+        "sign_out": "Logg ut"
+    },
+    "AdminAnalytics": {
+        "title": "Analytics Oversikt",
+        "subtitle": "Plattformytelse og innsikt",
+        "refresh": "Oppdater",
+        "stats": {
+            "students": "Totalt Studenter",
+            "published_courses": "Publiserte Kurs",
+            "enrollments": "Totalt Påmeldinger",
+            "completion": "Gj.snitt Fullføring",
+            "certificates": "Sertifikater Utstedt",
+            "quiz_rate": "Gj.snitt Quiz Bestått"
+        },
+        "charts": {
+            "completion_rates": "Kurs Fullføringsgrader",
+            "completion_rate": "Fullføringsgrad",
+            "enrolled": "Påmeldte Studenter"
+        },
+        "quiz_table": {
+            "title": "Quiz Prestasjon",
+            "quiz": "Quiz",
+            "course": "Kurs",
+            "attempts": "Forsøk",
+            "pass_rate": "Beståttgrad",
+            "avg_score": "Gj.snitt Score"
+        },
+        "empty": "Ingen kurs- eller quizdata tilgjengelig enda. Opprett kurs og quizer for å se statistikk!"
+    },
+    "CourseEditor": {
+        "create_title": "Opprett Nytt Kurs",
+        "edit_title": "Rediger Kurs",
+        "update_btn": "Oppdater Kurs",
+        "create_btn": "Opprett Kurs",
+        "saving": "Lagrer...",
+        "saved": "✓ Lagret",
+        "back": "Tilbake til kurs",
+        "preview": "Se som Student",
+        "tabs": {
+            "editor": "Redaktør",
+            "modules": "Moduler & Leksjoner",
+            "enrollments": "Påmeldinger",
+            "preview": "Forhåndsvisning"
+        },
+        "sections": {
+            "content": "Kursinnhold",
+            "settings": "Innstillinger",
+            "categories": "Kategorier"
+        },
+        "fields": {
+            "title": "Kurstittel *",
+            "description": "Kort Beskrivelse",
+            "content": "Kursinnhold (Markdown)",
+            "cover": "Forsidebilde",
+            "publish_status": "Publiseringsstatus"
+        },
+        "placeholders": {
+            "title": "f.eks., Forståelse av Traumer",
+            "description": "En kort oversikt over hva studentene vil lære...",
+            "content": "# Introduksjon\n\nSkriv kursinnholdet ditt i Markdown..."
+        },
+        "status": {
+            "visible": "Kurset er synlig for medlemmer",
+            "hidden": "Kurset er skjult (utkast)"
+        },
+        "warnings": {
+            "save_first": "💾 Lagre kurset først",
+            "save_first_desc": "Du må lagre kurset før du kan fortsette.",
+            "no_categories": "Ingen kategorier tilgjengelig.",
+            "create_category": "Opprett en kategori først",
+            "no_selection": "⚠️ Ingen kategorier valgt. Dette kurset vil kun være synlig for administratorer eller brukere uten kategoritildelinger."
+        },
+        "add_quiz": "Legg til Quiz i Kurset",
+        "modules": {
+            "title": "Moduler",
+            "refresh": "Oppdater",
+            "new_placeholder": "Navn på ny modul...",
+            "add_btn": "Legg til modul",
+            "empty": "Ingen moduler lagt til enda.",
+            "delete_confirm": "Er du sikker på at du vil slette modulen \"{title}\"? Alle leksjoner i denne modulen vil også bli slettet.",
+            "tooltips": {
+                "edit": "Rediger",
+                "delete": "Slett"
+            }
+        },
+        "lessons": {
+            "delete_confirm": "Er du sikker på at du vil slette leksjonen \"{title}\"?",
+            "new_placeholder": "Tittel på ny leksjon...",
+            "add_btn": "Legg til leksjon",
+            "empty": "Ingen leksjoner i denne modulen.",
+            "duration": "{minutes} min",
+            "quiz_title": "Quiz",
+            "tooltips": {
+                "edit": "Rediger",
+                "delete": "Slett"
+            }
+        }
+    },
+    "Error": {
+        "title": "Noe gikk galt",
+        "description": "En uventet feil oppstod. Vennligst prøv igjen.",
+        "retry": "Prøv igjen"
+    },
+    "NotFound": {
+        "title": "Siden ble ikke funnet",
+        "back_home": "Tilbake til forsiden"
+    },
+    "Lesson": {
+        "courses": "Kurs",
+        "completed": "Fullført",
+        "mark_complete": "Marker som fullført",
+        "marked_complete": "Leksjon markert som fullført!",
+        "error_marking_complete": "Kunne ikke markere leksjon som fullført",
+        "previous": "Forrige",
+        "next": "Neste",
+        "back_to_course": "Tilbake til kurs",
+        "course_content": "Kursinnhold"
+    },
+    "Notifications": {
+        "title": "Varsler",
+        "mark_all_read": "Merk alle som lest",
+        "no_notifications": "Ingen varsler"
+    },
+    "Comments": {
+        "title": "Kommentarer",
+        "placeholder": "Skriv en kommentar...",
+        "post": "Publiser",
+        "posting": "Publiserer...",
+        "reply": "Svar",
+        "delete": "Slett",
+        "replying_to": "Svarer til",
+        "cancel": "Avbryt",
+        "no_comments": "Ingen kommentarer ennå. Vær den første!",
+        "login_required": "Du må være innlogget for å kommentere",
+        "comment_posted": "Kommentar publisert!",
+        "comment_deleted": "Kommentar slettet",
+        "error_posting": "Kunne ikke publisere kommentar",
+        "error_deleting": "Kunne ikke slette kommentar"
+    },
+    "Search": {
+        "placeholder": "Søk i kurs og leksjoner...",
+        "course": "Kurs",
+        "lesson": "Leksjon",
+        "more_results": "Viser topp 20 resultater",
+        "no_results": "Ingen resultater funnet",
+        "try_different": "Prøv et annet søkeord"
+    },
+    "AdminSettings": {
+        "title": "Innstillinger",
+        "subtitle": "Globale innstillinger og dine preferanser"
+    },
+    "EmailPreferences": {
+        "title": "E-postvarsler",
+        "subtitle": "Administrer dine e-postvarsel-innstillinger",
+        "welcome_email": "Velkomst-epost",
+        "welcome_email_desc": "Motta en velkomst-epost når du registrerer deg",
+        "course_reminders": "Kurspåminnelser",
+        "course_reminders_desc": "Bli påminnet hvis du ikke har besøkt et kurs på 7 dager",
+        "new_courses": "Nye kurs",
+        "new_courses_desc": "Bli varslet når nye kurs publiseres",
+        "certificates": "Sertifikater",
+        "certificates_desc": "Motta en e-post når du tjener et sertifikat",
+        "comment_replies": "Kommentar-svar",
+        "comment_replies_desc": "Bli varslet når noen svarer på kommentaren din",
+        "weekly_summary": "Ukentlig oppsummering",
+        "weekly_summary_desc": "Motta en ukentlig oppsummering av fremgangen din",
+        "marketing": "Markedsføring",
+        "marketing_desc": "Motta oppdateringer om nye funksjoner og kampanjer",
+        "save": "Lagre innstillinger",
+        "saving": "Lagrer...",
+        "saved": "Innstillinger lagret!",
+        "error_saving": "Kunne ikke lagre innstillinger"
+    }
+}

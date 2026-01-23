@@ -1,0 +1,436 @@
+{
+    "Navbar": {
+        "dashboard": "Dashboard",
+        "courses": "Courses",
+        "journal": "Journal",
+        "myCourses": "My Courses",
+        "profile": "Profile",
+        "admin": "Admin",
+        "signIn": "Sign In",
+        "signOut": "Sign Out",
+        "pricing": "Pricing"
+    },
+    "Home": {
+        "new_courses": "New Courses Available",
+        "hero_title_1": "Master Your",
+        "hero_title_highlight": "Growth",
+        "hero_title_2": "Secure Your",
+        "hero_title_highlight_2": "Thoughts",
+        "hero_subtitle": "A premium hub for interactive learning, quizzing, and zero-knowledge private journaling. Your data belongs to you.",
+        "start_learning": "Start Learning",
+        "private_journal": "Private Journal",
+        "features": {
+            "interactive_courses": "Interactive Courses",
+            "interactive_courses_desc": "Deep dive into structured content designed for retention and growth.",
+            "smart_quizzes": "Smart Quizzes",
+            "smart_quizzes_desc": "Test your knowledge with dynamic quizzes that track your progress.",
+            "zk_journal": "Zero-Knowledge Journal",
+            "zk_journal_desc": "Write freely. Your journal is encrypted on your device. Even we can't read it."
+        }
+    },
+    "Login": {
+        "welcome_back": "Welcome Back",
+        "create_account": "Create an Account",
+        "enter_credentials": "Enter your credentials to access your workspace.",
+        "join_hub": "Join the hub to start your learning journey.",
+        "email_label": "Email",
+        "password_label": "Password",
+        "i_am_label": "I am...",
+        "sibling": "Sibling",
+        "sibling_desc": "Sibling of someone with a difficult upbringing",
+        "parent": "Parent",
+        "parent_desc": "Parent wanting to understand and support",
+        "healthcare": "Healthcare Professional",
+        "healthcare_desc": "Healthcare professional providing support",
+        "sign_in_btn": "Sign In",
+        "sign_up_btn": "Sign Up",
+        "no_account": "Don't have an account? ",
+        "has_account": "Already have an account? ",
+        "sign_up_link": "Sign up",
+        "sign_in_link": "Sign in"
+    },
+    "Dashboard": {
+        "title": "My Dashboard",
+        "subtitle_courses": "Continue your learning journey",
+        "subtitle_certificates": "View your earned certificates",
+        "tab_courses": "My Courses",
+        "tab_certificates": "Certificates",
+        "search_placeholder": "Search courses...",
+        "filter_all": "All",
+        "filter_in_progress": "In Progress",
+        "filter_completed": "Completed",
+        "sort_recent": "Recently Enrolled",
+        "sort_progress": "Progress",
+        "sort_name": "Name (A-Z)",
+        "results_found": "{count} result(s) found",
+        "no_match": "No courses match your search",
+        "no_courses": "No courses in this category",
+        "empty_title": "No courses yet",
+        "empty_desc": "You haven't enrolled in any courses. Start your learning journey by browsing our course catalog!",
+        "browse_courses": "Browse Courses",
+        "loading_certs": "Loading certificates...",
+        "no_certs_title": "No Certificates Yet",
+        "no_certs_desc": "Complete courses to earn certificates!",
+        "earned_certs": "You have earned {count} certificate(s)",
+        "member_status": "Member Status",
+        "no_subscription": "You do not have an active subscription.",
+        "view_plans": "View Plans",
+        "subscription": "Subscription",
+        "status": "Status",
+        "renews": "Renews",
+        "manage_subscription": "Manage Subscription"
+    },
+    "Pricing": {
+        "title": "Pricing",
+        "subtitle": "Choose the plan that fits you best",
+        "subscribe": "Subscribe",
+        "no_products": "No products available at the moment. Please check back later."
+    },
+    "Journal": {
+        "title": "Personal Journal",
+        "subtitle": "Zero-knowledge encrypted. Only you hold the key.",
+        "export_data": "Export Data",
+        "new_entry": "New Entry",
+        "vault_unlocked": "Vault Unlocked",
+        "vault_locked": "Vault Locked",
+        "vault_unlocked_desc": "Entries can be read.",
+        "vault_locked_desc": "Enter passphrase to decrypt content.",
+        "lock_vault": "Lock Vault",
+        "enter_passphrase": "Enter Passphrase",
+        "unlock": "Unlock",
+        "no_entries": "No journal entries yet.",
+        "delete_entry": "Delete entry",
+        "decryption_failed": "Decryption Failed",
+        "encrypted_content": "Encrypted Content"
+    },
+    "Profile": {
+        "title": "Your Profile",
+        "subtitle": "Manage your account information",
+        "click_upload": "Click to upload",
+        "full_name": "Full Name",
+        "bio": "Bio",
+        "bio_placeholder": "Tell us a bit about yourself...",
+        "save_changes": "Save Changes",
+        "cancel": "Cancel",
+        "no_name": "No name set",
+        "no_bio": "No bio yet",
+        "joined": "Joined",
+        "edit_profile": "Edit Profile",
+        "categories": "Your Categories",
+        "categories_desc": "You have access to courses in these categories",
+        "no_activity": "No activity yet. Start learning to see your progress!",
+        "earned_badges": "Earned Badges",
+        "locked_badges": "Locked Badges",
+        "activity_log": "Activity Log",
+        "badges": "Badges",
+        "overview": "Overview"
+    },
+    "Courses": {
+        "title": "Course Catalog",
+        "subtitle": "Explore our curated collection of courses designed to help you grow. Start learning today at your own pace.",
+        "start_course": "Start Course",
+        "no_courses_yet": "No courses available yet",
+        "check_back": "Check back soon for new content!",
+        "no_description": "No description available."
+    },
+    "Admin": {
+        "title": "Admin Dashboard",
+        "subtitle": "Platform overview and management",
+        "create_course": "Create Course",
+        "stats": {
+            "users": "Total Users",
+            "active_courses": "Active Courses",
+            "completions": "Course Completions",
+            "enrollments": "Total Enrollments",
+            "total_courses": "{count} total",
+            "trend_monthly": "+12% this month",
+            "completion_rate": "{rate}% completion rate"
+        },
+        "recent_activity": {
+            "title": "Recent Activity",
+            "no_activity": "No recent activity",
+            "started": "started",
+            "completed": "completed",
+            "user": "User",
+            "course": "a course"
+        },
+        "health": {
+            "title": "System Health",
+            "operational": "Operational",
+            "warning": "Warning",
+            "error": "Error",
+            "database": "Database",
+            "auth": "Authentication",
+            "encryption": "Content Encryption",
+            "db_detail": "{courses} courses, {users} users",
+            "auth_detail": "All services operational",
+            "encryption_detail": "Zero-knowledge active"
+        },
+        "quick_actions": {
+            "title": "Quick Actions",
+            "manage_courses": "Manage Courses",
+            "manage_courses_desc": "Edit content & quizzes",
+            "manage_categories": "Manage Categories",
+            "manage_categories_desc": "Organize & assign courses",
+            "user_mgmt": "User Management",
+            "user_mgmt_desc": "{count} registered",
+            "analytics": "Analytics Dashboard",
+            "analytics_desc": "Platform insights & metrics"
+        },
+        "registrations": {
+            "title": "Recent Registrations",
+            "cols": {
+                "user": "User",
+                "role": "Role",
+                "joined": "Joined"
+            },
+            "no_registrations": "No recent registrations",
+            "anonymous": "Anonymous User"
+        }
+    },
+    "CourseCard": {
+        "completed": "Completed",
+        "progress": "Progress",
+        "review": "Review",
+        "resume": "Resume",
+        "details": "Details",
+        "enrolled": "Enrolled"
+    },
+    "CourseDetails": {
+        "back_to_catalog": "Back to Catalog",
+        "no_content": "No content added yet.",
+        "course_content": "Course Content"
+    },
+    "EnrollButton": {
+        "enroll": "Enroll in Course",
+        "enrolling": "Enrolling...",
+        "continue": "Continue Learning →",
+        "error": "Failed to enroll in course"
+    },
+    "CourseSidebar": {
+        "title": "Your Progress",
+        "completed": "Completed",
+        "mark_complete": "Mark as Complete",
+        "error": "Failed to update progress"
+    },
+    "Quiz": {
+        "subtitle": "Test your knowledge",
+        "complete_title": "Quiz Complete!",
+        "passed": "Great job! You passed.",
+        "failed": "Keep studying and try again.",
+        "retry": "Retry Quiz",
+        "back_courses": "Back to Courses",
+        "submit": "Submit Quiz",
+        "submitted": "Quiz submitted successfully!",
+        "no_quiz": "No quiz available for this course yet.",
+        "time_up": "Time's up! Quiz auto-submitted.",
+        "error_saving": "Failed to save quiz attempt",
+        "show_review": "Show Review",
+        "hide_review": "Hide Review",
+        "explanation": "Explanation",
+        "history": "History",
+        "previous_attempts": "Previous Attempts"
+    },
+    "AdminCourses": {
+        "title": "Courses",
+        "new_course": "New Course",
+        "table": {
+            "title": "Title",
+            "status": "Status",
+            "created": "Created",
+            "actions": "Actions"
+        },
+        "status": {
+            "archived": "Archived",
+            "paused": "Paused",
+            "published": "Published",
+            "draft": "Draft",
+            "read_only": "Read-only"
+        },
+        "actions": {
+            "view": "View as student",
+            "edit": "Edit course",
+            "resume": "Resume course",
+            "pause": "Pause course",
+            "archive": "Archive course",
+            "delete": "Delete course"
+        },
+        "empty": "No courses found. Create one to get started.",
+        "delete_confirm": {
+            "title": "Delete Course?",
+            "message": "Delete \"{title}\"?\n\nThis course has no enrolled members and will be permanently deleted.",
+            "confirm": "Delete"
+        },
+        "archive_confirm": "Archive \"{title}\"? Enrolled members can still access it, but new enrollments will be prevented."
+    },
+    "AdminCategories": {
+        "title": "Category Management",
+        "subtitle": "Organize courses into categories and assign to members",
+        "create": "Create Category",
+        "courses_count": "{count} courses",
+        "members_count": "{count} members",
+        "no_description": "No description",
+        "empty": "No categories yet. Create one to get started.",
+        "delete_confirm": "Are you sure you want to delete \"{name}\"? This will remove it from all courses and users."
+    },
+    "AdminUsers": {
+        "title": "User Management",
+        "subtitle": "Manage user accounts and categories",
+        "table": {
+            "name": "Full Name",
+            "category": "Category",
+            "role": "Role",
+            "joined": "Joined"
+        },
+        "categories": {
+            "not_set": "Not set",
+            "sibling": "Sibling",
+            "parent": "Parent",
+            "healthcare": "Healthcare Prof."
+        },
+        "unknown_user": "Unknown User"
+    },
+    "AdminAnalytics": {
+        "title": "Analytics Dashboard",
+        "subtitle": "Platform performance and insights",
+        "refresh": "Refresh",
+        "stats": {
+            "students": "Total Students",
+            "published_courses": "Published Courses",
+            "enrollments": "Total Enrollments",
+            "completion": "Avg. Completion",
+            "certificates": "Certificates Issued",
+            "quiz_rate": "Avg. Quiz Pass Rate"
+        },
+        "charts": {
+            "completion_rates": "Course Completion Rates",
+            "completion_rate": "Completion Rate",
+            "enrolled": "Enrolled Students"
+        },
+        "quiz_table": {
+            "title": "Quiz Performance",
+            "quiz": "Quiz",
+            "course": "Course",
+            "attempts": "Attempts",
+            "pass_rate": "Pass Rate",
+            "avg_score": "Avg Score"
+        },
+        "empty": "No course or quiz data available yet. Create courses and quizzes to see analytics!"
+    },
+    "CourseEditor": {
+        "create_title": "Create New Course",
+        "edit_title": "Edit Course",
+        "update_btn": "Update Course",
+        "create_btn": "Create Course",
+        "saving": "Saving...",
+        "saved": "✓ Saved successfully",
+        "back": "Back to courses",
+        "preview": "Preview as Student",
+        "tabs": {
+            "editor": "Editor",
+            "modules": "Modules & Lessons",
+            "enrollments": "Enrollments",
+            "preview": "Preview"
+        },
+        "sections": {
+            "content": "Course Content",
+            "settings": "Settings",
+            "categories": "Categories"
+        },
+        "fields": {
+            "title": "Course Title *",
+            "description": "Short Description",
+            "content": "Course Content (Markdown)",
+            "cover": "Cover Image",
+            "publish_status": "Publish Status"
+        },
+        "placeholders": {
+            "title": "e.g., Understanding Trauma and Recovery",
+            "description": "A brief overview of what students will learn...",
+            "content": "# Introduction\n\nWrite your course content in Markdown..."
+        },
+        "status": {
+            "visible": "Course is visible to members",
+            "hidden": "Course is hidden (draft)"
+        },
+        "warnings": {
+            "save_first": "💾 Save the course first",
+            "save_first_desc": "You need to save the course before proceeding.",
+            "no_categories": "No categories available.",
+            "create_category": "Create a category first",
+            "no_selection": "⚠️ No categories selected. This course will only be visible to admins or users with no category assignments."
+        },
+        "add_quiz": "Add Quiz to Course"
+    },
+    "Error": {
+        "title": "Something went wrong",
+        "description": "An unexpected error occurred. Please try again.",
+        "retry": "Try Again"
+    },
+    "NotFound": {
+        "title": "Page not found",
+        "back_home": "Back to Home"
+    },
+    "Lesson": {
+        "courses": "Courses",
+        "completed": "Completed",
+        "mark_complete": "Mark as Complete",
+        "marked_complete": "Lesson marked as complete!",
+        "error_marking_complete": "Failed to mark lesson as complete",
+        "previous": "Previous",
+        "next": "Next",
+        "back_to_course": "Back to Course",
+        "course_content": "Course Content"
+    },
+    "Notifications": {
+        "title": "Notifications",
+        "mark_all_read": "Mark all as read",
+        "no_notifications": "No notifications"
+    },
+    "Comments": {
+        "title": "Comments",
+        "placeholder": "Write a comment...",
+        "post": "Post",
+        "posting": "Posting...",
+        "reply": "Reply",
+        "delete": "Delete",
+        "replying_to": "Replying to",
+        "cancel": "Cancel",
+        "no_comments": "No comments yet. Be the first!",
+        "login_required": "You must be logged in to comment",
+        "comment_posted": "Comment posted!",
+        "comment_deleted": "Comment deleted",
+        "error_posting": "Failed to post comment",
+        "error_deleting": "Failed to delete comment"
+    },
+    "Search": {
+        "placeholder": "Search courses and lessons...",
+        "course": "Course",
+        "lesson": "Lesson",
+        "more_results": "Showing top 20 results",
+        "no_results": "No results found",
+        "try_different": "Try a different search term"
+    },
+    "EmailPreferences": {
+        "title": "Email Notifications",
+        "subtitle": "Manage your email notification preferences",
+        "welcome_email": "Welcome Email",
+        "welcome_email_desc": "Receive a welcome email when you sign up",
+        "course_reminders": "Course Reminders",
+        "course_reminders_desc": "Get reminded if you haven't visited a course in 7 days",
+        "new_courses": "New Courses",
+        "new_courses_desc": "Be notified when new courses are published",
+        "certificates": "Certificates",
+        "certificates_desc": "Receive an email when you earn a certificate",
+        "comment_replies": "Comment Replies",
+        "comment_replies_desc": "Get notified when someone replies to your comment",
+        "weekly_summary": "Weekly Summary",
+        "weekly_summary_desc": "Receive a weekly summary of your progress",
+        "marketing": "Marketing",
+        "marketing_desc": "Receive updates about new features and promotions",
+        "save": "Save Preferences",
+        "saving": "Saving...",
+        "saved": "Preferences saved!",
+        "error_saving": "Failed to save preferences"
+    }
+}
