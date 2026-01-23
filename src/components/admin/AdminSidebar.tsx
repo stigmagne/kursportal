@@ -44,8 +44,8 @@ export default function AdminSidebar() {
     };
 
     return (
-        <div className="flex flex-col w-64 border-r bg-card h-screen sticky top-0">
-            <div className="p-6 border-b">
+        <div className="flex flex-col w-64 border-r-2 border-black bg-card h-screen sticky top-0 dark:border-white">
+            <div className="p-6 border-b-2 border-black dark:border-white">
                 <div className="flex items-center gap-2 font-bold text-xl text-primary">
                     <Shield className="w-6 h-6" />
                     <span>{t('panel_title')}</span>

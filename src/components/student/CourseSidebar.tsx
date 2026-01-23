@@ -41,9 +41,9 @@ export default function CourseSidebar({ course, currentLessonId, completedLesson
     const progress = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
 
     return (
-        <div className="w-80 bg-muted/30 border-r border-border flex flex-col h-screen sticky top-0">
+        <div className="w-80 bg-background border-r-2 border-black flex flex-col h-screen sticky top-0 dark:border-white">
             {/* Header */}
-            <div className="p-6 border-b border-border">
+            <div className="p-6 border-b-2 border-black dark:border-white">
                 <Link href={`/courses/${course.id}`} className="text-sm text-primary hover:underline mb-2 block">
                     ← Back to Course
                 </Link>

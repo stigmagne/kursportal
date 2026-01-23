@@ -6,68 +6,68 @@
 }
 
 :root {
-  /* Premium Light Theme */
-  --background: 210 40% 98%;    /* Soft blue-white */
-  --foreground: 222 47% 11%;    /* Deep slate */
+  /* Neo-Brutalist Light Theme */
+  --background: 0 0% 100%;    /* Pure White */
+  --foreground: 0 0% 0%;      /* Pure Black */
   
   --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
+  --card-foreground: 0 0% 0%;
   
   --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
+  --popover-foreground: 0 0% 0%;
   
-  --primary: 221 83% 53%;       /* Vibrant Blue */
-  --primary-foreground: 210 40% 98%;
+  --primary: 260 100% 60%;    /* Vibrant Purple */
+  --primary-foreground: 0 0% 100%;
   
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222 47% 11%;
+  --secondary: 47 100% 50%;   /* Vibrant Yellow */
+  --secondary-foreground: 0 0% 0%;
   
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 40%;
   
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222 47% 11%;
+  --accent: 180 100% 50%;     /* Vibrant Cyan */
+  --accent-foreground: 0 0% 0%;
   
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
+  --destructive: 0 100% 50%;  /* Pure Red */
+  --destructive-foreground: 0 0% 100%;
 
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 221 83% 53%;
+  --border: 0 0% 0%;          /* Pure Black Border */
+  --input: 0 0% 0%;
+  --ring: 0 0% 0%;
   
-  --radius: 0.75rem;
+  --radius: 0rem;             /* Sharp corners */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Premium Dark Theme */
-    --background: 224 71% 4%;     /* Very deep blue-black */
-    --foreground: 213 31% 91%;    /* Soft white */
+    /* Neo-Brutalist Dark Theme (Inverted) */
+    --background: 0 0% 5%;      /* Near Black */
+    --foreground: 0 0% 100%;    /* Pure White */
     
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
     
-    --popover: 224 71% 4%;
-    --popover-foreground: 213 31% 91%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
     
-    --primary: 217 91% 60%;       /* Lighter Blue for dark mode */
-    --primary-foreground: 222 47% 11%;
+    --primary: 260 100% 70%;    /* Lighter Purple */
+    --primary-foreground: 0 0% 0%;
     
-    --secondary: 217 19% 27%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 47 100% 50%;   /* Vibrant Yellow */
+    --secondary-foreground: 0 0% 0%;
     
-    --muted: 217 19% 27%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 70%;
     
-    --accent: 217 19% 27%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 180 100% 50%;     /* Vibrant Cyan */
+    --accent-foreground: 0 0% 0%;
     
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 0 0% 0%;
     
-    --border: 217 19% 27%;
-    --input: 217 19% 27%;
-    --ring: 224 76% 48%;
+    --border: 0 0% 100%;        /* White Border in Dark Mode */
+    --input: 0 0% 100%;
+    --ring: 0 0% 100%;
   }
 }
 
@@ -81,12 +81,30 @@ body {
 
 /* Utilities */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid hsl(var(--border));
+  box-shadow: 4px 4px 0px 0px hsl(var(--foreground));
 }
 
 .dark .glass {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid hsl(var(--border));
+  box-shadow: 4px 4px 0px 0px hsl(var(--foreground));
+}
+
+/* Neo-Brutalist Shadow Utility */
+.shadow-neo {
+  box-shadow: 4px 4px 0px 0px hsl(var(--border));
+}
+
+.shadow-neo-sm {
+  box-shadow: 2px 2px 0px 0px hsl(var(--border));
+}
+
+.shadow-neo-lg {
+  box-shadow: 6px 6px 0px 0px hsl(var(--border));
+}
+
+.border-neo {
+  border: 2px solid hsl(var(--border));
 }
