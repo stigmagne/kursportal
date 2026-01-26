@@ -12,13 +12,64 @@ import RecentBadges from './RecentBadges';
 import RecentQuizResults from './RecentQuizResults';
 import RecommendedCourses from './RecommendedCourses';
 
+interface CourseEnrollment {
+    id: string;
+    course_id: string;
+    course: {
+        id: string;
+        title: string;
+        description: string;
+        cover_image: string | null;
+        slug: string;
+    };
+    progress: number;
+    status: string;
+    created_at: string;
+}
+
+interface ActivityItem {
+    id: string;
+    action: string;
+    activity_type: string;
+    description: string;
+    created_at: string;
+    metadata: Record<string, unknown>;
+}
+
+interface Badge {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+    tier: 'bronze' | 'silver' | 'gold' | 'platinum';
+    earned_at: string;
+}
+
+interface QuizResult {
+    id: string;
+    quiz_id: string;
+    quiz_title: string;
+    quiz: { title: string; course: { title: string } };
+    score: number;
+    passed: boolean;
+    created_at: string;
+}
+
+interface RecommendedCourse {
+    id: string;
+    title: string;
+    description: string;
+    slug: string;
+    cover_image: string | null;
+}
+
 interface DashboardContentProps {
-    courses: any[];
+    courses: CourseEnrollment[];
     userId: string;
-    activities: any[];
-    badges: any[];
-    recentQuizzes: any[];
-    recommendedCourses: any[];
+    activities: ActivityItem[];
+    badges: Badge[];
+    recentQuizzes: QuizResult[];
+    recommendedCourses: RecommendedCourse[];
 }
 
 export default function DashboardContent({

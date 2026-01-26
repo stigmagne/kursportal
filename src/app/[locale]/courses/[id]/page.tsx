@@ -1,15 +1,15 @@
 import { createClient } from '@/utils/supabase/server'
-import { Link } from '@/i18n/routing'
+import { Link, redirect as nextIntlRedirect } from '@/i18n/routing'
 import { notFound, redirect } from 'next/navigation'
-import { ArrowLeft, CheckCircle } from 'lucide-react'
+import { ArrowLeft, CheckCircle, Lock, Users, Heart } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import QuizTaker from '@/components/QuizTaker'
 import CourseProgressSidebar from '@/components/CourseProgressSidebar'
 import EnrollButton from '@/components/student/EnrollButton';
 import { getTranslations } from 'next-intl/server';
 
-export default async function CoursePage({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
+export default async function CoursePage({ params }: { params: Promise<{ id: string; locale: string }> }) {
+    const { id, locale } = await params;
     const t = await getTranslations('CourseDetails');
     const supabase = await createClient();
 
@@ -19,7 +19,7 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
         redirect('/login');
     }
 
-    // Get course data (RLS will filter by user's group)
+    // Get course data including target_group
     const { data: course, error } = await supabase
         .from('courses')
         .select(`
@@ -33,6 +33,70 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
 
     if (error || !course) {
         notFound();
+    }
+
+    // Check access if course has target_group restriction
+    let hasAccess = true;
+    if (course.target_group) {
+        // Get user profile
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('user_type')
+            .eq('id', user.id)
+            .single();
+
+        // Check completed assessments
+        const { data: completedAssessments } = await supabase
+            .from('assessment_sessions')
+            .select('assessment_type:assessment_types(target_group)')
+            .eq('user_id', user.id)
+            .eq('status', 'completed');
+
+        const completedTypes = completedAssessments?.map(
+            (a: any) => a.assessment_type?.target_group
+        ).filter(Boolean) || [];
+
+        hasAccess =
+            profile?.user_type === 'both' ||
+            profile?.user_type === course.target_group ||
+            completedTypes.includes(course.target_group);
+    }
+
+    // If no access, show blocked page
+    if (!hasAccess) {
+        return (
+            <div className="min-h-screen bg-background flex items-center justify-center p-4">
+                <div className="max-w-md text-center">
+                    <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-6">
+                        <Lock className="w-8 h-8 text-muted-foreground" />
+                    </div>
+                    <h1 className="text-2xl font-bold mb-2">Kurs utilgjengelig</h1>
+                    <p className="text-muted-foreground mb-6">
+                        Dette kurset er for {course.target_group === 'sibling' ? 'søsken' : 'foreldre'}.
+                        Du må fullføre den tilhørende vurderingen for å få tilgang.
+                    </p>
+                    <div className="flex flex-col gap-3">
+                        <Link
+                            href={`/assessment/${course.target_group}-assessment`}
+                            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-medium rounded-none border-2 border-primary hover:bg-primary/90"
+                        >
+                            {course.target_group === 'sibling' ? (
+                                <Users className="w-4 h-4" />
+                            ) : (
+                                <Heart className="w-4 h-4" />
+                            )}
+                            Ta vurdering for {course.target_group === 'sibling' ? 'søsken' : 'foreldre'}
+                        </Link>
+                        <Link
+                            href="/courses"
+                            className="text-sm text-muted-foreground hover:text-foreground"
+                        >
+                            ← Tilbake til kursoversikt
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     // Check if user is enrolled

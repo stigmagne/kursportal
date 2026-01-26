@@ -14,11 +14,19 @@ type Invitation = {
     id: string;
     code: string;
     user_category: string;
+    target_group: string | null;
     subgroup: string;
     max_uses: number;
     used_count: number;
     expires_at: string;
     created_at: string;
+};
+
+const TARGET_GROUP_LABELS: Record<string, string> = {
+    'sibling': 'Søsken',
+    'parent': 'Foreldre',
+    'team-member': 'Team-medlem',
+    'team-leader': 'Leder'
 };
 
 export default function InvitationList() {
@@ -86,7 +94,7 @@ export default function InvitationList() {
                         <tr>
                             <th className="px-6 py-3 font-medium">{t('cols.code')}</th>
                             <th className="px-6 py-3 font-medium">{t('cols.group')}</th>
-                            <th className="px-6 py-3 font-medium">{t('cols.subgroup')}</th>
+                            <th className="px-6 py-3 font-medium">Kurstilgang</th>
                             <th className="px-6 py-3 font-medium">{t('cols.usage')}</th>
                             <th className="px-6 py-3 font-medium">{t('cols.status')}</th>
                             <th className="px-6 py-3 font-medium text-right">{t('cols.actions')}</th>
@@ -114,7 +122,7 @@ export default function InvitationList() {
                                             {invite.user_category}
                                         </td>
                                         <td className="px-6 py-4 font-medium">
-                                            {invite.subgroup}
+                                            {invite.target_group ? TARGET_GROUP_LABELS[invite.target_group] || invite.target_group : '-'}
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">

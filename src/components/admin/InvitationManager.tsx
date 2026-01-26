@@ -10,18 +10,28 @@ import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 
 type UserCategory = 'søsken' | 'foreldre' | 'helsepersonell';
+type TargetGroup = 'sibling' | 'parent' | 'team-member' | 'team-leader';
+
+const TARGET_GROUP_LABELS: Record<TargetGroup, string> = {
+    'sibling': 'Søsken (kan se søskenkurs)',
+    'parent': 'Foreldre (kan se foreldrekurs)',
+    'team-member': 'Team-medlem (kan se medarbeider-kurs)',
+    'team-leader': 'Leder (kan se leder-kurs)'
+};
 
 export default function InvitationManager() {
     const t = useTranslations('Invites.create');
     const tTips = useTranslations('Invites.tips');
     const [isLoading, setIsLoading] = useState(false);
     const [userCategory, setUserCategory] = useState<UserCategory>('søsken');
+    const [targetGroup, setTargetGroup] = useState<TargetGroup>('sibling');
     const [subgroup, setSubgroup] = useState('');
     const [maxUses, setMaxUses] = useState(10);
     const [expiresIn, setExpiresIn] = useState(90);
     const [generatedCode, setGeneratedCode] = useState<{
         code: string;
         category: string;
+        targetGroup: string;
         subgroup: string;
         expires: string;
     } | null>(null);
@@ -33,14 +43,10 @@ export default function InvitationManager() {
         setIsLoading(true);
 
         try {
-            if (!subgroup.trim()) {
-                toast.error(t('alerts.subgroup_required'));
-                return;
-            }
 
             const { data, error } = await supabase.rpc('create_invitation', {
                 p_user_category: userCategory,
-                p_subgroup: subgroup.trim(),
+                p_target_group: targetGroup,
                 p_max_uses: maxUses,
                 p_expires_in_days: expiresIn
             });
@@ -52,12 +58,13 @@ export default function InvitationManager() {
                 setGeneratedCode({
                     code: invite.code,
                     category: invite.user_category,
-                    subgroup: invite.subgroup,
+                    targetGroup: invite.target_group || targetGroup,
+                    subgroup: invite.subgroup || '',
                     expires: new Date(invite.expires_at).toLocaleDateString()
                 });
                 toast.success(t('success'));
 
-                // Clear form but keep category to allow quick creation of sibling/parent pairs for same subgroup
+                // Clear subgroup but keep category to allow quick creation
                 setSubgroup('');
             }
         } catch (error: any) {
@@ -101,16 +108,19 @@ export default function InvitationManager() {
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-medium">{t('subgroup_label')}</label>
-                        <input
-                            type="text"
-                            value={subgroup}
-                            onChange={(e) => setSubgroup(e.target.value)}
-                            placeholder={t('subgroup_placeholder')}
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            required
-                        />
-                        <p className="text-xs text-muted-foreground">{t('subgroup_desc')}</p>
+                        <label className="text-sm font-medium">Tilgang til kurs</label>
+                        <select
+                            value={targetGroup}
+                            onChange={(e) => setTargetGroup(e.target.value as TargetGroup)}
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            {Object.entries(TARGET_GROUP_LABELS).map(([value, label]) => (
+                                <option key={value} value={value}>{label}</option>
+                            ))}
+                        </select>
+                        <p className="text-xs text-muted-foreground">
+                            Bestemmer hvilke kurs brukeren får tilgang til
+                        </p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -167,7 +177,9 @@ export default function InvitationManager() {
                             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                 <span className="capitalize">{generatedCode.category}</span>
                                 <span>•</span>
-                                <span className="font-medium text-foreground">{generatedCode.subgroup}</span>
+                                <span className="font-medium text-foreground">
+                                    {TARGET_GROUP_LABELS[generatedCode.targetGroup as TargetGroup] || generatedCode.targetGroup}
+                                </span>
                             </div>
                         </div>
 

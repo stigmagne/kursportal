@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, BookOpen, Shield, Lock, GraduationCap } from 'lucide-react';
+import { ArrowRight, BookOpen, Shield, Lock, GraduationCap, LucideIcon } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 
@@ -83,7 +83,7 @@ export default function Home() {
   );
 }
 
-function FeatureCard({ icon: Icon, title, description, delay }: { icon: any, title: string, description: string, delay: number }) {
+function FeatureCard({ icon: Icon, title, description, delay }: { icon: LucideIcon, title: string, description: string, delay: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

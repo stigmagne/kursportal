@@ -2,6 +2,32 @@ import { createClient } from '@/utils/supabase/server';
 import { BookOpen, Users, Activity, Plus, TrendingUp, Clock, AlertCircle, CheckCircle2, BarChart3 } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { getTranslations } from 'next-intl/server';
+import { LucideIcon } from 'lucide-react';
+
+// Type definitions
+interface RecentUser {
+    id: string;
+    full_name: string | null;
+    created_at: string;
+    role: 'admin' | 'member';
+}
+
+interface RecentProgress {
+    id: string;
+    status: string;
+    last_accessed: string;
+    profiles: { full_name: string | null } | null;
+    courses: { title: string } | null;
+}
+
+interface StatCardProps {
+    title: string;
+    value: number;
+    subtitle?: string;
+    icon: LucideIcon;
+    trend?: string;
+    color: 'blue' | 'green' | 'purple' | 'orange';
+}
 
 export default async function AdminDashboard() {
     const t = await getTranslations('Admin');
@@ -89,7 +115,7 @@ export default async function AdminDashboard() {
                     </div>
                     <div className="space-y-3">
                         {recentProgress && recentProgress.length > 0 ? (
-                            recentProgress.map((item: any) => (
+                            (recentProgress as RecentProgress[]).map((item) => (
                                 <div key={item.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
                                     <div className="flex-1">
                                         <p className="font-medium text-sm">
@@ -206,7 +232,7 @@ export default async function AdminDashboard() {
                         </thead>
                         <tbody className="divide-y divide-border">
                             {recentUsers && recentUsers.length > 0 ? (
-                                recentUsers.map((user: any) => (
+                                (recentUsers as RecentUser[]).map((user) => (
                                     <tr key={user.id} className="hover:bg-muted/20 transition-colors">
                                         <td className="px-4 py-3 font-medium">{user.full_name || t('registrations.anonymous')}</td>
                                         <td className="px-4 py-3">
@@ -237,7 +263,7 @@ export default async function AdminDashboard() {
     );
 }
 
-function StatCard({ title, value, subtitle, icon: Icon, trend, color }: any) {
+function StatCard({ title, value, subtitle, icon: Icon, trend, color }: StatCardProps) {
     const colorClasses = {
         blue: 'text-blue-500',
         green: 'text-green-500',

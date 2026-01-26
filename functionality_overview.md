@@ -1,65 +1,147 @@
-# Funksjonell Oversikt: Kurs- og Abonnementportal
+# 🎓 Kursportal - Funksjonsoversikt
 
-**Dato:** 21. januar 2026
-
-Denne rapporten gir en oversikt over faktisk implementert funksjonalitet i portalen, vurdert opp mot visjonen om en **Kursportal med Abonnementsløsning**.
+> SMEB Stiftelsen - Læringsplattform for søsken, foreldre og arbeidsmiljø
 
 ---
 
-## 1. Implementert Funksjonalitet (LMS-kjernen)
+## 📊 Statusoversikt
 
-Systemet har i dag en solid kjerne for Learning Management (LMS), som fungerer for kursgjennomføring.
-
-### 🎓 For Deltakere (Studenter)
-*   **Dashboard (`/dashboard`):**
-    *   Personlig oversikt over påbegynte kurs.
-    *   Fremdriftsindikatorer (prosentvis fullført).
-    *   Anbefalte kurs (basert på hva man ikke har tatt).
-    *   "Badges" og aktivitetslogg.
-*   **Kursavspiller:**
-    *   Støtte for leksjoner med tekst og video.
-    *   Modulbasert navigasjon.
-*   **Kunnskapskontroll:**
-    *   Integrerte quizer med umiddelbar feedback (Bestått/Ikke bestått).
-
-### 🛡️ For Administratorer (`/admin`)
-*   **Innholdsproduksjon:**
-    *   **Kurs-bygger (`/admin/courses`):** Komplett verktøy for å lage struktur, moduler og leksjoner.
-    *   **Quiz-bygger:** Verktøy for å lage tester med svaralternativer.
-    *   **Innholdseditor:** Rich-text redigering av leksjoner.
-*   **Brukeradministrasjon:**
-    *   Oversikt over brukere og deres fremdrift.
-    *   Mulighet for utestengelse og anonymisering.
-    *   Invitasjonssystem ("Tickets") for å gi tilgang manuelt.
+| Kategori | Status | Sist oppdatert |
+| :------- | :----- | :------------- |
+| **Kurs-motor** | ✅ Komplett | 26. jan 2026 |
+| **Quiz-system** | ✅ Komplett | 21. jan 2026 |
+| **Journal (kryptert)** | ✅ Komplett | 26. jan 2026 |
+| **Vurderingssystem** | ✅ Komplett | 26. jan 2026 |
+| **Tilgangskontroll** | ✅ Komplett | 26. jan 2026 |
+| **Arbeidsmiljø-modul** | ✅ Komplett | 26. jan 2026 |
+| **Invitasjonsbasert tilgang** | ✅ Komplett | 26. jan 2026 |
+| **Stripe-integrasjon** | ⚠️ Database klar | 26. jan 2026 |
 
 ---
 
-## 2. Manglende Funksjonalitet (Visjon: Abonnement)
+## � Tilgangskontroll (Invitasjonsbasert)
 
-For å realisere visjonen om at *"de som ikke har vært med kan kjøpe månedsabonnement"*, mangler hele betalings- og tilgangslaget.
+### Brukergrupper
 
-### 🔴 Kritisk Mangler (Må bygges)
-*   **Betalingsløsning:**
-    *   Ingen integrasjon mot betalingsleverandør (f.eks. Stripe eller Vipps).
-    *   Ingen logikk for å håndtere *"Abonnement"* (Recurring payments).
-*   **Produkt/Pakke-styring:**
-    *   Ingen database-tabeller for å definere produkter (f.eks. "Månedsabonnement", "Enkeltkurs").
-    *   Ingen "Paywall" som sjekker om brukeren har *betalt* før de får tilgang til kurs (idag styres dette kun av om man er "enrolled" eller har en "ticket").
-*   **Kjøpsflyt:**
-    *   Ingen "Checkout"-side eller handlekurv.
-    *   Ingen "Min Side / Faktura" for å se betalingshistorikk.
+| Gruppe | Kode | Tilgang |
+| :------- | :----- | :-------- |
+| Søsken 18+ | `sibling` | Søskenkurs, familiejournal, søskenvurdering |
+| Foreldre | `parent` | Foreldrekurs, familiejournal, foreldrevurdering |
+| Team-medlem | `team-member` | Medarbeiderkurs, jobbjournal, team-vurdering |
+| Leder | `team-leader` | Lederkurs, jobbjournal, ledervurdering |
+
+### Tilgangsregler
+
+- **Invitasjonsbasert**: Admin sender lenke med spesifikk gruppe
+- **Automatisk tildeling**: Gruppe tildeles ved registrering via invitasjonslenke
+- **Gjensidig ekskluderende**: sibling↔parent og team-member↔team-leader kan ikke kombineres
+- **Maks 2 grupper**: Én fra familie-verden + én fra jobb-verden
+
+### Hva filtreres
+
+- Kursene på `/courses` vises kun for brukerens gruppe(r)
+- Vurderingene på `/assessment` vises kun for brukerens gruppe(r)
+- Journalverktøy filtreres etter `target_groups`
+- Anbefalte kurs på dashboard filtreres
 
 ---
 
-## 3. Konklusjon
+## 📚 Kursinnhold (24 kurs totalt)
 
-Kodebasen er ren og fri for "Forenings"-logikk (ingen spor av dugnad, styremøter etc. i koden, kun i gammel dokumentasjon).
+### Søskenkurs (6)
 
-**Status:**
-*   ✅ **Kurs-motor:** Ferdig implementert.
-*   ❌ **Abonnements-motor:** Ikke påbegynt.
+| Kurs | Fokus |
+| :--- | :---- |
+| *Å Forstå Mine Følelser* | Emosjonell bevissthet |
+| *Min Stemme, Mine Grenser* | Kommunikasjon |
+| *Hvem Er Jeg?* | Identitet |
+| *Sorg og Aksept* | Kronisk sorg |
+| *Karriere og Kall* | Fremtid |
+| *Finne Min Stamme* | Støttenettverk |
 
-**Anbefalt neste steg:**
-1.  Design datamodell for `Subscriptions` og `Products`.
-2.  Implementer betalingsintegrasjon (f.eks. Stripe Checkout).
-3.  Bygg en "Pricing Page" og koble betalingsstatus mot kurstilgang.
+### Foreldrekurs (6)
+
+| Kurs | Fokus |
+| :--- | :---- |
+| *Å Se Alle Barna* | Oppmerksomhetsbalanse |
+| *Kommunikasjon i Familien* | Aldersriktig kommunikasjon |
+| *Egen Mestring som Forelder* | Egenomsorg |
+| *Praktisk Hverdag* | Tidsplanlegging |
+| *Foreldres Sorg* | Diagnosesjokk |
+| *Søsken som Ressurs* | Sunn involvering |
+
+### Team-medlem kurs (6)
+
+| Kurs | Fokus |
+| :--- | :---- |
+| *Trygg på Jobb* | Psykologisk trygghet |
+| *Min Plass i Teamet* | Tilhørighet |
+| *Kommunikasjon på Jobb* | Aktiv lytting |
+| *Sunne Grenser på Jobb* | Work-life balance |
+| *Håndtere Konflikt* | Konflikthåndtering |
+| *Vekst og Mestring* | Growth mindset |
+
+### Leder-kurs (6)
+
+| Kurs | Fokus |
+| :--- | :---- |
+| *Lederen som Trygghetsskaper* | Skape trygghet |
+| *Inkluderende Ledelse* | Mangfold |
+| *Tilbakemeldingskultur* | Feedback |
+| *Delegering og Tillit* | Autonomi |
+| *Lederens Konflikthåndtering* | Mekling |
+| *Lederens Egenomsorg* | Stressmestring |
+
+---
+
+## 🎯 Vurderingssystem (120 spørsmål, 24 dimensjoner)
+
+**4 vurderingstyper** med 30 spørsmål og 6 dimensjoner hver.
+
+Hver dimensjon mapper til 1-2 anbefalte kurs basert på score.
+
+---
+
+## 📓 Journalverktøy (12 stk)
+
+### Familie-fokusert (7)
+
+Følelsesdagbok, Følelsesskala, Energibarometer, Takknemlighetslogg, Bekymringsboks, Mestringssituasjoner, Relasjonsrefleksjon
+
+### Jobb-fokusert (5)
+
+Daglig sjekk-inn, Trygghetsdagbok, Feedback-logg, Konflikt-refleksjon, Grense-tracker
+
+Alle kryptert med AES-256-GCM (zero-knowledge).
+
+---
+
+## 🗄️ Database-migrasjoner
+
+| Migrasjon | Innhold |
+| :-------- | :------ |
+| 037-038 | Vurdering + Journal (SMEB) |
+| 039-044 | Søsken/foreldre-kurs |
+| 045 | Arbeidsmiljø vurdering (60 spørsmål) |
+| 046 | Arbeidsmiljø journalverktøy |
+| 047 | Team-medlem kurs (6) |
+| 048 | Leder-kurs (6) |
+| 049 | Invitasjonsbasert tilgangskontroll |
+
+---
+
+## 🧪 Testbrukere
+
+| E-post | Passord | Gruppe |
+| :----- | :------ | :----- |
+| <foreldre@smeb.no> | Pass1234 | parent |
+| <sosken@smeb.no> | Pass1234 | sibling |
+| <team-medlem@smeb.no> | Pass1234 | team-member |
+| <team-leder@smeb.no> | Pass1234 | team-leader |
+
+---
+
+## ⚠️ Mangler
+
+- [ ] Stripe Checkout-flyt
+- [ ] Abonnements-håndtering

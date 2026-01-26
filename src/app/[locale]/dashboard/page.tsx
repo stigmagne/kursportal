@@ -3,6 +3,7 @@ import { redirect } from '@/i18n/routing';
 import DashboardContent from '@/components/student/DashboardContent';
 import SubscriptionStatus from '@/components/student/SubscriptionStatus';
 import { getTranslations } from 'next-intl/server';
+import { getUserGroups } from '@/utils/userGroups';
 
 interface EnrolledCourse {
     id: string;
@@ -40,6 +41,9 @@ export default async function DashboardPage({ params }: { params: { locale: stri
     if (profile?.role === 'admin') {
         return redirect({ href: '/admin', locale })
     }
+
+    // Fetch user's target groups
+    const userGroups = await getUserGroups(supabase, user.id);
 
     // Fetch enrolled courses
     const { data: enrollments, error } = await supabase
@@ -127,10 +131,17 @@ export default async function DashboardPage({ params }: { params: { locale: stri
         .order('earned_at', { ascending: false })
         .limit(5)
 
-    const formattedBadges = (badges || []).map(b => ({
-        ...b.badge,
-        earned_at: b.earned_at
-    }))
+    const formattedBadges = (badges || []).map(b => {
+        const badge = Array.isArray(b.badge) ? b.badge[0] : b.badge;
+        return {
+            id: badge?.id || b.id,
+            name: badge?.name || '',
+            description: badge?.description || '',
+            icon: badge?.icon || '🏆',
+            tier: (badge?.tier || 'bronze') as 'bronze' | 'silver' | 'gold' | 'platinum',
+            earned_at: b.earned_at
+        };
+    });
 
     // Fetch Recent Quiz Results
     const { data: recentQuizzesRaw } = await supabase
@@ -166,6 +177,7 @@ export default async function DashboardPage({ params }: { params: { locale: stri
         return {
             id: q.id,
             quiz_id: q.quiz_id,
+            quiz_title: quiz?.title || t('unknown_quiz'),
             score: q.score,
             passed: q.passed,
             created_at: q.created_at,
@@ -188,6 +200,11 @@ export default async function DashboardPage({ params }: { params: { locale: stri
 
     if (enrolledCourseIds.length > 0) {
         recommendedQuery = recommendedQuery.not('id', 'in', `(${enrolledCourseIds.join(',')})`)
+    }
+
+    // Filter by user's target groups (or show all if no groups assigned yet)
+    if (userGroups.length > 0) {
+        recommendedQuery = recommendedQuery.in('target_group', userGroups);
     }
 
     const { data: recommendedCourses } = await recommendedQuery.limit(3)
