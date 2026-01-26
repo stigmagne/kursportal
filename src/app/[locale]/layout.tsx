@@ -7,6 +7,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import type { Metadata } from "next";
 import { ToastProvider } from '@/components/providers/ToastProvider';
+import { ClientErrorBoundary } from '@/components/providers/ClientErrorBoundary';
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -48,9 +49,11 @@ export default async function LocaleLayout({
             >
                 <NextIntlClientProvider messages={messages}>
                     <Navbar />
-                    <main className="min-h-screen bg-linear-to-b from-background to-muted/20">
-                        {children}
-                    </main>
+                    <ClientErrorBoundary>
+                        <main className="min-h-screen bg-linear-to-b from-background to-muted/20">
+                            {children}
+                        </main>
+                    </ClientErrorBoundary>
                     <ToastProvider />
                 </NextIntlClientProvider>
             </body>

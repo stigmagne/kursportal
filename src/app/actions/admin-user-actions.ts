@@ -1,12 +1,11 @@
 'use server';
 
+import { createClient as createServerClient } from '@/utils/supabase/server';
 import { createClient } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
 import { AdminUser, AdminUserUpdate, BanDuration } from '@/types/admin';
-import { createClient as createServerClient } from '@/utils/supabase/server';
 
-// Helper to get admin client with check
-// This prevents top-level errors if the key is missing, and provides a clear error message when used.
+// Helper to get admin client with service role
 function getSupabaseAdmin() {
     const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -26,7 +25,32 @@ function getSupabaseAdmin() {
     );
 }
 
+// Helper to verify admin role - throws if not admin
+async function requireAdminRole(): Promise<string> {
+    const supabase = await createServerClient();
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+        throw new Error('Unauthorized: Not authenticated');
+    }
+
+    const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    if (profileError || profile?.role !== 'admin') {
+        throw new Error('Forbidden: Admin access required');
+    }
+
+    return user.id;
+}
+
 export async function getAdminUsers(): Promise<AdminUser[]> {
+    // Verify admin before proceeding
+    await requireAdminRole();
+
     const supabase = await createServerClient();
 
     // Fetch profiles
@@ -40,21 +64,18 @@ export async function getAdminUsers(): Promise<AdminUser[]> {
     // List users with safer pagination to avoid timeouts
     let authUsers: any[] = [];
     try {
-        console.log('DEBUG: Starting getAdminUsers (Safe Mode)');
         const { data, error: authError } = await getSupabaseAdmin().auth.admin.listUsers({
             page: 1,
-            perPage: 10 // Further decreased to 10 to completely avoid Supabase timeouts
+            perPage: 10
         });
 
         if (authError) {
-            console.warn('Warning: Could not fetch auth users (Supabase API error). Admin list will show profiles only.', authError.message);
-            // We continue without throwing to allow profiles to load
+            console.warn('Warning: Could not fetch auth users.', authError.message);
         } else {
             authUsers = data?.users || [];
         }
     } catch (error) {
         console.error('Unexpected exception fetching auth users:', error);
-        // Continue gracefully
     }
 
     // Merge data
@@ -64,7 +85,7 @@ export async function getAdminUsers(): Promise<AdminUser[]> {
             id: profile.id,
             email: authUser?.email || null,
             full_name: profile.full_name,
-            role: profile.role || 'member', // Default to member if not set
+            role: profile.role || 'member',
             created_at: profile.created_at,
             category: profile.user_category,
             subgroup: profile.subgroup,
@@ -76,6 +97,9 @@ export async function getAdminUsers(): Promise<AdminUser[]> {
 }
 
 export async function toggleBanUser(userId: string, duration: BanDuration) {
+    // Verify admin before proceeding
+    await requireAdminRole();
+
     let bannedUntil: string | null = null;
 
     if (duration !== 'none') {
@@ -83,21 +107,19 @@ export async function toggleBanUser(userId: string, duration: BanDuration) {
         if (duration === '24h') now.setHours(now.getHours() + 24);
         else if (duration === '7d') now.setDate(now.getDate() + 7);
         else if (duration === '30d') now.setDate(now.getDate() + 30);
-        else if (duration === 'permanent') now.setFullYear(now.getFullYear() + 100); // Effectively permanent
+        else if (duration === 'permanent') now.setFullYear(now.getFullYear() + 100);
 
         bannedUntil = now.toISOString();
     }
 
-    // First call to check logic, mostly creating the duration string
     const updateAttributes: any = {};
     if (duration === 'none') {
-        updateAttributes.ban_duration = 'none'; // This is how to unban in recent Supabase versions
+        updateAttributes.ban_duration = 'none';
     } else {
-        // Recalculate duration string for API
         if (duration === '24h') updateAttributes.ban_duration = '24h';
         if (duration === '7d') updateAttributes.ban_duration = '168h';
         if (duration === '30d') updateAttributes.ban_duration = '720h';
-        if (duration === 'permanent') updateAttributes.ban_duration = '876000h'; // 100 years
+        if (duration === 'permanent') updateAttributes.ban_duration = '876000h';
     }
 
     const { error: updateError } = await getSupabaseAdmin().auth.admin.updateUserById(userId, updateAttributes);
@@ -109,7 +131,9 @@ export async function toggleBanUser(userId: string, duration: BanDuration) {
 }
 
 export async function updateUser(userId: string, data: AdminUserUpdate) {
-    // Use service role admin client to bypass RLS and triggers that block standard users
+    // Verify admin before proceeding
+    await requireAdminRole();
+
     const supabaseAdmin = getSupabaseAdmin();
 
     const updates: any = {};
@@ -130,7 +154,10 @@ export async function updateUser(userId: string, data: AdminUserUpdate) {
 }
 
 export async function anonymizeUser(userId: string) {
-    // 1. Anonymize Auth User (email, metadata) and Ban
+    // Verify admin before proceeding
+    await requireAdminRole();
+
+    // 1. Anonymize Auth User and Ban
     const timestamp = new Date().getTime();
     const anonymizedEmail = `anonymized_${userId}_${timestamp}@deleted.user`;
 
@@ -138,43 +165,23 @@ export async function anonymizeUser(userId: string) {
         email: anonymizedEmail,
         user_metadata: { full_name: 'Anonymisert Bruker' },
         app_metadata: {},
-        ban_duration: '876000h' // Permanent ban
+        ban_duration: '876000h'
     });
 
     if (authError) throw new Error(`Error anonymizing auth user: ${authError.message}`);
 
-    // 2. Anonymize Profile
-    const supabase = await createServerClient(); // Use regular client for RLS respecting updates (or admin if RLS blocks)
-    // Assuming admins can update profiles via RLS
-
-    const { error: profileError } = await supabase
+    // 2. Anonymize Profile using admin client
+    const { error: profileError } = await getSupabaseAdmin()
         .from('profiles')
         .update({
             full_name: 'Anonymisert Bruker',
             user_category: null,
             subgroup: null,
-            role: 'user', // demote to basic user
-            // Add other fields to clear if necessary
+            role: 'user',
         })
         .eq('id', userId);
 
-    // If RLS fails (admin can't write to other profiles?), we might need supabaseAdmin for this too.
-    // Safest to use supabaseAdmin for the profile update too to ensure it works.
-
-    if (profileError) {
-        // Fallback to admin client if RLS blocked it
-        const { error: adminProfileError } = await getSupabaseAdmin()
-            .from('profiles')
-            .update({
-                full_name: 'Anonymisert Bruker',
-                user_category: null,
-                subgroup: null,
-                role: 'user',
-            })
-            .eq('id', userId);
-
-        if (adminProfileError) throw new Error(`Error anonymizing profile: ${adminProfileError.message}`);
-    }
+    if (profileError) throw new Error(`Error anonymizing profile: ${profileError.message}`);
 
     revalidatePath('/admin/users');
     return { success: true };

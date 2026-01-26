@@ -42,20 +42,45 @@ export async function updateSession(request: NextRequest, response?: NextRespons
         data: { user },
     } = await supabase.auth.getUser()
 
+    const pathname = request.nextUrl.pathname
+
+    // Extract locale-agnostic path
+    const pathWithoutLocale = pathname.replace(/^\/(no|en)/, '') || '/'
+
+    // SECURITY: Protect admin routes - require authentication AND admin role
+    if (pathWithoutLocale.startsWith('/admin')) {
+        if (!user) {
+            // Not authenticated - redirect to login
+            const url = request.nextUrl.clone()
+            url.pathname = '/login'
+            return NextResponse.redirect(url)
+        }
+
+        // Check if user has admin role
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single()
+
+        if (profile?.role !== 'admin') {
+            // User is authenticated but not admin - redirect to dashboard
+            const url = request.nextUrl.clone()
+            url.pathname = '/dashboard'
+            return NextResponse.redirect(url)
+        }
+    }
+
+    // Protect other authenticated routes
     if (
         !user &&
-        !request.nextUrl.pathname.startsWith('/login') &&
-        !request.nextUrl.pathname.startsWith('/auth') &&
-        request.nextUrl.pathname !== '/'
+        !pathWithoutLocale.startsWith('/login') &&
+        !pathWithoutLocale.startsWith('/auth') &&
+        pathWithoutLocale !== '/' &&
+        pathWithoutLocale !== '/pricing'
     ) {
-        // no user, potentially redirect? 
-        // For now, next.js middleware just refreshes session. Protection is better handled in layouts/pages or here.
-        // The previous instructions often suggest redirecting here.
-        // Let's keep it simple: just refresh session. PageAuth will handle redirects.
-        // OR if I want global protection:
-        // const url = request.nextUrl.clone()
-        // url.pathname = '/login'
-        // return NextResponse.redirect(url)
+        // Optionally redirect unauthenticated users
+        // For now, let page-level auth handle this
     }
 
     return supabaseResponse
