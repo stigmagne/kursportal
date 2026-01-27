@@ -19,13 +19,17 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
         redirect('/login');
     }
 
-    // Get course data including target_group
+    // Get course data including groups
     const { data: course, error } = await supabase
         .from('courses')
         .select(`
             *,
             categories:course_categories(
                 category:categories(id, name)
+            ),
+            course_groups(
+                group_id,
+                groups(id, name)
             )
         `)
         .eq('id', id)
@@ -35,15 +39,28 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
         notFound();
     }
 
-    // Check access if course has target_group restriction
+    // Get the group names for this course
+    const courseGroupNames = course.course_groups?.map((cg: any) => cg.groups?.name).filter(Boolean) || [];
+    const firstGroupName = courseGroupNames[0] || null;
+
+    // Check access if course has group restriction
     let hasAccess = true;
-    if (course.target_group) {
-        // Get user profile
+    if (courseGroupNames.length > 0) {
+        // Get user profile with group assignments
         const { data: profile } = await supabase
             .from('profiles')
-            .select('user_type')
+            .select(`
+                user_type,
+                user_groups(
+                    group_id,
+                    groups(id, name)
+                )
+            `)
             .eq('id', user.id)
             .single();
+
+        // Get the user's group names
+        const userGroupNames = profile?.user_groups?.map((ug: any) => ug.groups?.name).filter(Boolean) || [];
 
         // Check completed assessments
         const { data: completedAssessments } = await supabase
@@ -56,14 +73,29 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
             (a: any) => a.assessment_type?.target_group
         ).filter(Boolean) || [];
 
+        // User has access if:
+        // 1. User type is 'both', OR
+        // 2. User belongs to one of the course's groups, OR
+        // 3. User has completed an assessment for one of the course's groups
         hasAccess =
             profile?.user_type === 'both' ||
-            profile?.user_type === course.target_group ||
-            completedTypes.includes(course.target_group);
+            courseGroupNames.some((groupName: string) => userGroupNames.includes(groupName)) ||
+            courseGroupNames.some((groupName: string) => completedTypes.includes(groupName));
     }
 
     // If no access, show blocked page
     if (!hasAccess) {
+        // Determine assessment slug based on group name
+        const getAssessmentSlug = (groupName: string) => {
+            const slugMap: Record<string, string> = {
+                'søsken': 'sibling-assessment',
+                'foreldre': 'parent-assessment',
+                'Team medlem': 'team-member-assessment',
+                'Team leder': 'team-leader-assessment'
+            };
+            return slugMap[groupName] || 'assessment';
+        };
+
         return (
             <div className="min-h-screen bg-background flex items-center justify-center p-4">
                 <div className="max-w-md text-center">
@@ -72,20 +104,20 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
                     </div>
                     <h1 className="text-2xl font-bold mb-2">Kurs utilgjengelig</h1>
                     <p className="text-muted-foreground mb-6">
-                        Dette kurset er for {course.target_group === 'sibling' ? 'søsken' : 'foreldre'}.
+                        Dette kurset er for {firstGroupName || 'en spesifikk gruppe'}.
                         Du må fullføre den tilhørende vurderingen for å få tilgang.
                     </p>
                     <div className="flex flex-col gap-3">
                         <Link
-                            href={`/assessment/${course.target_group}-assessment`}
+                            href={`/assessment/${getAssessmentSlug(firstGroupName || '')}`}
                             className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-medium rounded-none border-2 border-primary hover:bg-primary/90"
                         >
-                            {course.target_group === 'sibling' ? (
+                            {firstGroupName === 'søsken' ? (
                                 <Users className="w-4 h-4" />
                             ) : (
                                 <Heart className="w-4 h-4" />
                             )}
-                            Ta vurdering for {course.target_group === 'sibling' ? 'søsken' : 'foreldre'}
+                            Ta vurdering for {firstGroupName || 'denne gruppen'}
                         </Link>
                         <Link
                             href="/courses"
