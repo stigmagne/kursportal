@@ -8,6 +8,8 @@ import "../globals.css";
 import type { Metadata } from "next";
 import { ToastProvider } from '@/components/providers/ToastProvider';
 import { ClientErrorBoundary } from '@/components/providers/ClientErrorBoundary';
+import { ServiceWorkerProvider } from '@/components/providers/ServiceWorkerProvider';
+import MobileBottomNav from '@/components/MobileBottomNav';
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -22,6 +24,20 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
     title: "En Helt Syk Oppvekst",
     description: "Læringsplattform for forståelse og støtte",
+    manifest: "/manifest.json",
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: "black-translucent",
+        title: "EHSO"
+    },
+    viewport: {
+        width: "device-width",
+        initialScale: 1,
+        maximumScale: 1,
+        userScalable: false,
+        viewportFit: "cover"
+    },
+    themeColor: "#6366f1"
 };
 
 export default async function LocaleLayout({
@@ -47,15 +63,18 @@ export default async function LocaleLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <NextIntlClientProvider messages={messages}>
-                    <Navbar />
-                    <ClientErrorBoundary>
-                        <main className="min-h-screen bg-linear-to-b from-background to-muted/20">
-                            {children}
-                        </main>
-                    </ClientErrorBoundary>
-                    <ToastProvider />
-                </NextIntlClientProvider>
+                <ServiceWorkerProvider>
+                    <NextIntlClientProvider messages={messages}>
+                        <Navbar />
+                        <ClientErrorBoundary>
+                            <main className="min-h-screen bg-linear-to-b from-background to-muted/20 pb-16 md:pb-0">
+                                {children}
+                            </main>
+                        </ClientErrorBoundary>
+                        <MobileBottomNav />
+                        <ToastProvider />
+                    </NextIntlClientProvider>
+                </ServiceWorkerProvider>
             </body>
         </html>
     );

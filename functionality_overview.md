@@ -15,11 +15,61 @@
 | **Tilgangskontroll** | ✅ Komplett | 26. jan 2026 |
 | **Arbeidsmiljø-modul** | ✅ Komplett | 26. jan 2026 |
 | **Invitasjonsbasert tilgang** | ✅ Komplett | 26. jan 2026 |
+| **Mobil-først UX** | ✅ Komplett | 27. jan 2026 |
+| **PWA-støtte** | ✅ Komplett | 27. jan 2026 |
 | **Stripe-integrasjon** | ⚠️ Database klar | 26. jan 2026 |
 
 ---
 
-## � Tilgangskontroll (Invitasjonsbasert)
+## 📱 Mobil-først UX (Nytt!)
+
+### Læringsmodus
+
+- **Hamburger-sidebar**: Kursmeny skjules bak ikon på mobil
+- **Sticky navigasjon**: Forrige/Fullført/Neste alltid synlig nederst
+- **Fokusert læring**: Skjuler navbar i læringsmodus
+
+### Dashboard
+
+- **Forenklet visning**: Badges, quizresultater, aktivitet skjult på mobil
+- **Continue Learning**: Primært fokus på neste leksjon
+
+### Journal
+
+- **Fullskjerm editor**: Distraksjonfri skriving på mobil
+- **Sticky lagre-knapp**: Alltid tilgjengelig nederst
+- **Autosave**: Lagrer lokalt mens du skriver
+
+### Navigasjon
+
+- **MobileBottomNav**: Fast bunn-meny (Hjem, Kurs, Journal, Profil)
+- **App-lik opplevelse**: 4 hovedlenker med ikoner
+
+### PWA
+
+- **Installerbar**: Kan legges på hjemskjerm
+- **Standalone**: Kjører i fullskjerm uten nettlesergrensesnitt
+- **App-ikoner**: 192x192 og 512x512 PNG
+- **Service Worker**: Cacher leksjoner automatisk
+- **Offline-modus**: Viser lagrede leksjoner uten nett
+- **Fallback-side**: Norsk "Du er offline"-side
+
+---
+
+## 🔗 Integrasjoner
+
+| Plattform | Type | Varsel-hendelser |
+| :-------- | :--- | :--------------- |
+| **Slack** | Webhook | Ny bruker, kurs fullført, quiz bestått |
+| **Discord** | Webhook | Ny bruker, kurs fullført, quiz bestått |
+| **Microsoft Teams** | Webhook | Ny bruker, kurs fullført, quiz bestått |
+| **Stripe** | Betalinger | Abonnementer og enkeltbetalinger |
+
+Konfigureres i Admin → Innstillinger → Integrasjoner.
+
+---
+
+## 🔐 Tilgangskontroll (Invitasjonsbasert)
 
 ### Brukergrupper
 
@@ -36,13 +86,6 @@
 - **Automatisk tildeling**: Gruppe tildeles ved registrering via invitasjonslenke
 - **Gjensidig ekskluderende**: sibling↔parent og team-member↔team-leader kan ikke kombineres
 - **Maks 2 grupper**: Én fra familie-verden + én fra jobb-verden
-
-### Hva filtreres
-
-- Kursene på `/courses` vises kun for brukerens gruppe(r)
-- Vurderingene på `/assessment` vises kun for brukerens gruppe(r)
-- Journalverktøy filtreres etter `target_groups`
-- Anbefalte kurs på dashboard filtreres
 
 ---
 

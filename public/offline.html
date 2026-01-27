@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Du er offline | EHSO Kursportal</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 1rem;
+      opacity: 0.9;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .retry-btn {
+      display: inline-block;
+      background: white;
+      color: #6366f1;
+      font-weight: 600;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0 #000;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .retry-btn:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #000;
+    }
+
+    .retry-btn:active {
+      transform: translate(4px, 4px);
+      box-shadow: 0 0 0 #000;
+    }
+
+    .tips {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .tips h3 {
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.8;
+      margin-bottom: 0.75rem;
+    }
+
+    .tips ul {
+      list-style: none;
+      font-size: 0.875rem;
+      opacity: 0.8;
+    }
+
+    .tips li {
+      margin-bottom: 0.5rem;
+    }
+
+    .tips li::before {
+      content: "→ ";
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📶</div>
+    <h1>Du er offline</h1>
+    <p>
+      Det ser ut som du har mistet internettforbindelsen. 
+      Noen sider du har besøkt før er fortsatt tilgjengelige.
+    </p>
+    <button class="retry-btn" onclick="location.reload()">
+      Prøv igjen
+    </button>
+    
+    <div class="tips">
+      <h3>Tips</h3>
+      <ul>
+        <li>Sjekk WiFi-tilkoblingen</li>
+        <li>Prøv mobildata</li>
+        <li>Tidligere besøkte leksjoner er lagret</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Auto-reload when back online
+    window.addEventListener('online', () => {
+      location.reload();
+    });
+  </script>
+</body>
+</html>

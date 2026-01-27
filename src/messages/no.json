@@ -280,7 +280,12 @@
         "title": "Din Fremgang",
         "completed": "Fullført",
         "mark_complete": "Marker som ferdig",
-        "error": "Kunne ikke oppdatere fremgang"
+        "error": "Kunne ikke oppdatere fremgang",
+        "openMenu": "Åpne kursmeny",
+        "closeMenu": "Lukk meny",
+        "backToCourse": "Tilbake til kurs",
+        "progress": "Fremgang",
+        "lessonsComplete": "{completed} av {total} leksjoner fullført"
     },
     "Quiz": {
         "subtitle": "Test kunnskapen din",

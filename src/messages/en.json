@@ -89,8 +89,8 @@
     "Journal": {
         "title": "Personal Journal",
         "subtitle": "Zero-knowledge encrypted. Only you hold the key.",
-        "export_data": "Export Data",
         "new_entry": "New Entry",
+        "export_data": "Export Data",
         "vault_unlocked": "Vault Unlocked",
         "vault_locked": "Vault Locked",
         "vault_unlocked_desc": "Entries can be read.",
@@ -251,7 +251,12 @@
         "title": "Your Progress",
         "completed": "Completed",
         "mark_complete": "Mark as Complete",
-        "error": "Failed to update progress"
+        "error": "Failed to update progress",
+        "openMenu": "Open course menu",
+        "closeMenu": "Close menu",
+        "backToCourse": "Back to Course",
+        "progress": "Progress",
+        "lessonsComplete": "{completed} of {total} lessons complete"
     },
     "Quiz": {
         "subtitle": "Test your knowledge",

@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import EmailPreferences from '@/components/profile/EmailPreferences';
+import IntegrationSettings from '@/components/admin/IntegrationSettings';
 
 export default async function AdminSettingsPage() {
     const t = await getTranslations('AdminSettings');
@@ -31,9 +32,16 @@ export default async function AdminSettingsPage() {
                 <p className="text-muted-foreground mt-2">{t('subtitle')}</p>
             </div>
 
-            <div className="bg-card rounded-xl border shadow-sm p-6">
-                <EmailPreferences />
+            <div className="grid gap-6 lg:grid-cols-2">
+                <div className="bg-card rounded-xl border shadow-sm p-6">
+                    <EmailPreferences />
+                </div>
+
+                <div className="bg-card rounded-xl border shadow-sm p-6">
+                    <IntegrationSettings />
+                </div>
             </div>
         </div>
     );
 }
+

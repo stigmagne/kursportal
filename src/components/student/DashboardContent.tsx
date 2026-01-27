@@ -237,8 +237,8 @@ export default function DashboardContent({
                         )}
                     </div>
 
-                    {/* Sidebar Column (1/3) */}
-                    <div className="space-y-6">
+                    {/* Sidebar Column (1/3) - Hidden on mobile for focused experience */}
+                    <div className="hidden lg:block space-y-6">
                         <RecentBadges badges={badges} />
                         <RecentQuizResults results={recentQuizzes} />
                         <RecentActivity activities={activities} />
