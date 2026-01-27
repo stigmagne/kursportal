@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import { ToastProvider } from '@/components/providers/ToastProvider';
 import { ClientErrorBoundary } from '@/components/providers/ClientErrorBoundary';
 import { ServiceWorkerProvider } from '@/components/providers/ServiceWorkerProvider';
+import { AssessmentProvider } from '@/components/providers/AssessmentProvider';
 import MobileBottomNav from '@/components/MobileBottomNav';
 
 const geistSans = Geist({
@@ -67,9 +68,11 @@ export default async function LocaleLayout({
                     <NextIntlClientProvider messages={messages}>
                         <Navbar />
                         <ClientErrorBoundary>
-                            <main className="min-h-screen bg-linear-to-b from-background to-muted/20 pb-16 md:pb-0">
-                                {children}
-                            </main>
+                            <AssessmentProvider locale={locale}>
+                                <main className="min-h-screen bg-linear-to-b from-background to-muted/20 pb-16 md:pb-0">
+                                    {children}
+                                </main>
+                            </AssessmentProvider>
                         </ClientErrorBoundary>
                         <MobileBottomNav />
                         <ToastProvider />
@@ -79,3 +82,4 @@ export default async function LocaleLayout({
         </html>
     );
 }
+

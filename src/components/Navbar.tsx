@@ -59,14 +59,13 @@ export default function Navbar() {
     const isAdmin = profile?.role === 'admin';
 
     return (
-        <nav className="sticky top-0 z-50 bg-background border-b-2 border-black dark:border-white">
+        <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80 border-b-2 border-black dark:border-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-                        <BookOpen className="w-6 h-6 text-primary" />
                         <span className="bg-linear-to-r from-primary to-purple-500 bg-clip-text text-transparent">
-                            Course Hub
+                            Kursportal
                         </span>
                     </Link>
 

@@ -3,6 +3,7 @@ import { redirect } from '@/i18n/routing';
 import { Link } from '@/i18n/routing';
 import { getTranslations } from 'next-intl/server';
 import { ArrowRight, BookOpen, Sparkles } from 'lucide-react';
+import { AssessmentHistory as AssessmentHistoryWrapper } from '@/components/assessment/AssessmentHistory';
 
 interface Props {
     params: { locale: string };
@@ -128,12 +129,18 @@ export default async function AssessmentResultsPage({ params, searchParams }: Pr
                                     {isLow
                                         ? result.dimension.low_score_interpretation_no
                                         : result.dimension.high_score_interpretation_no
-                                    }
-                                </p>
+                                    }\n                                </p>
                             </div>
                         );
                     })}
                 </div>
+
+                {/* Progress Comparison */}
+                <AssessmentHistoryWrapper
+                    currentSessionId={sessionId}
+                    userId={user.id}
+                    assessmentTypeId={session.assessment_type_id}
+                />
 
                 {/* Recommended Courses */}
                 {recommendedCourses.length > 0 && (

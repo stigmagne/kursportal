@@ -17,6 +17,8 @@
 | **Invitasjonsbasert tilgang** | ✅ Komplett | 26. jan 2026 |
 | **Mobil-først UX** | ✅ Komplett | 27. jan 2026 |
 | **PWA-støtte** | ✅ Komplett | 27. jan 2026 |
+| **Gruppe/Undergruppe-system** | ✅ Komplett | 27. jan 2026 |
+| **Obligatorisk vurdering** | ✅ Komplett | 27. jan 2026 |
 | **Stripe-integrasjon** | ⚠️ Database klar | 26. jan 2026 |
 
 ---
@@ -87,6 +89,9 @@ Konfigureres i Admin → Innstillinger → Integrasjoner.
 - **Gjensidig ekskluderende**: sibling↔parent og team-member↔team-leader kan ikke kombineres
 - **Maks 2 grupper**: Én fra familie-verden + én fra jobb-verden
 
+- **Undergrupper**: Organisasjoner (NFTSC, Sykehus X, osv.) avgrenset kommentarer
+- **Kursoversikt**: Gruppe-badges og filter i admin-panel
+
 ---
 
 ## 📚 Kursinnhold (24 kurs totalt)
@@ -143,6 +148,12 @@ Konfigureres i Admin → Innstillinger → Integrasjoner.
 
 Hver dimensjon mapper til 1-2 anbefalte kurs basert på score.
 
+### Obligatorisk onboarding
+
+- **Førstegangsbruker**: Må fullføre vurdering før kurstilgang
+- **Re-vurdering**: Påminnelse hver 3. måned
+- **Progresjonssporing**: Sammenligning med tidligere vurderinger
+
 ---
 
 ## 📓 Journalverktøy (12 stk)
@@ -170,6 +181,8 @@ Alle kryptert med AES-256-GCM (zero-knowledge).
 | 047 | Team-medlem kurs (6) |
 | 048 | Leder-kurs (6) |
 | 049 | Invitasjonsbasert tilgangskontroll |
+| 055 | Webhook-integrasjoner (Slack, Discord, Teams) |
+| 056 | Undergruppe-støtte i invitasjoner |
 
 ---
 

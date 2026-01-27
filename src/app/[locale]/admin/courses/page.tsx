@@ -8,9 +8,16 @@ import { getTranslations } from 'next-intl/server';
 export default async function AdminCoursesPage() {
     const t = await getTranslations('AdminCourses');
     const supabase = await createClient()
+
+    // Fetch courses with their target groups
     const { data: courses } = await supabase
         .from('courses')
-        .select('*')
+        .select(`
+            *,
+            course_groups (
+                target_group
+            )
+        `)
         .order('created_at', { ascending: false })
 
     return (
