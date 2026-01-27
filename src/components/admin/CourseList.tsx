@@ -9,24 +9,16 @@ import ConfirmDialog from '@/components/ConfirmDialog';
 import { useTranslations } from 'next-intl';
 
 type CourseStatus = 'active' | 'paused' | 'archived' | 'legacy';
-type TargetGroup = 'sibling' | 'parent' | 'team-member' | 'team-leader';
 
-const GROUP_LABELS: Record<TargetGroup, string> = {
-    'sibling': 'Søsken',
-    'parent': 'Foreldre',
-    'team-member': 'Team-medlem',
-    'team-leader': 'Team-leder'
-};
-
-const GROUP_COLORS: Record<TargetGroup, string> = {
-    'sibling': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-    'parent': 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
-    'team-member': 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-400',
-    'team-leader': 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400'
-};
+// Dynamic group from the groups table
+interface Group {
+    id: string;
+    name: string;
+}
 
 interface CourseGroup {
-    target_group: TargetGroup;
+    group_id: string;
+    groups: Group | null;
 }
 
 interface Course {
@@ -38,10 +30,20 @@ interface Course {
     course_groups?: CourseGroup[];
 }
 
+// Color rotation for dynamic groups
+const GROUP_COLORS = [
+    'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+    'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
+    'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-400',
+    'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
+    'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+    'bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400'
+];
+
 export default function CourseList({ initialCourses }: { initialCourses: Course[] }) {
     const t = useTranslations('AdminCourses');
     const [courses, setCourses] = useState(initialCourses);
-    const [selectedGroup, setSelectedGroup] = useState<TargetGroup | 'all'>('all');
+    const [selectedGroup, setSelectedGroup] = useState<string>('all');
     const [confirmDialog, setConfirmDialog] = useState<{
         isOpen: boolean;
         title: string;
@@ -55,20 +57,28 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
     const filteredCourses = useMemo(() => {
         if (selectedGroup === 'all') return courses;
         return courses.filter(course =>
-            course.course_groups?.some(cg => cg.target_group === selectedGroup)
+            course.course_groups?.some(cg => cg.group_id === selectedGroup)
         );
     }, [courses, selectedGroup]);
 
-    // Get unique groups for filter
+    // Get unique groups for filter with their names
     const availableGroups = useMemo(() => {
-        const groups = new Set<TargetGroup>();
+        const groupMap = new Map<string, string>(); // id -> name
         courses.forEach(course => {
             course.course_groups?.forEach(cg => {
-                if (cg.target_group) groups.add(cg.target_group);
+                if (cg.groups?.id && cg.groups?.name) {
+                    groupMap.set(cg.groups.id, cg.groups.name);
+                }
             });
         });
-        return Array.from(groups);
+        return Array.from(groupMap.entries()).map(([id, name]) => ({ id, name }));
     }, [courses]);
+
+    // Get color for a group (based on index)
+    const getGroupColor = (groupId: string) => {
+        const index = availableGroups.findIndex(g => g.id === groupId);
+        return GROUP_COLORS[index % GROUP_COLORS.length];
+    };
 
     const handleDelete = async (id: string, title: string) => {
         try {
@@ -168,12 +178,14 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
         return (
             <div className="flex flex-wrap gap-1">
                 {course.course_groups.map((cg, idx) => (
-                    <span
-                        key={idx}
-                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${GROUP_COLORS[cg.target_group] || 'bg-gray-100 text-gray-800'}`}
-                    >
-                        {GROUP_LABELS[cg.target_group] || cg.target_group}
-                    </span>
+                    cg.groups && (
+                        <span
+                            key={idx}
+                            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getGroupColor(cg.group_id)}`}
+                        >
+                            {cg.groups.name}
+                        </span>
+                    )
                 ))}
             </div>
         );
@@ -188,26 +200,26 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
                     <button
                         onClick={() => setSelectedGroup('all')}
                         className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${selectedGroup === 'all'
-                                ? 'bg-primary text-primary-foreground'
-                                : 'bg-muted hover:bg-muted/80 text-muted-foreground'
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-muted hover:bg-muted/80 text-muted-foreground'
                             }`}
                     >
                         Alle ({courses.length})
                     </button>
                     {availableGroups.map(group => {
                         const count = courses.filter(c =>
-                            c.course_groups?.some(cg => cg.target_group === group)
+                            c.course_groups?.some(cg => cg.group_id === group.id)
                         ).length;
                         return (
                             <button
-                                key={group}
-                                onClick={() => setSelectedGroup(group)}
-                                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${selectedGroup === group
-                                        ? GROUP_COLORS[group]
-                                        : 'bg-muted hover:bg-muted/80 text-muted-foreground'
+                                key={group.id}
+                                onClick={() => setSelectedGroup(group.id)}
+                                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${selectedGroup === group.id
+                                    ? getGroupColor(group.id)
+                                    : 'bg-muted hover:bg-muted/80 text-muted-foreground'
                                     }`}
                             >
-                                {GROUP_LABELS[group]} ({count})
+                                {group.name} ({count})
                             </button>
                         );
                     })}
@@ -310,7 +322,7 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
                         {filteredCourses.length === 0 && (
                             <tr>
                                 <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">
-                                    {selectedGroup === 'all' ? t('empty') : `Ingen kurs for ${GROUP_LABELS[selectedGroup]}`}
+                                    {selectedGroup === 'all' ? t('empty') : `Ingen kurs for ${availableGroups.find(g => g.id === selectedGroup)?.name || selectedGroup}`}
                                 </td>
                             </tr>
                         )}

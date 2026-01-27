@@ -11,13 +11,17 @@ export default async function AdminCoursesPage() {
     // Admin access is already verified in the layout
     const supabase = createAdminClient()
 
-    // Fetch courses with their target groups
+    // Fetch courses with their target groups via the junction table
     const { data: courses } = await supabase
         .from('courses')
         .select(`
             *,
             course_groups (
-                target_group
+                group_id,
+                groups (
+                    id,
+                    name
+                )
             )
         `)
         .order('created_at', { ascending: false })
