@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 import { Link } from '@/i18n/routing'
 import { Plus } from 'lucide-react'
 import CourseList from '@/components/admin/CourseList'
@@ -7,7 +7,9 @@ import { getTranslations } from 'next-intl/server';
 
 export default async function AdminCoursesPage() {
     const t = await getTranslations('AdminCourses');
-    const supabase = await createClient()
+    // Use admin client with service role to bypass RLS
+    // Admin access is already verified in the layout
+    const supabase = createAdminClient()
 
     // Fetch courses with their target groups
     const { data: courses } = await supabase
