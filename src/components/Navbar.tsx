@@ -116,7 +116,7 @@ export default function Navbar() {
                                         </span>
                                         <button
                                             onClick={handleSignOut}
-                                            className="px-4 py-2 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-lg transition-colors"
+                                            className="px-4 py-2 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-none border-2 border-black dark:border-white transition-colors"
                                         >
                                             {t('signOut')}
                                         </button>
@@ -131,7 +131,7 @@ export default function Navbar() {
                                         </Link>
                                         <Link
                                             href="/login"
-                                            className="px-4 py-2 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transition-colors"
+                                            className="px-4 py-2 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-none border-2 border-black transition-colors"
                                         >
                                             {t('signIn')}
                                         </Link>
@@ -144,7 +144,7 @@ export default function Navbar() {
                     {/* Mobile Menu Button */}
                     <button
                         onClick={() => setIsOpen(!isOpen)}
-                        className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+                        className="md:hidden p-2 rounded-none hover:bg-muted transition-colors"
                     >
                         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
@@ -169,14 +169,14 @@ export default function Navbar() {
                                 <>
                                     <Link
                                         href="/courses"
-                                        className="block px-4 py-2 rounded-lg hover:bg-muted transition-colors"
+                                        className="block px-4 py-2 rounded-none hover:bg-muted transition-colors"
                                         onClick={() => setIsOpen(false)}
                                     >
                                         {t('courses')}
                                     </Link>
                                     <Link
                                         href="/journal"
-                                        className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-muted transition-colors"
+                                        className="flex items-center gap-2 px-4 py-2 rounded-none hover:bg-muted transition-colors"
                                         onClick={() => setIsOpen(false)}
                                     >
                                         <Lock className="w-4 h-4" />
@@ -185,7 +185,7 @@ export default function Navbar() {
                                     {isAdmin && (
                                         <Link
                                             href="/admin"
-                                            className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-muted transition-colors text-purple-400"
+                                            className="flex items-center gap-2 px-4 py-2 rounded-none hover:bg-muted transition-colors text-purple-400"
                                             onClick={() => setIsOpen(false)}
                                         >
                                             <LayoutDashboard className="w-4 h-4" />
@@ -206,7 +206,7 @@ export default function Navbar() {
                                                 handleSignOut();
                                                 setIsOpen(false);
                                             }}
-                                            className="w-full px-4 py-2 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-lg transition-colors"
+                                            className="w-full px-4 py-2 text-sm font-medium bg-secondary hover:bg-secondary/80 rounded-none border-2 border-black dark:border-white transition-colors"
                                         >
                                             {t('signOut')}
                                         </button>
@@ -214,7 +214,7 @@ export default function Navbar() {
                                 ) : (
                                     <Link
                                         href="/login"
-                                        className="block px-4 py-2 text-center text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transition-colors"
+                                        className="block px-4 py-2 text-center text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 rounded-none border-2 border-black transition-colors"
                                         onClick={() => setIsOpen(false)}
                                     >
                                         {t('signIn')}

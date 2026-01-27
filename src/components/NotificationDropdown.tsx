@@ -83,7 +83,7 @@ export function NotificationDropdown({ onClose, onRead }: NotificationDropdownPr
             />
 
             {/* Dropdown */}
-            <div className="absolute right-0 mt-2 w-96 bg-white text-gray-900 border border-gray-200 rounded-xl shadow-2xl z-50 max-h-[500px] overflow-hidden flex flex-col">
+            <div className="absolute right-0 mt-2 w-96 bg-white text-gray-900 border-2 border-black rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-50 max-h-[500px] overflow-hidden flex flex-col">
                 {/* Header */}
                 <div className="p-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
                     <h3 className="font-semibold">{t('title')}</h3>
@@ -102,7 +102,7 @@ export function NotificationDropdown({ onClose, onRead }: NotificationDropdownPr
                     {isLoading ? (
                         <div className="p-4 space-y-3">
                             {[1, 2, 3].map(i => (
-                                <div key={i} className="h-16 bg-muted rounded animate-pulse" />
+                                <div key={i} className="h-16 bg-muted rounded-none animate-pulse" />
                             ))}
                         </div>
                     ) : notifications.length === 0 ? (

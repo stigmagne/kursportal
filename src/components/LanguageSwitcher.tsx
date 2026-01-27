@@ -19,7 +19,7 @@ export default function LanguageSwitcher() {
     }
 
     return (
-        <div className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/5 transition-colors">
+        <div className="flex items-center gap-2 px-2 py-1 rounded-none hover:bg-white/5 transition-colors">
             <Globe className="w-4 h-4 text-muted-foreground" />
             <select
                 defaultValue={locale}

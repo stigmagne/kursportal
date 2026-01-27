@@ -93,7 +93,7 @@ export function SearchBar() {
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder={t('placeholder')}
-                    className="w-full pl-10 pr-10 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-500"
+                    className="w-full pl-10 pr-10 py-2 bg-white border-2 border-black dark:border-white rounded-none focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white dark:bg-gray-900 placeholder-gray-500"
                 />
                 {query && (
                     <button
@@ -114,7 +114,7 @@ export function SearchBar() {
 
             {/* Search Results Dropdown */}
             {isOpen && results.length > 0 && (
-                <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-xl max-h-96 overflow-y-auto z-50">
+                <div className="absolute top-full mt-2 w-full bg-white dark:bg-gray-900 border-2 border-black dark:border-white rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] max-h-96 overflow-y-auto z-50">
                     {results.map((result) => (
                         <button
                             key={`${result.result_type}-${result.id}`}
@@ -124,9 +124,9 @@ export function SearchBar() {
                             <div className="flex items-start gap-3">
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-2 mb-1">
-                                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${result.result_type === 'course'
-                                                ? 'bg-blue-100 text-blue-700'
-                                                : 'bg-green-100 text-green-700'
+                                        <span className={`text-xs px-2 py-0.5 rounded-none font-medium border ${result.result_type === 'course'
+                                            ? 'bg-blue-100 text-blue-700 border-blue-700'
+                                            : 'bg-green-100 text-green-700 border-green-700'
                                             }`}>
                                             {result.result_type === 'course' ? t('course') : t('lesson')}
                                         </span>
@@ -150,7 +150,7 @@ export function SearchBar() {
 
             {/* No Results */}
             {isOpen && !isLoading && query.length >= 2 && results.length === 0 && (
-                <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-xl p-6 text-center z-50">
+                <div className="absolute top-full mt-2 w-full bg-white dark:bg-gray-900 border-2 border-black dark:border-white rounded-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6 text-center z-50">
                     <p className="text-gray-600">{t('no_results')}</p>
                     <p className="text-sm text-gray-500 mt-1">{t('try_different')}</p>
                 </div>

@@ -132,3 +132,37 @@ body {
 .border-neo {
   border: 2px solid hsl(var(--border));
 }
+
+/* =================================================
+   NEO-BRUTALIST: Force Sharp Corners on All Elements
+   =================================================
+   This overrides all Tailwind rounded-* classes to 0px
+   for a consistent neo-brutalist aesthetic.
+   
+   Exceptions:
+   - .avatar, .user-avatar: User profile pictures (circular)
+   - .progress-circle: Circular progress indicators
+   - .keep-rounded: Escape hatch for intentional rounding
+*/
+
+/* Global override for rounded classes */
+[class*="rounded-"]:not(.avatar):not(.user-avatar):not(.progress-circle):not(.keep-rounded):not(.notification-badge) {
+  border-radius: 0 !important;
+}
+
+/* Force rounded utilities to use 0 */
+.rounded-sm,
+.rounded,
+.rounded-md,
+.rounded-lg,
+.rounded-xl,
+.rounded-2xl,
+.rounded-3xl {
+  border-radius: 0 !important;
+}
+
+/* Preserve full rounding ONLY for notification badges (counting indicators) */
+.notification-badge,
+span.rounded-full[class*="bg-red"] {
+  border-radius: 9999px !important;
+}

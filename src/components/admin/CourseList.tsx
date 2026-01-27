@@ -147,22 +147,22 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
 
         if (status === 'archived') {
             return (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-none border text-xs font-medium bg-gray-100 text-gray-800 border-gray-800 dark:bg-gray-900/30 dark:text-gray-400 dark:border-gray-400">
                     {t('status.archived')}
                 </span>
             );
         }
         if (status === 'paused') {
             return (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-none border text-xs font-medium bg-orange-100 text-orange-800 border-orange-800 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-400">
                     {t('status.paused')}
                 </span>
             );
         }
         return (
-            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${published
-                ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-none border text-xs font-medium ${published
+                ? 'bg-green-100 text-green-800 border-green-800 dark:bg-green-900/30 dark:text-green-400 dark:border-green-400'
+                : 'bg-yellow-100 text-yellow-800 border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-400'
                 }`}>
                 {published ? t('status.published') : t('status.draft')}
             </span>
@@ -181,7 +181,7 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
                     cg.groups && (
                         <span
                             key={idx}
-                            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getGroupColor(cg.group_id)}`}
+                            className={`inline-flex items-center px-2 py-0.5 rounded-none border text-xs font-medium ${getGroupColor(cg.group_id)}`}
                         >
                             {cg.groups.name}
                         </span>
@@ -199,7 +199,7 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
                 <div className="flex gap-2 flex-wrap">
                     <button
                         onClick={() => setSelectedGroup('all')}
-                        className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${selectedGroup === 'all'
+                        className={`px-3 py-1.5 rounded-none border-2 border-black dark:border-white text-xs font-medium transition-colors ${selectedGroup === 'all'
                             ? 'bg-primary text-primary-foreground'
                             : 'bg-muted hover:bg-muted/80 text-muted-foreground'
                             }`}
@@ -214,7 +214,7 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
                             <button
                                 key={group.id}
                                 onClick={() => setSelectedGroup(group.id)}
-                                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${selectedGroup === group.id
+                                className={`px-3 py-1.5 rounded-none border-2 border-black dark:border-white text-xs font-medium transition-colors ${selectedGroup === group.id
                                     ? getGroupColor(group.id)
                                     : 'bg-muted hover:bg-muted/80 text-muted-foreground'
                                     }`}
@@ -226,7 +226,7 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
                 </div>
             </div>
 
-            <div className="glass rounded-xl border border-white/10 overflow-hidden">
+            <div className="glass rounded-none border-2 border-black dark:border-white overflow-hidden">
                 <table className="w-full text-sm text-left">
                     <thead className="text-xs uppercase bg-muted/50 text-muted-foreground">
                         <tr>
@@ -263,7 +263,7 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
                                         <div className="flex items-center justify-end gap-2">
                                             <Link
                                                 href={`/courses/${course.id}`}
-                                                className="p-2 hover:bg-muted rounded-md transition-colors group"
+                                                className="p-2 hover:bg-muted rounded-none transition-colors group"
                                                 title={t('actions.view')}
                                                 target="_blank"
                                             >
@@ -272,7 +272,7 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
 
                                             <Link
                                                 href={`/admin/courses/edit/${course.id}`}
-                                                className="p-2 hover:bg-muted rounded-md transition-colors"
+                                                className="p-2 hover:bg-muted rounded-none transition-colors"
                                                 title={t('actions.edit')}
                                             >
                                                 <Edit className="w-4 h-4 text-muted-foreground" />
@@ -281,7 +281,7 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
                                             {hasStatusField && !isArchived && (
                                                 <button
                                                     onClick={() => handleStatusChange(course.id, isPaused ? 'active' : 'paused')}
-                                                    className="p-2 hover:bg-muted rounded-md transition-colors group"
+                                                    className="p-2 hover:bg-muted rounded-none transition-colors group"
                                                     title={isPaused ? t('actions.resume') : t('actions.pause')}
                                                 >
                                                     {isPaused ? (
@@ -299,7 +299,7 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
                                                             handleStatusChange(course.id, 'archived');
                                                         }
                                                     }}
-                                                    className="p-2 hover:bg-muted rounded-md transition-colors group"
+                                                    className="p-2 hover:bg-muted rounded-none transition-colors group"
                                                     title={t('actions.archive')}
                                                 >
                                                     <Archive className="w-4 h-4 text-muted-foreground group-hover:text-blue-500" />
@@ -308,7 +308,7 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
 
                                             <button
                                                 onClick={() => handleDelete(course.id, course.title)}
-                                                className="p-2 hover:bg-destructive/10 rounded-md transition-colors group"
+                                                className="p-2 hover:bg-destructive/10 rounded-none transition-colors group"
                                                 title={isArchived ? 'Cannot delete archived course' : t('actions.delete')}
                                                 disabled={isArchived}
                                             >
