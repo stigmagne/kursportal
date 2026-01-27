@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "En Helt Syk Oppvekst",
+    title: "Kursportal",
     description: "Læringsplattform for forståelse og støtte",
     manifest: "/manifest.json",
     appleWebApp: {
