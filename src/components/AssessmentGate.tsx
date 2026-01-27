@@ -16,6 +16,7 @@ const EXEMPT_PATHS = [
     '/auth',
     '/assessment',
     '/api',
+    '/admin',
 ];
 
 export function AssessmentGate({ children, locale }: AssessmentGateProps) {
