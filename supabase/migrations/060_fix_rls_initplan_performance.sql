@@ -44,8 +44,8 @@ CREATE POLICY "Users can view accessible published courses" ON courses
         published = true
         AND EXISTS (
             SELECT 1 FROM course_groups cg
-            JOIN user_groups ug ON cg.group_id = ug.group_id
-            WHERE cg.course_id = courses.id AND ug.user_id = (select auth.uid())
+            JOIN profiles p ON p.group_id = cg.group_id
+            WHERE cg.course_id = courses.id AND p.id = (select auth.uid())
         )
     );
 
@@ -183,8 +183,8 @@ CREATE POLICY "Lessons visible to course-authorized users" ON lessons
         EXISTS (
             SELECT 1 FROM course_modules cm
             JOIN course_groups cg ON cm.course_id = cg.course_id
-            JOIN user_groups ug ON cg.group_id = ug.group_id
-            WHERE cm.id = lessons.module_id AND ug.user_id = (select auth.uid())
+            JOIN profiles p ON p.group_id = cg.group_id
+            WHERE cm.id = lessons.module_id AND p.id = (select auth.uid())
         )
     );
 
