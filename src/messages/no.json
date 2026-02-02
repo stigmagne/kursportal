@@ -269,7 +269,8 @@
     "CourseDetails": {
         "back_to_catalog": "Tilbake til oversikt",
         "no_content": "Inget innhold lagt til enda.",
-        "course_content": "Kursinnhold"
+        "course_content": "Kursinnhold",
+        "module": "Modul"
     },
     "EnrollButton": {
         "enroll": "Meld deg på",

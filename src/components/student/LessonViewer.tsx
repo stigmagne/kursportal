@@ -1,6 +1,7 @@
 'use client';
 
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { FileText, Download, PlayCircle, BookOpen, LightbulbIcon, MessageSquare } from 'lucide-react';
 import QuizTaker from './QuizTaker';
 
@@ -77,8 +78,11 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
                                         prose-ul:list-disc prose-ul:pl-5
                                         prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic
                                         prose-strong:text-primary
+                                        prose-table:border-2 prose-table:border-foreground/20
+                                        prose-th:bg-muted prose-th:p-3 prose-th:border prose-th:border-foreground/20
+                                        prose-td:p-3 prose-td:border prose-td:border-foreground/20
                                         max-w-none">
-                            <ReactMarkdown>{lesson.content}</ReactMarkdown>
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{lesson.content}</ReactMarkdown>
                         </div>
                     </div>
                 )}
@@ -95,8 +99,8 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
                             <div key={block.id} className="content-block">
                                 {block.type === 'text' && block.text_content && (
                                     <div className="bg-background border-2 border-black dark:border-white rounded-lg p-6 sm:p-8">
-                                        <div className="prose dark:prose-invert max-w-none">
-                                            <ReactMarkdown>{block.text_content}</ReactMarkdown>
+                                        <div className="prose dark:prose-invert prose-table:border-2 prose-table:border-foreground/20 prose-th:bg-muted prose-th:p-3 prose-th:border prose-td:p-3 prose-td:border max-w-none">
+                                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{block.text_content}</ReactMarkdown>
                                         </div>
                                     </div>
                                 )}

@@ -19,7 +19,7 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
         redirect('/login');
     }
 
-    // Get course data including groups
+    // Get course data including groups, modules and lessons
     const { data: course, error } = await supabase
         .from('courses')
         .select(`
@@ -30,6 +30,18 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
             course_groups(
                 group_id,
                 groups(id, name)
+            ),
+            course_modules(
+                id,
+                title,
+                description,
+                order_index,
+                lessons(
+                    id,
+                    title,
+                    duration_minutes,
+                    order_index
+                )
             )
         `)
         .eq('id', id)
@@ -196,11 +208,55 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
                                 isEnrolled={isEnrolled}
                             />
                         </div>
-                        <div className="prose prose-invert prose-lg max-w-none">
-                            <ReactMarkdown>
-                                {course.content || `*${t('no_content')}*`}
-                            </ReactMarkdown>
-                        </div>
+
+                        {/* Course Modules and Lessons */}
+                        {course.course_modules && course.course_modules.length > 0 ? (
+                            <div className="space-y-6">
+                                <h2 className="text-2xl font-bold">{t('course_content')}</h2>
+                                {course.course_modules
+                                    .sort((a: any, b: any) => a.order_index - b.order_index)
+                                    .map((module: any, moduleIndex: number) => (
+                                        <div
+                                            key={module.id}
+                                            className="border-2 border-foreground/20 bg-card"
+                                        >
+                                            <div className="px-6 py-4 border-b-2 border-foreground/10 bg-muted/30">
+                                                <h3 className="font-bold text-lg">
+                                                    {t('module')} {moduleIndex + 1}: {module.title}
+                                                </h3>
+                                                {module.description && (
+                                                    <p className="text-sm text-muted-foreground mt-1">
+                                                        {module.description}
+                                                    </p>
+                                                )}
+                                            </div>
+                                            <ul className="divide-y divide-foreground/10">
+                                                {module.lessons
+                                                    ?.sort((a: any, b: any) => a.order_index - b.order_index)
+                                                    .map((lesson: any, lessonIndex: number) => (
+                                                        <li key={lesson.id} className="px-6 py-3 flex items-center justify-between hover:bg-muted/20 transition-colors">
+                                                            <span className="flex items-center gap-3">
+                                                                <span className="text-muted-foreground text-sm font-mono">
+                                                                    {moduleIndex + 1}.{lessonIndex + 1}
+                                                                </span>
+                                                                <span>{lesson.title}</span>
+                                                            </span>
+                                                            {lesson.duration_minutes && (
+                                                                <span className="text-xs text-muted-foreground">
+                                                                    {lesson.duration_minutes} min
+                                                                </span>
+                                                            )}
+                                                        </li>
+                                                    ))}
+                                            </ul>
+                                        </div>
+                                    ))}
+                            </div>
+                        ) : (
+                            <div className="text-muted-foreground italic">
+                                {t('no_content')}
+                            </div>
+                        )}
 
                         <hr className="border-white/10" />
 

@@ -124,8 +124,8 @@ export function LessonNavigation({
                     onClick={markAsComplete}
                     disabled={isCompleted || isMarkingComplete}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base ${isCompleted
-                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 border-2 border-green-600'
-                            : 'bg-primary text-primary-foreground hover:bg-primary/90 border-2 border-black dark:border-white'
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 border-2 border-green-600'
+                        : 'bg-primary text-primary-foreground hover:bg-primary/90 border-2 border-black dark:border-white'
                         }`}
                 >
                     {isMarkingComplete ? (
@@ -138,7 +138,7 @@ export function LessonNavigation({
                     ) : (
                         <>
                             <Check className="w-4 h-4" />
-                            <span className="hidden sm:inline">{t('markComplete')}</span>
+                            <span className="hidden sm:inline">{t('mark_complete')}</span>
                         </>
                     )}
                 </button>
