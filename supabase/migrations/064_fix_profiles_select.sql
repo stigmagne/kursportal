@@ -4,7 +4,9 @@
 -- This breaks admin role checks since profiles can't be queried.
 
 -- Re-create a SELECT policy for profiles so role checks work
-CREATE POLICY IF NOT EXISTS "Users can view profiles" ON profiles
+DROP POLICY IF EXISTS "Users can view profiles" ON profiles;
+DROP POLICY IF EXISTS "Public profiles are viewable by everyone" ON profiles;
+CREATE POLICY "Users can view profiles" ON profiles
     FOR SELECT USING (true);
 
 -- Also ensure lessons has proper SELECT for authorized users
