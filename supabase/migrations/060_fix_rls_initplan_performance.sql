@@ -80,7 +80,11 @@ CREATE POLICY "Users can view own results" ON assessment_results
 DROP POLICY IF EXISTS "Users can view own recommendations" ON assessment_recommendations;
 CREATE POLICY "Users can view own recommendations" ON assessment_recommendations
     FOR SELECT USING (
-        EXISTS (SELECT 1 FROM assessment_results ar WHERE ar.id = assessment_recommendations.result_id AND ar.user_id = (select auth.uid()))
+        EXISTS (
+            SELECT 1 FROM assessment_sessions 
+            WHERE id = assessment_recommendations.session_id 
+            AND user_id = (select auth.uid())
+        )
     );
 
 DROP POLICY IF EXISTS "Admins can manage all assessment data" ON assessment_types;
