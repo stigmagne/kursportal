@@ -12,6 +12,11 @@ interface LessonViewerProps {
 export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
     const contentBlocks = lesson.lesson_content?.sort((a: any, b: any) => a.order_index - b.order_index) || [];
 
+    // Check if lesson has direct content (markdown string from migrations)
+    const hasDirectContent = lesson.content && lesson.content.trim().length > 0;
+    // Check if lesson has content blocks (from lesson_content table)
+    const hasContentBlocks = contentBlocks.length > 0;
+
     return (
         <div className="max-w-4xl mx-auto px-6 py-8">
             {/* Lesson Header */}
@@ -27,13 +32,20 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
                 )}
             </div>
 
-            {/* Content Blocks */}
-            {contentBlocks.length === 0 ? (
+            {/* Direct Content (from lessons.content column) */}
+            {hasDirectContent && (
+                <div className="prose dark:prose-invert max-w-none mb-8">
+                    <ReactMarkdown>{lesson.content}</ReactMarkdown>
+                </div>
+            )}
+
+            {/* Content Blocks (from lesson_content table) */}
+            {!hasDirectContent && !hasContentBlocks ? (
                 <div className="text-center py-12 text-muted-foreground">
                     <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
                     <p>No content available for this lesson yet.</p>
                 </div>
-            ) : (
+            ) : hasContentBlocks && (
                 <div className="space-y-8">
                     {contentBlocks.map((block: any) => (
                         <div key={block.id} className="content-block">
