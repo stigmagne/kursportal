@@ -11,17 +11,14 @@ UPDATE lessons
 SET content = regexp_replace(content, '❌\s*', '✗ ', 'g')
 WHERE content LIKE '%❌%';
 
--- Also update any lesson_content blocks if they exist
+-- Also update any lesson_content blocks (text_content column)
 UPDATE lesson_content
-SET data = regexp_replace(data::text, '✅', '✓', 'g')::jsonb
-WHERE data::text LIKE '%✅%';
+SET text_content = regexp_replace(text_content, '✅', '✓', 'g')
+WHERE text_content LIKE '%✅%';
 
 UPDATE lesson_content
-SET data = regexp_replace(data::text, '❌', '✗', 'g')::jsonb
-WHERE data::text LIKE '%❌%';
-
--- Update journal_tools if they use emojis (optional - for icon column)
--- Skip this as icons may need different handling
+SET text_content = regexp_replace(text_content, '❌', '✗', 'g')
+WHERE text_content LIKE '%❌%';
 
 -- Success message
 DO $$
