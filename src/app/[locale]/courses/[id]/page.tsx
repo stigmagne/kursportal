@@ -45,50 +45,50 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
 
     // Check access if course has group restriction
     let hasAccess = true;
-    if (courseGroupNames.length > 0) {
-        // Get user profile with group assignments and role
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select(`
-                user_type,
-                role,
-                user_groups(
-                    group_id,
-                    groups(id, name)
-                )
-            `)
-            .eq('id', user.id)
-            .single();
 
-        // Admins always have access - skip assessment check
-        console.log('Course access check - role:', profile?.role);
-        if (profile?.role === 'admin') {
-            console.log('Admin detected - granting access');
-            hasAccess = true;
-        } else {
-            // Get the user's group names
-            const userGroupNames = profile?.user_groups?.map((ug: any) => ug.groups?.name).filter(Boolean) || [];
+    // Always check if user is admin first (before any group restrictions)
+    const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('role, user_type')
+        .eq('id', user.id)
+        .single();
 
-            // Check completed assessments
-            const { data: completedAssessments } = await supabase
-                .from('assessment_sessions')
-                .select('assessment_type:assessment_types(target_group)')
-                .eq('user_id', user.id)
-                .eq('status', 'completed');
+    console.log('Profile query result:', { profile, profileError, userId: user.id });
 
-            const completedTypes = completedAssessments?.map(
-                (a: any) => a.assessment_type?.target_group
-            ).filter(Boolean) || [];
+    // Admins always have full access regardless of course groups
+    const isAdmin = profile?.role === 'admin';
+    console.log('Is admin:', isAdmin);
 
-            // User has access if:
-            // 1. User type is 'both', OR
-            // 2. User belongs to one of the course's groups, OR
-            // 3. User has completed an assessment for one of the course's groups
-            hasAccess =
-                profile?.user_type === 'both' ||
-                courseGroupNames.some((groupName: string) => userGroupNames.includes(groupName)) ||
-                courseGroupNames.some((groupName: string) => completedTypes.includes(groupName));
-        }
+    if (isAdmin) {
+        hasAccess = true;
+    } else if (courseGroupNames.length > 0) {
+        // Get user's groups for non-admin users
+        const { data: userGroupsData } = await supabase
+            .from('user_groups')
+            .select('groups(name)')
+            .eq('user_id', user.id);
+
+        const userGroupNames = userGroupsData?.map((ug: any) => ug.groups?.name).filter(Boolean) || [];
+
+        // Check completed assessments
+        const { data: completedAssessments } = await supabase
+            .from('assessment_sessions')
+            .select('assessment_type:assessment_types(target_group)')
+            .eq('user_id', user.id)
+            .eq('status', 'completed');
+
+        const completedTypes = completedAssessments?.map(
+            (a: any) => a.assessment_type?.target_group
+        ).filter(Boolean) || [];
+
+        // User has access if:
+        // 1. User type is 'both', OR
+        // 2. User belongs to one of the course's groups, OR
+        // 3. User has completed an assessment for one of the course's groups
+        hasAccess =
+            profile?.user_type === 'both' ||
+            courseGroupNames.some((groupName: string) => userGroupNames.includes(groupName)) ||
+            courseGroupNames.some((groupName: string) => completedTypes.includes(groupName));
     }
 
     // If no access, show blocked page
