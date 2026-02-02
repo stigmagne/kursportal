@@ -41,7 +41,7 @@ CREATE POLICY "Admins can view all courses" ON courses
 DROP POLICY IF EXISTS "Users can view accessible published courses" ON courses;
 CREATE POLICY "Users can view accessible published courses" ON courses
     FOR SELECT USING (
-        is_published = true
+        published = true
         AND EXISTS (
             SELECT 1 FROM course_groups cg
             JOIN user_groups ug ON cg.group_id = ug.group_id
