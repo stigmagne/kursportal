@@ -201,7 +201,7 @@ FROM module, (VALUES
 - Beskriver virkning, ikke intensjon
 
 ### Eksempel:
-❌ "Du er alltid så dominant i møter"
+✗ "Du er alltid så dominant i møter"
 ✓ "I standup i dag, da du svarte for Kari tre ganger, la jeg merke til at hun sluttet å bidra."', 
      1, 12),
     ('Positiv Feedback Først', 

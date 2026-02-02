@@ -125,8 +125,8 @@ Ikke alle mål er like motiverende.
 - **Tidsbestemt**: Når skal det være ferdig?
 
 ### Eksempel
-❌ "Jeg vil ha en bedre jobb"
-✅ "Innen desember vil jeg ha søkt på 10 stillinger innen [felt] og vært på minst 3 intervjuer"
+✗ "Jeg vil ha en bedre jobb"
+✓ "Innen desember vil jeg ha søkt på 10 stillinger innen [felt] og vært på minst 3 intervjuer"
 
 ### Langsiktig og Kortsiktig
 - 5-års visjon: Hvor vil du være?

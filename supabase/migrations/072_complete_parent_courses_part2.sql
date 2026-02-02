@@ -252,8 +252,8 @@ Det friske barnet kan bli misunnelig på oppmerksomheten søskenet får.
 ### Hvordan Respondere
 
 **Ikke avvis:**
-❌ "Du vet jo at vi elsker dere like mye"
-✅ "Jeg hører at du føler deg oversett. Fortell meg mer."
+✗ "Du vet jo at vi elsker dere like mye"
+✓ "Jeg hører at du føler deg oversett. Fortell meg mer."
 
 **Anerkjenn virkeligheten:**
 "Du har rett i at vi bruker mye tid på [søsken]. Det må være vanskelig for deg."

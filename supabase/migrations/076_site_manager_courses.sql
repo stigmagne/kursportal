@@ -341,10 +341,10 @@ En vanlig misforståelse er at forsikringen dekker feil.
 ### Eksempler
 | Hendelse | Forsikring? |
 |----------|-------------|
-| Vannlekkasje skader naboens leilighet | ✅ Ja |
-| Du må rive og gjøre om et bad | ❌ Nei |
-| Feilmontert kjøkken må rettes | ❌ Nei |
-| Mangelfullt arbeid reklameres | ❌ Nei |
+| Vannlekkasje skader naboens leilighet | ✓ Ja |
+| Du må rive og gjøre om et bad | ✗ Nei |
+| Feilmontert kjøkken må rettes | ✗ Nei |
+| Mangelfullt arbeid reklameres | ✗ Nei |
 
 > "Forsikringen beskytter mot uhell. Den beskytter ikke mot dårlig arbeid."', 
      1, 12),
@@ -739,9 +739,9 @@ Et tiltak uten navn er bare en god intensjon.
 
 ### Eksempel
 
-❌ "Vi skal bli bedre på å sjekke tegninger"
+✗ "Vi skal bli bedre på å sjekke tegninger"
 
-✅ "Pål gjennomgår tegninger med teamet hver mandag kl 07:30. Start neste uke. Evaluering etter 4 uker."
+✓ "Pål gjennomgår tegninger med teamet hver mandag kl 07:30. Start neste uke. Evaluering etter 4 uker."
 
 > "Et tiltak uten eier, er et tiltak som dør."', 
      1, 12),

@@ -286,10 +286,10 @@ Forskning viser at barn ofte vet at noe er galt, selv uten å bli fortalt. Mange
 - Gir dem mulighet til å bearbeide
 
 ### Myter vs. Realitet:
-❌ "Barn bør beskyttes fra sannheten"
+✗ "Barn bør beskyttes fra sannheten"
 ✓ "Barn trenger aldersriktig sannhet"
 
-❌ "Det vil bare bekymre dem mer"
+✗ "Det vil bare bekymre dem mer"
 ✓ "Uvisshet bekymrer mer enn fakta"', 
      1, 12),
     ('Kommunikasjon per Alder', 

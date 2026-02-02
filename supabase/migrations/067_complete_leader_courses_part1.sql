@@ -175,10 +175,10 @@ Når du viser sårbarhet:
 
 | Situasjon | Åpent med teamet? |
 |-----------|-------------------|
-| "Jeg gjorde en feil i prosjektet" | ✅ Ja |
-| "Jeg er usikker på min fremtid her" | ❌ Nei |
-| "Jeg lærer fortsatt dette" | ✅ Ja |
-| "Ledelsen driver meg til vanvidd" | ❌ Nei |
+| "Jeg gjorde en feil i prosjektet" | ✓ Ja |
+| "Jeg er usikker på min fremtid her" | ✗ Nei |
+| "Jeg lærer fortsatt dette" | ✓ Ja |
+| "Ledelsen driver meg til vanvidd" | ✗ Nei |
 
 ### Hovedregel
 Del det som gjør deg menneskelig uten å skape usikkerhet om din evne til å lede.

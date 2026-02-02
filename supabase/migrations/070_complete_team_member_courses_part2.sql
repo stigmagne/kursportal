@@ -488,8 +488,8 @@ Samme prosess, men fokus på systemet, ikke individer. "Hvordan sviktet systemet
 - **Fremover**: Fokus på hva du lærte
 
 ### Eksempel
-❌ "Jeg rotet det til igjen, jeg er elendig"
-✅ "Jeg gjorde en feil med X. Det jeg lærte var at Y. Neste gang vil jeg Z."
+✗ "Jeg rotet det til igjen, jeg er elendig"
+✓ "Jeg gjorde en feil med X. Det jeg lærte var at Y. Neste gang vil jeg Z."
 
 ### Når Ikke Dele
 - Når det involverer andres konfidensielle info

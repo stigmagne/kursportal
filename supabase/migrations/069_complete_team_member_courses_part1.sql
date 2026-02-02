@@ -407,8 +407,8 @@ Uklar kommunikasjon skaper misforståelser, frustrasjon og ekstraarbeid.
 
 ### Klar Kommunikasjon
 **Vær spesifikk:**
-- ❌ "Vi trenger å gjøre noe med det"
-- ✅ "Kan du oppdatere rapporten innen torsdag?"
+- ✗ "Vi trenger å gjøre noe med det"
+- ✓ "Kan du oppdatere rapporten innen torsdag?"
 
 **Si det viktigste først:**
 - Start med poenget, utdyp etterpå

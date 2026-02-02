@@ -272,9 +272,9 @@ FROM module, (VALUES
 Som søsken har du kanskje lært å sette egne behov til side. Dette kurset handler om å ta tilbake stemmen din.
 
 ### Vanlige Myter hos Søsken:
-- ❌ "Mine problemer er ingenting sammenlignet med..."
-- ❌ "Det er ikke plass til mine behov"
-- ❌ "Jeg burde bare være takknemlig"
+- ✗ "Mine problemer er ingenting sammenlignet med..."
+- ✗ "Det er ikke plass til mine behov"
+- ✗ "Jeg burde bare være takknemlig"
 
 ### Sannheten:
 - ✓ Dine behov er like gyldige som andres
@@ -297,10 +297,10 @@ Skriv ned tre behov du har som du ikke har uttrykt. Bare å anerkjenne dem er f�
 "Når [situasjon], føler jeg [følelse], fordi [grunn]. Jeg trenger/ønsker [behov]."
 
 ### Eksempler:
-❌ "Du bryr deg aldri om meg!"
+✗ "Du bryr deg aldri om meg!"
 ✓ "Når alle samtaler handler om Marias behandling, føler jeg meg usynlig, fordi jeg også har ting jeg trenger å snakke om. Jeg skulle ønske vi hadde tid til å snakke om mitt liv også."
 
-❌ "Du forventer alltid at jeg skal hjelpe!"
+✗ "Du forventer alltid at jeg skal hjelpe!"
 ✓ "Når jeg blir bedt om å hjelpe uten å bli spurt først, føler jeg meg tatt for gitt. Jeg trenger å bli spurt, ikke fortalt."
 
 ### Øvelse

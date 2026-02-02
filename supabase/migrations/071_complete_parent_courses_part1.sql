@@ -75,14 +75,14 @@ Søsken kan ha "forbudte" følelser:
 - Lettelse når søskenet er borte
 
 ### Vanlige Feil
-❌ "Du må ikke være sint på bror din"
-❌ "Du vet jo at vi elsker dere like mye"
-❌ "Du burde være takknemlig for at du er frisk"
+✗ "Du må ikke være sint på bror din"
+✗ "Du vet jo at vi elsker dere like mye"
+✗ "Du burde være takknemlig for at du er frisk"
 
 ### Validerende Respons
-✅ "Det høres ut som du føler deg sint. Det er forståelig."
-✅ "Det må være vanskelig når vi er så mye borte med søsteren din."
-✅ "Det er lov å ønske at ting var annerledes."
+✓ "Det høres ut som du føler deg sint. Det er forståelig."
+✓ "Det må være vanskelig når vi er så mye borte med søsteren din."
+✓ "Det er lov å ønske at ting var annerledes."
 
 ### Hovedregel
 Anerkjenn følelsen først. Løsninger og perspektiv kommer etterpå.
@@ -228,8 +228,8 @@ I stressende perioder bryter kommunikasjonen ofte sammen.
 ### Mot Sunnere Kommunikasjon
 
 **Bruk jeg-språk:**
-- ❌ "Du er aldri tilstede"
-- ✅ "Jeg føler meg alene med dette"
+- ✗ "Du er aldri tilstede"
+- ✓ "Jeg føler meg alene med dette"
 
 **Ta timeout ved opptrapping:**
 - "Jeg trenger en pause. Kan vi snakkes om en time?"
