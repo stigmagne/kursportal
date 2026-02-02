@@ -1,7 +1,7 @@
 'use client';
 
 import ReactMarkdown from 'react-markdown';
-import { FileText, Download } from 'lucide-react';
+import { FileText, Download, PlayCircle, BookOpen, LightbulbIcon, MessageSquare } from 'lucide-react';
 import QuizTaker from './QuizTaker';
 
 interface LessonViewerProps {
@@ -18,90 +18,159 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
     const hasContentBlocks = contentBlocks.length > 0;
 
     return (
-        <div className="max-w-4xl mx-auto px-6 py-8">
-            {/* Lesson Header */}
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold mb-2">{lesson.title}</h1>
-                {lesson.description && (
-                    <p className="text-muted-foreground">{lesson.description}</p>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+            {/* Lesson Header Card */}
+            <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent 
+                            border-2 border-black dark:border-white rounded-lg p-6 mb-8">
+                <div className="flex items-start gap-4">
+                    <div className="p-3 bg-primary/20 rounded-lg">
+                        <BookOpen className="w-6 h-6 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                        <h1 className="text-2xl sm:text-3xl font-bold mb-2">{lesson.title}</h1>
+                        {lesson.description && (
+                            <p className="text-muted-foreground text-sm sm:text-base">{lesson.description}</p>
+                        )}
+                        {lesson.duration_minutes && (
+                            <div className="flex items-center gap-2 mt-3 text-sm text-muted-foreground">
+                                <div className="flex items-center gap-1.5 bg-muted px-3 py-1 rounded-full">
+                                    <span>⏱️</span>
+                                    <span>{lesson.duration_minutes} minutt</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Video Placeholder (for future video content) */}
+            {lesson.video_url ? (
+                <div className="mb-8 rounded-lg overflow-hidden border-2 border-black dark:border-white">
+                    {lesson.video_url.includes('youtube.com') || lesson.video_url.includes('youtu.be') ? (
+                        <iframe
+                            src={lesson.video_url.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')}
+                            className="w-full aspect-video"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        />
+                    ) : (
+                        <video src={lesson.video_url} controls className="w-full aspect-video" />
+                    )}
+                </div>
+            ) : (
+                /* Video placeholder for lessons without video */
+                <div className="mb-8 bg-muted/30 border-2 border-dashed border-muted-foreground/30 
+                                rounded-lg p-8 flex flex-col items-center justify-center text-center">
+                    <PlayCircle className="w-12 h-12 text-muted-foreground/50 mb-3" />
+                    <p className="text-sm text-muted-foreground">Video kjem snart</p>
+                </div>
+            )}
+
+            {/* Main Content Section */}
+            <div className="space-y-8">
+                {/* Direct Content (from lessons.content column) */}
+                {hasDirectContent && (
+                    <div className="bg-background border-2 border-black dark:border-white rounded-lg p-6 sm:p-8">
+                        <div className="prose dark:prose-invert prose-headings:font-bold 
+                                        prose-h2:text-xl prose-h2:border-b-2 prose-h2:border-primary/30 prose-h2:pb-2 prose-h2:mb-4
+                                        prose-h3:text-lg prose-h3:text-primary
+                                        prose-ul:list-disc prose-ul:pl-5
+                                        prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic
+                                        prose-strong:text-primary
+                                        max-w-none">
+                            <ReactMarkdown>{lesson.content}</ReactMarkdown>
+                        </div>
+                    </div>
                 )}
-                {lesson.duration_minutes && (
-                    <p className="text-sm text-muted-foreground mt-2">
-                        ⏱️ Estimated time: {lesson.duration_minutes} minutes
-                    </p>
+
+                {/* Content Blocks (from lesson_content table) */}
+                {!hasDirectContent && !hasContentBlocks ? (
+                    <div className="text-center py-16 border-2 border-dashed border-muted-foreground/30 rounded-lg">
+                        <FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground/50" />
+                        <p className="text-muted-foreground">Ikkje noko innhald tilgjengeleg enno.</p>
+                    </div>
+                ) : hasContentBlocks && (
+                    <div className="space-y-6">
+                        {contentBlocks.map((block: any) => (
+                            <div key={block.id} className="content-block">
+                                {block.type === 'text' && block.text_content && (
+                                    <div className="bg-background border-2 border-black dark:border-white rounded-lg p-6 sm:p-8">
+                                        <div className="prose dark:prose-invert max-w-none">
+                                            <ReactMarkdown>{block.text_content}</ReactMarkdown>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {block.type === 'video' && block.video_url && (
+                                    <div className="rounded-lg overflow-hidden border-2 border-black dark:border-white">
+                                        {block.video_url.includes('youtube.com') || block.video_url.includes('youtu.be') ? (
+                                            <iframe
+                                                src={block.video_url.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')}
+                                                className="w-full aspect-video"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                            />
+                                        ) : block.video_url.includes('vimeo.com') ? (
+                                            <iframe
+                                                src={block.video_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
+                                                className="w-full aspect-video"
+                                                allow="autoplay; fullscreen; picture-in-picture"
+                                                allowFullScreen
+                                            />
+                                        ) : (
+                                            <video src={block.video_url} controls className="w-full aspect-video" />
+                                        )}
+                                    </div>
+                                )}
+
+                                {block.type === 'file' && block.file_url && (
+                                    <a
+                                        href={block.file_url}
+                                        download={block.file_name}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-4 p-4 bg-background border-2 border-black dark:border-white 
+                                                   rounded-lg hover:bg-muted transition-colors group"
+                                    >
+                                        <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
+                                            <Download className="w-6 h-6 text-primary" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="font-medium">{block.file_name || 'Last ned fil'}</p>
+                                            <p className="text-sm text-muted-foreground">Klikk for å laste ned</p>
+                                        </div>
+                                    </a>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Key Takeaways Section */}
+                {hasDirectContent && (
+                    <div className="bg-gradient-to-r from-amber-500/10 to-amber-500/5 
+                                    border-2 border-amber-500/50 rounded-lg p-6">
+                        <div className="flex items-start gap-3">
+                            <LightbulbIcon className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" />
+                            <div>
+                                <h3 className="font-bold text-amber-700 dark:text-amber-400 mb-2">Hugs dette 💡</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    Ta deg tid til å reflektere over det du har lært. Korleis kan du bruke dette i din kvardag?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
 
-            {/* Direct Content (from lessons.content column) */}
-            {hasDirectContent && (
-                <div className="prose dark:prose-invert max-w-none mb-8">
-                    <ReactMarkdown>{lesson.content}</ReactMarkdown>
-                </div>
-            )}
-
-            {/* Content Blocks (from lesson_content table) */}
-            {!hasDirectContent && !hasContentBlocks ? (
-                <div className="text-center py-12 text-muted-foreground">
-                    <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                    <p>No content available for this lesson yet.</p>
-                </div>
-            ) : hasContentBlocks && (
-                <div className="space-y-8">
-                    {contentBlocks.map((block: any) => (
-                        <div key={block.id} className="content-block">
-                            {block.type === 'text' && block.text_content && (
-                                <div className="prose dark:prose-invert max-w-none">
-                                    <ReactMarkdown>{block.text_content}</ReactMarkdown>
-                                </div>
-                            )}
-
-                            {block.type === 'video' && block.video_url && (
-                                <div className="rounded-lg overflow-hidden bg-black">
-                                    {block.video_url.includes('youtube.com') || block.video_url.includes('youtu.be') ? (
-                                        <iframe
-                                            src={block.video_url.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')}
-                                            className="w-full aspect-video"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen
-                                        />
-                                    ) : block.video_url.includes('vimeo.com') ? (
-                                        <iframe
-                                            src={block.video_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
-                                            className="w-full aspect-video"
-                                            allow="autoplay; fullscreen; picture-in-picture"
-                                            allowFullScreen
-                                        />
-                                    ) : (
-                                        <video src={block.video_url} controls className="w-full aspect-video" />
-                                    )}
-                                </div>
-                            )}
-
-                            {block.type === 'file' && block.file_url && (
-                                <a
-                                    href={block.file_url}
-                                    download={block.file_name}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-4 p-4 rounded-lg border border-border hover:bg-muted transition-colors"
-                                >
-                                    <div className="p-3 rounded-lg bg-primary/10 text-primary">
-                                        <Download className="w-6 h-6" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="font-medium">{block.file_name || 'Download File'}</p>
-                                        <p className="text-sm text-muted-foreground">Click to download</p>
-                                    </div>
-                                </a>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            )}
-
             {/* Quiz Section */}
-            <div className="mt-12 pt-8 border-t border-border">
-                <h2 className="text-2xl font-bold mb-6">📝 Quiz</h2>
+            <div className="mt-12 pt-8 border-t-2 border-black dark:border-white">
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                        <MessageSquare className="w-5 h-5 text-primary" />
+                    </div>
+                    <h2 className="text-xl font-bold">Quiz</h2>
+                </div>
                 <QuizTaker lessonId={lesson.id} userId={userId} />
             </div>
         </div>
