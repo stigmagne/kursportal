@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Plus, GripVertical, Pencil, Trash2, ChevronDown, ChevronRight } from 'lucide-react';
 import LessonManager from './LessonManager';
@@ -27,11 +27,16 @@ export default function ModuleManager({ courseId }: { courseId: string }) {
     const t = useTranslations('CourseEditor');
     const [modules, setModules] = useState<Module[]>([]);
     const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [editingModule, setEditingModule] = useState<string | null>(null);
     const [newModuleTitle, setNewModuleTitle] = useState('');
     const [draggedModule, setDraggedModule] = useState<string | null>(null);
     const supabase = createClient();
+
+    // Auto-fetch modules on mount
+    useEffect(() => {
+        fetchModules();
+    }, [courseId]);
 
     const reorderModules = async (newOrder: Module[]) => {
         setModules(newOrder);
@@ -75,17 +80,22 @@ export default function ModuleManager({ courseId }: { courseId: string }) {
     };
 
     const fetchModules = async () => {
-        const { data: modulesData } = await supabase
-            .from('course_modules')
-            .select(`
-                *,
-                lessons (*)
-            `)
-            .eq('course_id', courseId)
-            .order('order_index');
+        setIsLoading(true);
+        try {
+            const { data: modulesData } = await supabase
+                .from('course_modules')
+                .select(`
+                    *,
+                    lessons (*)
+                `)
+                .eq('course_id', courseId)
+                .order('order_index');
 
-        if (modulesData) {
-            setModules(modulesData as Module[]);
+            if (modulesData) {
+                setModules(modulesData as Module[]);
+            }
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -195,7 +205,11 @@ export default function ModuleManager({ courseId }: { courseId: string }) {
 
             {/* Module List */}
             <div className="space-y-2">
-                {modules.length === 0 ? (
+                {isLoading ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                        <p>Laster moduler...</p>
+                    </div>
+                ) : modules.length === 0 ? (
                     <div className="text-center py-8 text-muted-foreground">
                         <p>{t('modules.empty')}</p>
                     </div>

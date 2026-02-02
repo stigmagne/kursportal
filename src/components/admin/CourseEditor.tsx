@@ -405,33 +405,36 @@ export default function CourseEditor({ courseId }: { courseId?: string }) {
                                 Velg hvem dette kurset er ment for. Dette styrer hvem som har tilgang til kurset.
                             </p>
 
-                            <div className="grid gap-3 md:grid-cols-2">
-                                {['søsken', 'foreldre', 'helsepersonell'].map((group) => (
+                            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                                {[
+                                    { value: 'sibling', label: 'Søsken', desc: 'For voksne søsken' },
+                                    { value: 'parent', label: 'Foreldre', desc: 'For foreldre/foresatte' },
+                                    { value: 'team-member', label: 'Teammedlem', desc: 'For ansatte i team' },
+                                    { value: 'team-leader', label: 'Teamleder', desc: 'For ledere og mellomledere' },
+                                    { value: 'construction_worker', label: 'Håndverker', desc: 'For fagarbeidere i bygg' },
+                                    { value: 'site_manager', label: 'Bas/Byggeleder', desc: 'For byggledelse' },
+                                ].map((group) => (
                                     <button
-                                        key={group}
+                                        key={group.value}
                                         onClick={() => {
                                             setSelectedUserCategories(prev =>
-                                                prev.includes(group)
-                                                    ? prev.filter(g => g !== group)
-                                                    : [...prev, group]
+                                                prev.includes(group.value)
+                                                    ? prev.filter(g => g !== group.value)
+                                                    : [...prev, group.value]
                                             );
                                         }}
-                                        className={`p-4 rounded-lg border-2 transition-all text-left ${selectedUserCategories.includes(group)
-                                            ? 'border-primary bg-primary/10'
-                                            : 'border-border hover:border-primary/50'
+                                        className={`p-4 border-2 transition-all text-left ${selectedUserCategories.includes(group.value)
+                                            ? 'border-primary bg-primary/10 shadow-[2px_2px_0_0_#000] dark:shadow-[2px_2px_0_0_#fff]'
+                                            : 'border-black/30 dark:border-white/30 hover:border-black dark:hover:border-white'
                                             }`}
                                     >
                                         <div className="flex items-center gap-3">
                                             <div className="flex-1">
-                                                <h4 className="font-medium capitalize">{group}</h4>
-                                                <p className="text-xs text-muted-foreground">
-                                                    {group === 'søsken' && 'For søsken av pasienter'}
-                                                    {group === 'foreldre' && 'For foreldre/foresatte'}
-                                                    {group === 'helsepersonell' && 'For ansatte i helsevesenet'}
-                                                </p>
+                                                <h4 className="font-bold">{group.label}</h4>
+                                                <p className="text-xs text-muted-foreground">{group.desc}</p>
                                             </div>
-                                            {selectedUserCategories.includes(group) && (
-                                                <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center shrink-0">
+                                            {selectedUserCategories.includes(group.value) && (
+                                                <div className="w-5 h-5 bg-primary flex items-center justify-center shrink-0">
                                                     <svg className="w-3 h-3 text-primary-foreground" fill="currentColor" viewBox="0 0 20 20">
                                                         <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
                                                     </svg>
