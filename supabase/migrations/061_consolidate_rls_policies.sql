@@ -329,15 +329,4 @@ CREATE POLICY "Admins can manage lessons" ON lessons
 DROP POLICY IF EXISTS "Anyone can read profiles" ON profiles;
 -- Keep "Public profiles are viewable by everyone"
 
--- ============================================================================
--- GRUPPE 7: user_achievements - if exists
--- ============================================================================
-
-DROP POLICY IF EXISTS "Admins can manage achievements" ON user_achievements;
-CREATE POLICY "Admins can manage achievements" ON user_achievements
-    FOR ALL USING (
-        EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND role = 'admin')
-    )
-    WITH CHECK (
-        EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND role = 'admin')
-    );
+-- End of migration
