@@ -282,6 +282,11 @@ Alle kryptert med AES-256-GCM (zero-knowledge).
 - [ ] **Tilgjengelighet (a11y)**: WCAG 2.1 AA compliance-gjennomgang
 - [ ] **Performance-optimalisering**: Lazy loading av moduler
 
+### UI/UX Forbedringer
+
+- [ ] **Profilside badges**: Erstatte emojis med Lucide-ikoner på `/profile`-siden
+- [ ] **Profilside styling**: Oppdatere knapper og rammer i Oversikt-seksjonen til neo-brutalist design
+
 ### Innholdsforbedringer
 
 - [ ] **Flere quizer**: Quiz for hver modul, ikke bare hvert kurs
