@@ -184,12 +184,12 @@ export default async function AdminDashboard() {
                                 <BookOpen className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                             </Link>
                             <Link
-                                href="/admin/categories"
+                                href="/admin/tags"
                                 className="p-4 rounded-lg bg-card hover:bg-muted transition-colors border border-border flex justify-between items-center group"
                             >
                                 <div>
-                                    <span className="font-medium">{t('quick_actions.manage_categories')}</span>
-                                    <p className="text-xs text-muted-foreground mt-1">{t('quick_actions.manage_categories_desc')}</p>
+                                    <span className="font-medium">{t('quick_actions.manage_tags')}</span>
+                                    <p className="text-xs text-muted-foreground mt-1">{t('quick_actions.manage_tags_desc')}</p>
                                 </div>
                                 <Activity className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                             </Link>

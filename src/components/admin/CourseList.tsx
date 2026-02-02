@@ -10,16 +10,25 @@ import { useTranslations } from 'next-intl';
 
 type CourseStatus = 'active' | 'paused' | 'archived' | 'legacy';
 
-// Dynamic group from the groups table
-interface Group {
-    id: string;
-    name: string;
-}
+// Target group labels for display
+const TARGET_GROUP_LABELS: Record<string, string> = {
+    'sibling': 'Søsken',
+    'parent': 'Foreldre',
+    'team-member': 'Teammedlem',
+    'team-leader': 'Teamleder',
+    'construction_worker': 'Håndverker',
+    'site_manager': 'Bas/Byggeleder',
+};
 
-interface CourseGroup {
-    group_id: string;
-    groups: Group | null;
-}
+// Color rotation for groups
+const GROUP_COLORS = [
+    'bg-blue-100 text-blue-800 border-blue-800 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-400',
+    'bg-purple-100 text-purple-800 border-purple-800 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-400',
+    'bg-teal-100 text-teal-800 border-teal-800 dark:bg-teal-900/30 dark:text-teal-400 dark:border-teal-400',
+    'bg-amber-100 text-amber-800 border-amber-800 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-400',
+    'bg-green-100 text-green-800 border-green-800 dark:bg-green-900/30 dark:text-green-400 dark:border-green-400',
+    'bg-rose-100 text-rose-800 border-rose-800 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-400'
+];
 
 interface Course {
     id: string;
@@ -27,18 +36,8 @@ interface Course {
     published: boolean;
     status?: CourseStatus;
     created_at: string;
-    course_groups?: CourseGroup[];
+    target_groups?: string[];
 }
-
-// Color rotation for dynamic groups
-const GROUP_COLORS = [
-    'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-    'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
-    'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-400',
-    'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
-    'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-    'bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400'
-];
 
 export default function CourseList({ initialCourses }: { initialCourses: Course[] }) {
     const t = useTranslations('AdminCourses');
@@ -57,27 +56,27 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
     const filteredCourses = useMemo(() => {
         if (selectedGroup === 'all') return courses;
         return courses.filter(course =>
-            course.course_groups?.some(cg => cg.group_id === selectedGroup)
+            course.target_groups?.includes(selectedGroup)
         );
     }, [courses, selectedGroup]);
 
-    // Get unique groups for filter with their names
+    // Get unique groups for filter
     const availableGroups = useMemo(() => {
-        const groupMap = new Map<string, string>(); // id -> name
+        const groupSet = new Set<string>();
         courses.forEach(course => {
-            course.course_groups?.forEach(cg => {
-                if (cg.groups?.id && cg.groups?.name) {
-                    groupMap.set(cg.groups.id, cg.groups.name);
-                }
-            });
+            course.target_groups?.forEach(group => groupSet.add(group));
         });
-        return Array.from(groupMap.entries()).map(([id, name]) => ({ id, name }));
+        return Array.from(groupSet).map(value => ({
+            value,
+            label: TARGET_GROUP_LABELS[value] || value
+        }));
     }, [courses]);
 
-    // Get color for a group (based on index)
-    const getGroupColor = (groupId: string) => {
-        const index = availableGroups.findIndex(g => g.id === groupId);
-        return GROUP_COLORS[index % GROUP_COLORS.length];
+    // Get color for a group
+    const getGroupColor = (groupValue: string) => {
+        const allGroupKeys = Object.keys(TARGET_GROUP_LABELS);
+        const index = allGroupKeys.indexOf(groupValue);
+        return GROUP_COLORS[index >= 0 ? index % GROUP_COLORS.length : 0];
     };
 
     const handleDelete = async (id: string, title: string) => {
@@ -170,22 +169,20 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
     };
 
     const getGroupBadges = (course: Course) => {
-        if (!course.course_groups || course.course_groups.length === 0) {
+        if (!course.target_groups || course.target_groups.length === 0) {
             return (
                 <span className="text-xs text-muted-foreground italic">Ingen gruppe</span>
             );
         }
         return (
             <div className="flex flex-wrap gap-1">
-                {course.course_groups.map((cg, idx) => (
-                    cg.groups && (
-                        <span
-                            key={idx}
-                            className={`inline-flex items-center px-2 py-0.5 rounded-none border text-xs font-medium ${getGroupColor(cg.group_id)}`}
-                        >
-                            {cg.groups.name}
-                        </span>
-                    )
+                {course.target_groups.map((group, idx) => (
+                    <span
+                        key={idx}
+                        className={`inline-flex items-center px-2 py-0.5 rounded-none border text-xs font-medium ${getGroupColor(group)}`}
+                    >
+                        {TARGET_GROUP_LABELS[group] || group}
+                    </span>
                 ))}
             </div>
         );
@@ -208,18 +205,18 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
                     </button>
                     {availableGroups.map(group => {
                         const count = courses.filter(c =>
-                            c.course_groups?.some(cg => cg.group_id === group.id)
+                            c.target_groups?.includes(group.value)
                         ).length;
                         return (
                             <button
-                                key={group.id}
-                                onClick={() => setSelectedGroup(group.id)}
-                                className={`px-3 py-1.5 rounded-none border-2 border-black dark:border-white text-xs font-medium transition-colors ${selectedGroup === group.id
-                                    ? getGroupColor(group.id)
+                                key={group.value}
+                                onClick={() => setSelectedGroup(group.value)}
+                                className={`px-3 py-1.5 rounded-none border-2 border-black dark:border-white text-xs font-medium transition-colors ${selectedGroup === group.value
+                                    ? getGroupColor(group.value)
                                     : 'bg-muted hover:bg-muted/80 text-muted-foreground'
                                     }`}
                             >
-                                {group.name} ({count})
+                                {group.label} ({count})
                             </button>
                         );
                     })}
@@ -322,7 +319,7 @@ export default function CourseList({ initialCourses }: { initialCourses: Course[
                         {filteredCourses.length === 0 && (
                             <tr>
                                 <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">
-                                    {selectedGroup === 'all' ? t('empty') : `Ingen kurs for ${availableGroups.find(g => g.id === selectedGroup)?.name || selectedGroup}`}
+                                    {selectedGroup === 'all' ? t('empty') : `Ingen kurs for ${TARGET_GROUP_LABELS[selectedGroup] || selectedGroup}`}
                                 </td>
                             </tr>
                         )}
