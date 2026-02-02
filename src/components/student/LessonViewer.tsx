@@ -121,7 +121,14 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
             {/* Video Section */}
             {lesson.video_url ? (
                 <div className="mb-8 rounded-lg overflow-hidden border-2 border-black dark:border-white">
-                    {lesson.video_url.includes('youtube.com') || lesson.video_url.includes('youtu.be') ? (
+                    {lesson.video_url.includes('vimeo.com') ? (
+                        <iframe
+                            src={lesson.video_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
+                            className="w-full aspect-video"
+                            allow="autoplay; fullscreen; picture-in-picture"
+                            allowFullScreen
+                        />
+                    ) : lesson.video_url.includes('youtube.com') || lesson.video_url.includes('youtu.be') ? (
                         <iframe
                             src={lesson.video_url.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')}
                             className="w-full aspect-video"
@@ -151,8 +158,8 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
                                 key={index}
                                 onClick={() => setActiveTab(index)}
                                 className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all border-2 ${activeTab === index
-                                        ? 'bg-primary text-primary-foreground border-black dark:border-white shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_#fff]'
-                                        : 'bg-muted hover:bg-muted/80 border-transparent hover:border-black/20 dark:hover:border-white/20'
+                                    ? 'bg-primary text-primary-foreground border-black dark:border-white shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_#fff]'
+                                    : 'bg-muted hover:bg-muted/80 border-transparent hover:border-black/20 dark:hover:border-white/20'
                                     }`}
                             >
                                 <SectionIcon icon={section.icon} className="w-4 h-4" />
