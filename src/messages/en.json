@@ -1,5 +1,6 @@
 {
     "Navbar": {
+        "home": "Home",
         "dashboard": "Dashboard",
         "courses": "Courses",
         "journal": "Journal",

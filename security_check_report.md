@@ -1,9 +1,13 @@
 # Sikkerhetsrapport og Sårbarhetsanalyse
 
-**Dato:** 21. januar 2026
-**Status:** 🔴 KRITISK SÅRBARHET FUNNET
+**Dato:** 21. januar 2026 (oppdatert 2. februar 2026)
+**Status:** ✅ KRITISKE SÅRBARHETER FIKSET
 
-Denne rapporten oppsummerer sikkerhetsgjennomgangen av applikasjonen "Din Forening" (basert på nåværende kildekode).
+> **Oppdatering 2. feb 2026:** Den kritiske privilege escalation-sårbarheten er nå fikset via:
+> - `033_secure_role_updates.sql` - Trigger som blokkerer rolleendringer fra vanlige brukere
+> - `050_security_improvements.sql` - RLS-policy som eksplisitt ekskluderer rolle-oppdateringer
+
+Denne rapporten oppsummerer sikkerhetsgjennomgangen av SMEB Kursportal (basert på nåværende kildekode).
 
 ## 1. Oppsummering
 Jeg har gjennomført en manuell sjekk av kodebasen med fokus på RLS (Row Level Security), autentisering, og autorisasjon. 

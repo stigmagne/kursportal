@@ -1,5 +1,6 @@
 {
     "Navbar": {
+        "home": "Hjem",
         "dashboard": "Oversikt",
         "courses": "Kurs",
         "journal": "Journal",

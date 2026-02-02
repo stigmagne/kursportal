@@ -10,6 +10,7 @@ import { ToastProvider } from '@/components/providers/ToastProvider';
 import { ClientErrorBoundary } from '@/components/providers/ClientErrorBoundary';
 import { ServiceWorkerProvider } from '@/components/providers/ServiceWorkerProvider';
 import { AssessmentProvider } from '@/components/providers/AssessmentProvider';
+import { UserProvider } from '@/components/providers/UserProvider';
 import MobileBottomNav from '@/components/MobileBottomNav';
 
 const geistSans = Geist({
@@ -64,18 +65,26 @@ export default async function LocaleLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
+                <a
+                    href="#main-content"
+                    className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:border-2 focus:border-black"
+                >
+                    Hopp til innhold
+                </a>
                 <ServiceWorkerProvider>
                     <NextIntlClientProvider messages={messages}>
-                        <Navbar />
-                        <ClientErrorBoundary>
-                            <AssessmentProvider locale={locale}>
-                                <main className="min-h-screen bg-linear-to-b from-background to-muted/20 pb-16 md:pb-0">
-                                    {children}
-                                </main>
-                            </AssessmentProvider>
-                        </ClientErrorBoundary>
-                        <MobileBottomNav />
-                        <ToastProvider />
+                        <UserProvider>
+                            <Navbar />
+                            <ClientErrorBoundary>
+                                <AssessmentProvider locale={locale}>
+                                    <main id="main-content" className="min-h-screen bg-linear-to-b from-background to-muted/20 pb-16 md:pb-0">
+                                        {children}
+                                    </main>
+                                </AssessmentProvider>
+                            </ClientErrorBoundary>
+                            <MobileBottomNav />
+                            <ToastProvider />
+                        </UserProvider>
                     </NextIntlClientProvider>
                 </ServiceWorkerProvider>
             </body>

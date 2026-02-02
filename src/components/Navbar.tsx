@@ -1,62 +1,43 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useRouter } from '@/i18n/routing';
-import { Menu, X, BookOpen, Lock, Users, LayoutDashboard } from 'lucide-react';
+import { Menu, X, BookOpen, Lock, Users, LayoutDashboard, Home, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { createClient } from '@/utils/supabase/client';
 import LanguageSwitcher from './LanguageSwitcher';
 import { NotificationBell } from './NotificationBell';
 import { SearchBar } from './SearchBar';
 import { useTranslations } from 'next-intl';
+import { useUser } from './providers/UserProvider';
+import { createClient } from '@/utils/supabase/client';
+
+// Skeleton component for loading states
+function NavSkeleton() {
+    return (
+        <div className="flex items-center gap-4 animate-pulse">
+            <div className="hidden md:flex items-center gap-6">
+                <div className="h-4 w-16 bg-muted rounded" />
+                <div className="h-4 w-16 bg-muted rounded" />
+                <div className="h-4 w-20 bg-muted rounded" />
+            </div>
+            <div className="h-8 w-24 bg-muted rounded" />
+            <div className="h-8 w-20 bg-muted rounded" />
+        </div>
+    );
+}
 
 export default function Navbar() {
     const t = useTranslations('Navbar');
     const [isOpen, setIsOpen] = useState(false);
-    const [user, setUser] = useState<any>(null);
-    const [profile, setProfile] = useState<any>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const { user, profile, isLoading, isAdmin } = useUser();
     const supabase = createClient();
     const router = useRouter();
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            setUser(user);
-
-            if (user) {
-                const { data } = await supabase
-                    .from('profiles')
-                    .select('role, full_name')
-                    .eq('id', user.id)
-                    .single();
-                setProfile(data);
-            }
-            setIsLoading(false);
-        };
-
-        fetchUser();
-
-        // Listen for auth changes
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null);
-            if (!session?.user) {
-                setProfile(null);
-            } else {
-                fetchUser();
-            }
-        });
-
-        return () => subscription.unsubscribe();
-    }, []);
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
         router.push('/');
         router.refresh();
     };
-
-    const isAdmin = profile?.role === 'admin';
 
     return (
         <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80 border-b-2 border-black dark:border-white">
@@ -71,7 +52,9 @@ export default function Navbar() {
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-6">
-                        {!isLoading && user && (
+                        {isLoading ? (
+                            <NavSkeleton />
+                        ) : user ? (
                             <>
                                 <Link href="/courses" className="text-sm font-medium hover:text-primary transition-colors">
                                     {t('courses')}
@@ -97,7 +80,7 @@ export default function Navbar() {
                                     </Link>
                                 )}
                             </>
-                        )}
+                        ) : null}
 
                         <div className="flex items-center gap-4">
                             {!isLoading && user && (
@@ -168,6 +151,14 @@ export default function Navbar() {
                             {!isLoading && user && (
                                 <>
                                     <Link
+                                        href="/"
+                                        className="flex items-center gap-2 px-4 py-2 rounded-none hover:bg-muted transition-colors"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <Home className="w-4 h-4" />
+                                        {t('home')}
+                                    </Link>
+                                    <Link
                                         href="/courses"
                                         className="block px-4 py-2 rounded-none hover:bg-muted transition-colors"
                                         onClick={() => setIsOpen(false)}
@@ -181,6 +172,24 @@ export default function Navbar() {
                                     >
                                         <Lock className="w-4 h-4" />
                                         {t('journal')}
+                                    </Link>
+                                    {!isAdmin && (
+                                        <Link
+                                            href="/dashboard"
+                                            className="flex items-center gap-2 px-4 py-2 rounded-none hover:bg-muted transition-colors"
+                                            onClick={() => setIsOpen(false)}
+                                        >
+                                            <BookOpen className="w-4 h-4" />
+                                            {t('myCourses')}
+                                        </Link>
+                                    )}
+                                    <Link
+                                        href="/profile"
+                                        className="flex items-center gap-2 px-4 py-2 rounded-none hover:bg-muted transition-colors"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <User className="w-4 h-4" />
+                                        {t('profile')}
                                     </Link>
                                     {isAdmin && (
                                         <Link
