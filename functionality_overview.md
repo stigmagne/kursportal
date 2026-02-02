@@ -254,7 +254,7 @@ Alle kryptert med AES-256-GCM (zero-knowledge).
 
 ### Høy Prioritet
 
-- [ ] **Video-integrasjon**: Legge til Vimeo/YouTube-embeddings i leksjoner
+- [x] **Video-integrasjon**: Vimeo + YouTube embedding i leksjoner ✅
 - [ ] **Ferdigstillelsesbevis**: PDF-sertifikat ved fullført kurs
 - [ ] **E-postvarsler**: Automatisk påminnelse om uavsluttede kurs
 - [ ] **Statistikkpanel**: Utvidet statistikk for admin (completion rate, tid brukt)
