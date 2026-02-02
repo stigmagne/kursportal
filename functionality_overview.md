@@ -261,8 +261,8 @@ Alle kryptert med AES-256-GCM (zero-knowledge).
 
 ### Medium Prioritet
 
-- [ ] **Gamification**: Badges, streaks, XP-system
-- [ ] **Sosial læring**: Mulighet for diskusjonsforum per kurs
+- [x] **Gamification**: Badges, streaks, XP-system ✅
+- [x] **Sosial læring**: Diskusjonsforum per kurs ✅
 - [ ] **Mentor-matching**: Koble erfarne brukere med nykommere
 - [ ] **Flere språk**: Engelsk versjon av alt innhold
 - [ ] **SCORM-eksport**: Eksportere kurs til andre LMS-systemer
