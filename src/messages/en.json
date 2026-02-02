@@ -478,5 +478,21 @@
         "saving": "Saving...",
         "saved": "Preferences saved!",
         "error_saving": "Failed to save preferences"
+    },
+    "gamification": {
+        "level": "Level",
+        "xp": "XP",
+        "day": "day",
+        "days": "days",
+        "best": "Best",
+        "not_earned": "Not earned yet",
+        "badges": "Badges",
+        "achievements": "Achievements",
+        "your_progress": "Your Progress",
+        "streak": "Streak",
+        "keep_going": "Keep it up!",
+        "streak_at_risk": "Your streak is at risk!",
+        "total_xp": "Total XP",
+        "next_level": "Next level"
     }
 }

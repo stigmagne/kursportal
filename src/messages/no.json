@@ -684,5 +684,21 @@
         "saving": "Lagrer...",
         "saved": "Innstillinger lagret!",
         "error_saving": "Kunne ikke lagre innstillinger"
+    },
+    "gamification": {
+        "level": "Nivå",
+        "xp": "XP",
+        "day": "dag",
+        "days": "dager",
+        "best": "Rekord",
+        "not_earned": "Ikke opptjent ennå",
+        "badges": "Badges",
+        "achievements": "Prestasjoner",
+        "your_progress": "Din fremgang",
+        "streak": "Streak",
+        "keep_going": "Fortsett slik!",
+        "streak_at_risk": "Streaken din er i fare!",
+        "total_xp": "Totalt XP",
+        "next_level": "Neste nivå"
     }
 }
