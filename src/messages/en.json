@@ -494,5 +494,28 @@
         "streak_at_risk": "Your streak is at risk!",
         "total_xp": "Total XP",
         "next_level": "Next level"
+    },
+    "discussions": {
+        "title": "Discussions",
+        "new_discussion": "New Discussion",
+        "sort_newest": "Newest",
+        "sort_popular": "Popular",
+        "sort_active": "Most Active",
+        "no_discussions": "No discussions yet. Start one!",
+        "back_to_list": "Back to list",
+        "replies": "Replies",
+        "no_replies": "No replies yet",
+        "likes": "likes",
+        "reply": "Reply",
+        "solution": "Solution",
+        "write_reply": "Write a reply...",
+        "post_reply": "Post Reply",
+        "replying_to": "Replying to comment",
+        "cancel": "Cancel",
+        "title_placeholder": "Write a short descriptive title",
+        "content": "Content",
+        "content_placeholder": "Describe your problem or question in detail...",
+        "posting": "Posting...",
+        "post": "Post"
     }
 }

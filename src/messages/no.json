@@ -700,5 +700,28 @@
         "streak_at_risk": "Streaken din er i fare!",
         "total_xp": "Totalt XP",
         "next_level": "Neste nivå"
+    },
+    "discussions": {
+        "title": "Diskusjoner",
+        "new_discussion": "Ny diskusjon",
+        "sort_newest": "Nyeste",
+        "sort_popular": "Populære",
+        "sort_active": "Mest aktive",
+        "no_discussions": "Ingen diskusjoner ennå. Start en ny!",
+        "back_to_list": "Tilbake til liste",
+        "replies": "Svar",
+        "no_replies": "Ingen svar ennå",
+        "likes": "liker",
+        "reply": "Svar",
+        "solution": "Løsning",
+        "write_reply": "Skriv et svar...",
+        "post_reply": "Legg inn svar",
+        "replying_to": "Svarer på kommentar",
+        "cancel": "Avbryt",
+        "title_placeholder": "Skriv en kort beskrivende tittel",
+        "content": "Innhold",
+        "content_placeholder": "Beskriv problemet eller spørsmålet ditt i detalj...",
+        "posting": "Legger inn...",
+        "post": "Publiser"
     }
 }
