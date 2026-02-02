@@ -9,21 +9,4 @@ DROP POLICY IF EXISTS "Public profiles are viewable by everyone" ON profiles;
 CREATE POLICY "Users can view profiles" ON profiles
     FOR SELECT USING (true);
 
--- Also ensure lessons has proper SELECT for authorized users
-DROP POLICY IF EXISTS "Lessons visible to course-authorized users" ON lessons;
-CREATE POLICY "Lessons visible to course-authorized users" ON lessons
-    FOR SELECT USING (
-        EXISTS (
-            SELECT 1 FROM courses c
-            JOIN course_groups cg ON cg.course_id = c.id
-            JOIN profiles p ON p.group_id = cg.group_id
-            WHERE c.id = lessons.course_id
-            AND p.id = (select auth.uid())
-            AND c.published = true
-        )
-        OR EXISTS (
-            SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND role = 'admin'
-        )
-    );
-
 -- End of migration
