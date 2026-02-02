@@ -59,11 +59,23 @@ CREATE POLICY "Users can manage own sessions" ON assessment_sessions
 
 DROP POLICY IF EXISTS "Users can manage own responses" ON assessment_responses;
 CREATE POLICY "Users can manage own responses" ON assessment_responses
-    FOR ALL USING (user_id = (select auth.uid()));
+    FOR ALL USING (
+        EXISTS (
+            SELECT 1 FROM assessment_sessions 
+            WHERE id = assessment_responses.session_id 
+            AND user_id = (select auth.uid())
+        )
+    );
 
 DROP POLICY IF EXISTS "Users can view own results" ON assessment_results;
 CREATE POLICY "Users can view own results" ON assessment_results
-    FOR SELECT USING (user_id = (select auth.uid()));
+    FOR SELECT USING (
+        EXISTS (
+            SELECT 1 FROM assessment_sessions 
+            WHERE id = assessment_results.session_id 
+            AND user_id = (select auth.uid())
+        )
+    );
 
 DROP POLICY IF EXISTS "Users can view own recommendations" ON assessment_recommendations;
 CREATE POLICY "Users can view own recommendations" ON assessment_recommendations
