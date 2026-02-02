@@ -46,11 +46,12 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
     // Check access if course has group restriction
     let hasAccess = true;
     if (courseGroupNames.length > 0) {
-        // Get user profile with group assignments
+        // Get user profile with group assignments and role
         const { data: profile } = await supabase
             .from('profiles')
             .select(`
                 user_type,
+                role,
                 user_groups(
                     group_id,
                     groups(id, name)
@@ -59,28 +60,33 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
             .eq('id', user.id)
             .single();
 
-        // Get the user's group names
-        const userGroupNames = profile?.user_groups?.map((ug: any) => ug.groups?.name).filter(Boolean) || [];
+        // Admins always have access - skip assessment check
+        if (profile?.role === 'admin') {
+            hasAccess = true;
+        } else {
+            // Get the user's group names
+            const userGroupNames = profile?.user_groups?.map((ug: any) => ug.groups?.name).filter(Boolean) || [];
 
-        // Check completed assessments
-        const { data: completedAssessments } = await supabase
-            .from('assessment_sessions')
-            .select('assessment_type:assessment_types(target_group)')
-            .eq('user_id', user.id)
-            .eq('status', 'completed');
+            // Check completed assessments
+            const { data: completedAssessments } = await supabase
+                .from('assessment_sessions')
+                .select('assessment_type:assessment_types(target_group)')
+                .eq('user_id', user.id)
+                .eq('status', 'completed');
 
-        const completedTypes = completedAssessments?.map(
-            (a: any) => a.assessment_type?.target_group
-        ).filter(Boolean) || [];
+            const completedTypes = completedAssessments?.map(
+                (a: any) => a.assessment_type?.target_group
+            ).filter(Boolean) || [];
 
-        // User has access if:
-        // 1. User type is 'both', OR
-        // 2. User belongs to one of the course's groups, OR
-        // 3. User has completed an assessment for one of the course's groups
-        hasAccess =
-            profile?.user_type === 'both' ||
-            courseGroupNames.some((groupName: string) => userGroupNames.includes(groupName)) ||
-            courseGroupNames.some((groupName: string) => completedTypes.includes(groupName));
+            // User has access if:
+            // 1. User type is 'both', OR
+            // 2. User belongs to one of the course's groups, OR
+            // 3. User has completed an assessment for one of the course's groups
+            hasAccess =
+                profile?.user_type === 'both' ||
+                courseGroupNames.some((groupName: string) => userGroupNames.includes(groupName)) ||
+                courseGroupNames.some((groupName: string) => completedTypes.includes(groupName));
+        }
     }
 
     // If no access, show blocked page
