@@ -26,6 +26,15 @@ export default async function CoursesPage() {
     redirect('/login')
   }
 
+  // Check if user is admin
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+
+  const isAdmin = profile?.role === 'admin';
+
   // Fetch user's target groups (the new system)
   const userGroups = await getUserGroups(supabase, user.id);
 
@@ -35,29 +44,38 @@ export default async function CoursesPage() {
     .select('id, name, slug')
     .order('name');
 
-  // Fetch only published courses
-  const { data: coursesData } = await supabase
+  // Fetch only published courses (or all for admins)
+  const coursesQuery = supabase
     .from('courses')
     .select(`
       id,
       title,
       description,
       target_group,
+      published,
       course_tags (
         tag:tags (
           slug
         )
       )
     `)
-    .eq('published', true)
     .order('created_at', { ascending: false });
 
+  // Only filter by published if not admin
+  if (!isAdmin) {
+    coursesQuery.eq('published', true);
+  }
+
+  const { data: coursesData } = await coursesQuery;
+
   // Filter courses based on user's groups
+  // - Admins see all courses
   // - If user has no groups, show nothing (they need an invitation first)
   // - If course has no target_group, it's public (show to all)
   // - If course has target_group, only show if user has that group
   const courses = coursesData?.map(course => {
     const canAccess =
+      isAdmin || // Admins can access all
       !course.target_group || // No restriction (public course)
       userGroups.includes(course.target_group as TargetGroup);
 
@@ -77,8 +95,8 @@ export default async function CoursesPage() {
   // Don't show locked courses from other groups at all
   // This keeps content completely separated as requested
 
-  // Show message if user has no groups assigned
-  const hasNoGroups = userGroups.length === 0;
+  // Show message if user has no groups assigned (but not for admins)
+  const hasNoGroups = userGroups.length === 0 && !isAdmin;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
