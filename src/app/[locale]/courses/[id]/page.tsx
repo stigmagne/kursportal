@@ -61,7 +61,9 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
             .single();
 
         // Admins always have access - skip assessment check
+        console.log('Course access check - role:', profile?.role);
         if (profile?.role === 'admin') {
+            console.log('Admin detected - granting access');
             hasAccess = true;
         } else {
             // Get the user's group names
