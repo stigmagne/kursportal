@@ -456,7 +456,8 @@ CREATE POLICY "Users can create comments" ON lesson_comments
 -- ============================================================================
 
 DROP INDEX IF EXISTS idx_comments_lesson;
-DROP INDEX IF EXISTS unique_user_lesson;
+-- unique_user_lesson is tied to a constraint, drop the duplicate constraint instead
+ALTER TABLE lesson_completion DROP CONSTRAINT IF EXISTS lesson_completion_user_id_lesson_id_key;
 DROP INDEX IF EXISTS idx_lessons_order;
 DROP INDEX IF EXISTS idx_quiz_answer_options_question;
 DROP INDEX IF EXISTS idx_quiz_questions_quiz;
