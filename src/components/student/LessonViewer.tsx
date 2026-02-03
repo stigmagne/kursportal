@@ -8,6 +8,7 @@ import {
     MessageSquare, Clock, BookMarked, List, CheckSquare
 } from 'lucide-react';
 import QuizTaker from './QuizTaker';
+import { CaseStudyView } from './CaseStudyView';
 
 interface LessonViewerProps {
     lesson: any;
@@ -95,7 +96,7 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
     return (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
             {/* Lesson Header Card */}
-            <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent 
+            <div className="bg-linear-to-br from-primary/10 via-primary/5 to-transparent 
                             border-2 border-black dark:border-white rounded-lg p-6 mb-8">
                 <div className="flex items-start gap-4">
                     <div className="p-3 bg-primary/20 rounded-lg border-2 border-black dark:border-white">
