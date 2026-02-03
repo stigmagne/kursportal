@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useRouter } from '@/i18n/routing';
 import { Menu, X, BookOpen, Lock, Users, LayoutDashboard, Home, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -39,8 +39,12 @@ export default function Navbar() {
         router.refresh();
     };
 
+    useEffect(() => {
+        console.log('Navbar mounted, user:', user?.email);
+    }, [user]);
+
     return (
-        <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80 border-b-2 border-black dark:border-white">
+        <nav className="sticky top-0 z-[100] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-b-2 border-black dark:border-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}

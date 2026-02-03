@@ -167,3 +167,4 @@ body {
 span.rounded-full[class*="bg-red"] {
   border-radius: 9999px !important;
 }
+/* Force CSS rebuild */
