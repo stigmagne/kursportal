@@ -16,12 +16,10 @@ function NavSkeleton() {
     return (
         <div className="flex items-center gap-4 animate-pulse">
             <div className="hidden md:flex items-center gap-6">
-                <div className="h-4 w-16 bg-muted rounded" />
-                <div className="h-4 w-16 bg-muted rounded" />
-                <div className="h-4 w-20 bg-muted rounded" />
+                <div className="h-4 w-16 bg-gray-300 rounded" />
+                <div className="h-4 w-16 bg-gray-300 rounded" />
+                <div className="h-4 w-20 bg-gray-300 rounded" />
             </div>
-            <div className="h-8 w-24 bg-muted rounded" />
-            <div className="h-8 w-20 bg-muted rounded" />
         </div>
     );
 }
@@ -88,14 +86,16 @@ export default function Navbar() {
 
                         <div className="flex items-center gap-4">
                             {!isLoading && user && (
-                                <div className="hidden md:block flex-1 max-w-md">
+                                <div className="hidden md:block w-64 lg:w-80">
                                     <SearchBar />
                                 </div>
                             )}
                             {!isLoading && user && <NotificationBell />}
                             <LanguageSwitcher />
 
-                            {!isLoading && (
+                            {isLoading ? (
+                                <div className="hidden md:block h-9 w-24 bg-gray-300 animate-pulse rounded border-2 border-gray-300" />
+                            ) : (
                                 user ? (
                                     <div className="flex items-center gap-4">
                                         <span className="text-sm text-muted-foreground">

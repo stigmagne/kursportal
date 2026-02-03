@@ -346,6 +346,7 @@ export default function ProfilePage() {
                                             currentStreak={streakData?.current_streak || 0}
                                             longestStreak={streakData?.longest_streak || 0}
                                             lastActivityDate={streakData?.last_activity_date}
+                                            variant="minimal"
                                         />
                                     </div>
                                 </div>

@@ -181,6 +181,8 @@
         "activity_log": "Aktivitetslogg",
         "badges": "Badges",
         "overview": "Oversikt",
+        "your_progress": "Din fremgang",
+        "streak_stats": "Streak-statistikk",
         "alerts": {
             "update_error": "Feil ved oppdatering av profil",
             "upload_error": "Feil ved opplasting av avatar"
