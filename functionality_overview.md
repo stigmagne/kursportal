@@ -294,8 +294,8 @@ Alle kryptert med AES-256-GCM (zero-knowledge).
 
 ### Innholdsforbedringer
 
-- [ ] **Flere quizer**: Quiz for hver modul, ikke bare hvert kurs
-- [ ] **Interaktive elementer**: Drag-and-drop, flervalg i leksjonene
+- [x] **Flere quizer**: Quiz for hver modul, ikke bare hvert kurs
+- [x] **Interaktive elementer**: Drag-and-drop, flervalg i leksjonene
 - [ ] **Case studies**: Virkelige historier fra målgruppene
 - [ ] **Ekspertvideo**: Intervjuer med fagpersoner
 
