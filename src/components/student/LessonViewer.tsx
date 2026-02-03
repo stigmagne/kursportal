@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import QuizTaker from './QuizTaker';
 import { CaseStudyView } from './CaseStudyView';
+import { ExpertVideoView } from './ExpertVideoView';
 
 interface LessonViewerProps {
     lesson: any;
@@ -298,31 +299,37 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
                                         </div>
                                     </a>
                                 )}
+
+                                {block.type === 'expert_video' && block.expert_video_data && (
+                                    <ExpertVideoView data={block.expert_video_data} />
+                                )}
                             </div>
                         ))}
                     </div>
                 )}
 
                 {/* Key Takeaways Section */}
-                {hasDirectContent && (
-                    <div className="bg-amber-50 dark:bg-amber-950/30 border-2 border-amber-500 rounded-lg p-6 shadow-[4px_4px_0_0_#f59e0b]">
-                        <div className="flex items-start gap-3">
-                            <div className="p-2 bg-amber-500/20 rounded-lg border-2 border-amber-500">
-                                <Lightbulb className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-amber-700 dark:text-amber-400 mb-2">Hugs dette</h3>
-                                <p className="text-sm text-amber-800 dark:text-amber-200">
-                                    Ta deg tid til å reflektere over det du har lært. Korleis kan du bruke dette i din kvardag?
-                                </p>
+                {
+                    hasDirectContent && (
+                        <div className="bg-amber-50 dark:bg-amber-950/30 border-2 border-amber-500 rounded-lg p-6 shadow-[4px_4px_0_0_#f59e0b]">
+                            <div className="flex items-start gap-3">
+                                <div className="p-2 bg-amber-500/20 rounded-lg border-2 border-amber-500">
+                                    <Lightbulb className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-amber-700 dark:text-amber-400 mb-2">Hugs dette</h3>
+                                    <p className="text-sm text-amber-800 dark:text-amber-200">
+                                        Ta deg tid til å reflektere over det du har lært. Korleis kan du bruke dette i din kvardag?
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )}
-            </div>
+                    )
+                }
+            </div >
 
             {/* Quiz Section */}
-            <div className="mt-12 pt-8 border-t-2 border-black dark:border-white">
+            < div className="mt-12 pt-8 border-t-2 border-black dark:border-white" >
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 bg-primary/10 rounded-lg border-2 border-black dark:border-white">
                         <MessageSquare className="w-5 h-5 text-primary" />
@@ -330,7 +337,7 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
                     <h2 className="text-xl font-bold">Quiz</h2>
                 </div>
                 <QuizTaker lessonId={lesson.id} userId={userId} />
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }

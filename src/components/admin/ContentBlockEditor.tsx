@@ -7,18 +7,24 @@ import { Plus, Trash2, Video, FileText, File as FileIcon, HelpCircle, GripVertic
 interface ContentBlock {
     id: string;
     lesson_id: string;
-    type: 'text' | 'video' | 'quiz' | 'file';
+    type: 'text' | 'video' | 'quiz' | 'file' | 'expert_video';
     order_index: number;
     text_content: string | null;
     video_url: string | null;
     quiz_id: string | null;
     file_url: string | null;
     file_name: string | null;
+    expert_video_data: {
+        video_url: string;
+        expert_name: string;
+        expert_title: string;
+        expert_image_url: string;
+    } | null;
 }
 
 export default function ContentBlockEditor({ lessonId }: { lessonId: string }) {
     const [blocks, setBlocks] = useState<ContentBlock[]>([]);
-    const [newBlockType, setNewBlockType] = useState<'text' | 'video' | 'file'>('text');
+    const [newBlockType, setNewBlockType] = useState<'text' | 'video' | 'file' | 'expert_video'>('text');
     const supabase = createClient();
 
     useEffect(() => {
@@ -97,6 +103,7 @@ export default function ContentBlockEditor({ lessonId }: { lessonId: string }) {
             case 'text': return <FileText className="w-4 h-4" />;
             case 'quiz': return <HelpCircle className="w-4 h-4" />;
             case 'file': return <FileIcon className="w-4 h-4" />;
+            case 'expert_video': return <Video className="w-4 h-4 text-purple-500" />;
             default: return <FileText className="w-4 h-4" />;
         }
     };
@@ -114,6 +121,7 @@ export default function ContentBlockEditor({ lessonId }: { lessonId: string }) {
                         <option value="text">📝 Text</option>
                         <option value="video">🎥 Video</option>
                         <option value="file">📎 File</option>
+                        <option value="expert_video">👨‍🏫 Expert Video</option>
                     </select>
                     <button
                         onClick={addBlock}
@@ -186,6 +194,50 @@ export default function ContentBlockEditor({ lessonId }: { lessonId: string }) {
                                         onChange={(e) => updateBlock(block.id, { file_url: e.target.value })}
                                         className="w-full px-2 py-1.5 text-xs border border-border rounded bg-background"
                                         placeholder="File URL (upload to Supabase storage)"
+                                    />
+                                </div>
+                            )}
+
+                            {block.type === 'expert_video' && (
+                                <div className="space-y-2 border-l-2 border-primary/20 pl-3">
+                                    <p className="text-xs font-semibold text-primary">Expert Video Details</p>
+                                    <input
+                                        type="url"
+                                        value={block.expert_video_data?.video_url || ''}
+                                        onChange={(e) => updateBlock(block.id, {
+                                            expert_video_data: { ...(block.expert_video_data as any), video_url: e.target.value }
+                                        })}
+                                        className="w-full px-2 py-1.5 text-xs border border-border rounded bg-background"
+                                        placeholder="Video URL (Vimeo/YouTube)"
+                                    />
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <input
+                                            type="text"
+                                            value={block.expert_video_data?.expert_name || ''}
+                                            onChange={(e) => updateBlock(block.id, {
+                                                expert_video_data: { ...(block.expert_video_data as any), expert_name: e.target.value }
+                                            })}
+                                            className="w-full px-2 py-1.5 text-xs border border-border rounded bg-background"
+                                            placeholder="Expert Name"
+                                        />
+                                        <input
+                                            type="text"
+                                            value={block.expert_video_data?.expert_title || ''}
+                                            onChange={(e) => updateBlock(block.id, {
+                                                expert_video_data: { ...(block.expert_video_data as any), expert_title: e.target.value }
+                                            })}
+                                            className="w-full px-2 py-1.5 text-xs border border-border rounded bg-background"
+                                            placeholder="Expert Title (e.g. Senior Engineer)"
+                                        />
+                                    </div>
+                                    <input
+                                        type="url"
+                                        value={block.expert_video_data?.expert_image_url || ''}
+                                        onChange={(e) => updateBlock(block.id, {
+                                            expert_video_data: { ...(block.expert_video_data as any), expert_image_url: e.target.value }
+                                        })}
+                                        className="w-full px-2 py-1.5 text-xs border border-border rounded bg-background"
+                                        placeholder="Expert Profile Image URL"
                                     />
                                 </div>
                             )}
