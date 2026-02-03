@@ -5,13 +5,14 @@ import { createClient } from '@/utils/supabase/client';
 import { Plus, Trash2, GripVertical, Save, Eye } from 'lucide-react';
 
 interface QuizBuilderProps {
-    lessonId: string;
+    lessonId?: string;
+    moduleId?: string;
 }
 
 interface Question {
     id?: string;
     question_text: string;
-    question_type: 'multiple_choice' | 'true_false' | 'short_answer';
+    question_type: 'multiple_choice' | 'true_false' | 'short_answer' | 'drag_and_drop';
     order_index: number;
     points: number;
     explanation: string;
@@ -23,11 +24,12 @@ interface Question {
 interface Answer {
     id?: string;
     option_text: string;
+    match_text?: string; // For drag and drop matching
     is_correct: boolean;
     order_index: number;
 }
 
-export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
+export default function QuizBuilder({ lessonId, moduleId }: QuizBuilderProps) {
     const supabase = createClient();
     const [quiz, setQuiz] = useState<any>(null);
     const [loading, setLoading] = useState(true);
@@ -48,16 +50,25 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
     const [questions, setQuestions] = useState<Question[]>([]);
 
     useEffect(() => {
-        fetchQuiz();
-    }, [lessonId]);
+        if (lessonId || moduleId) {
+            fetchQuiz();
+        }
+    }, [lessonId, moduleId]);
 
     const fetchQuiz = async () => {
         setLoading(true);
-        const { data: quizData } = await supabase
-            .from('quizzes')
-            .select('*')
-            .eq('lesson_id', lessonId)
-            .single();
+        let query = supabase.from('quizzes').select('*');
+
+        if (lessonId) {
+            query = query.eq('lesson_id', lessonId);
+        } else if (moduleId) {
+            query = query.eq('module_id', moduleId);
+        } else {
+            setLoading(false);
+            return;
+        }
+
+        const { data: quizData } = await query.single();
 
         if (quizData) {
             setQuiz(quizData);
@@ -95,35 +106,31 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
         try {
             let quizId = quiz?.id;
 
+            const quizData = {
+                title,
+                description,
+                passing_score: passingScore,
+                time_limit_minutes: timeLimit,
+                shuffle_questions: shuffleQuestions,
+                shuffle_answers: shuffleAnswers,
+                show_correct_answers: showCorrectAnswers,
+                required_for_completion: requiredForCompletion,
+                updated_at: new Date().toISOString()
+            };
+
             // Create or update quiz
             if (quiz) {
                 await supabase
                     .from('quizzes')
-                    .update({
-                        title,
-                        description,
-                        passing_score: passingScore,
-                        time_limit_minutes: timeLimit,
-                        shuffle_questions: shuffleQuestions,
-                        shuffle_answers: shuffleAnswers,
-                        show_correct_answers: showCorrectAnswers,
-                        required_for_completion: requiredForCompletion,
-                        updated_at: new Date().toISOString()
-                    })
+                    .update(quizData)
                     .eq('id', quiz.id);
             } else {
                 const { data: newQuiz } = await supabase
                     .from('quizzes')
                     .insert({
-                        lesson_id: lessonId,
-                        title,
-                        description,
-                        passing_score: passingScore,
-                        time_limit_minutes: timeLimit,
-                        shuffle_questions: shuffleQuestions,
-                        shuffle_answers: shuffleAnswers,
-                        show_correct_answers: showCorrectAnswers,
-                        required_for_completion: requiredForCompletion
+                        ...quizData,
+                        lesson_id: lessonId || null,
+                        module_id: moduleId || null,
                     })
                     .select()
                     .single();
@@ -148,29 +155,27 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
                 for (const question of questions) {
                     let questionId = question.id;
 
+                    const questionData = {
+                        question_text: question.question_text,
+                        question_type: question.question_type,
+                        order_index: question.order_index,
+                        points: question.points,
+                        explanation: question.explanation,
+                        image_url: question.image_url || null,
+                        video_url: question.video_url || null
+                    };
+
                     if (questionId) {
                         await supabase
                             .from('quiz_questions')
-                            .update({
-                                question_text: question.question_text,
-                                question_type: question.question_type,
-                                order_index: question.order_index,
-                                points: question.points,
-                                explanation: question.explanation
-                            })
+                            .update(questionData)
                             .eq('id', questionId);
                     } else {
                         const { data: newQuestion } = await supabase
                             .from('quiz_questions')
                             .insert({
                                 quiz_id: quizId,
-                                question_text: question.question_text,
-                                question_type: question.question_type,
-                                order_index: question.order_index,
-                                points: question.points,
-                                explanation: question.explanation,
-                                image_url: question.image_url || null,
-                                video_url: question.video_url || null
+                                ...questionData
                             })
                             .select()
                             .single();
@@ -192,23 +197,24 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
 
                         // Upsert answers
                         for (const answer of question.answers) {
+                            const answerData = {
+                                option_text: answer.option_text,
+                                match_text: answer.match_text || null,
+                                is_correct: answer.is_correct,
+                                order_index: answer.order_index
+                            };
+
                             if (answer.id) {
                                 await supabase
                                     .from('quiz_answer_options')
-                                    .update({
-                                        option_text: answer.option_text,
-                                        is_correct: answer.is_correct,
-                                        order_index: answer.order_index
-                                    })
+                                    .update(answerData)
                                     .eq('id', answer.id);
                             } else {
                                 await supabase
                                     .from('quiz_answer_options')
                                     .insert({
                                         question_id: questionId,
-                                        option_text: answer.option_text,
-                                        is_correct: answer.is_correct,
-                                        order_index: answer.order_index
+                                        ...answerData
                                     });
                             }
                         }
@@ -227,24 +233,36 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
         }
     };
 
-    const addQuestion = (type: 'multiple_choice' | 'true_false' | 'short_answer') => {
+    const addQuestion = (type: 'multiple_choice' | 'true_false' | 'short_answer' | 'drag_and_drop') => {
+        let answers: Answer[] = [];
+
+        if (type === 'true_false') {
+            answers = [
+                { option_text: 'True', is_correct: false, order_index: 0 },
+                { option_text: 'False', is_correct: false, order_index: 1 }
+            ];
+        } else if (type === 'drag_and_drop') {
+            answers = [
+                { option_text: '', match_text: '', is_correct: true, order_index: 0 },
+                { option_text: '', match_text: '', is_correct: true, order_index: 1 },
+                { option_text: '', match_text: '', is_correct: true, order_index: 2 }
+            ];
+        } else if (type === 'multiple_choice') {
+            answers = [
+                { option_text: '', is_correct: false, order_index: 0 },
+                { option_text: '', is_correct: false, order_index: 1 },
+                { option_text: '', is_correct: false, order_index: 2 },
+                { option_text: '', is_correct: false, order_index: 3 }
+            ];
+        }
+
         const newQuestion: Question = {
             question_text: '',
             question_type: type,
             order_index: questions.length,
             points: 1,
             explanation: '',
-            answers: type === 'true_false'
-                ? [
-                    { option_text: 'True', is_correct: false, order_index: 0 },
-                    { option_text: 'False', is_correct: false, order_index: 1 }
-                ]
-                : [
-                    { option_text: '', is_correct: false, order_index: 0 },
-                    { option_text: '', is_correct: false, order_index: 1 },
-                    { option_text: '', is_correct: false, order_index: 2 },
-                    { option_text: '', is_correct: false, order_index: 3 }
-                ]
+            answers
         };
         setQuestions([...questions, newQuestion]);
     };
@@ -264,6 +282,24 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
     const updateAnswer = (qIndex: number, aIndex: number, updates: Partial<Answer>) => {
         const updated = [...questions];
         updated[qIndex].answers[aIndex] = { ...updated[qIndex].answers[aIndex], ...updates };
+        setQuestions(updated);
+    };
+
+    const addAnswerOption = (qIndex: number) => {
+        const updated = [...questions];
+        const newOrderIndex = updated[qIndex].answers.length;
+        updated[qIndex].answers.push({
+            option_text: '',
+            match_text: updated[qIndex].question_type === 'drag_and_drop' ? '' : undefined,
+            is_correct: updated[qIndex].question_type === 'drag_and_drop', // Always correct for matching pairs
+            order_index: newOrderIndex
+        });
+        setQuestions(updated);
+    };
+
+    const removeAnswerOption = (qIndex: number, aIndex: number) => {
+        const updated = [...questions];
+        updated[qIndex].answers = updated[qIndex].answers.filter((_, i) => i !== aIndex);
         setQuestions(updated);
     };
 
@@ -295,7 +331,7 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         className="w-full px-4 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary"
-                        placeholder="e.g., Module 1 Assessment"
+                        placeholder={moduleId ? "e.g., Module Assessment" : "e.g., Lesson Quiz"}
                     />
                 </div>
 
@@ -373,7 +409,7 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
                             onChange={(e) => setRequiredForCompletion(e.target.checked)}
                             className="w-4 h-4"
                         />
-                        <span className="text-sm font-medium text-primary">Require passing this quiz to complete lesson</span>
+                        <span className="text-sm font-medium text-primary">Require passing this quiz to complete {moduleId ? 'module' : 'lesson'}</span>
                     </label>
                 </div>
             </div>
@@ -388,7 +424,7 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
                             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
                         >
                             <Plus className="w-4 h-4" />
-                            Multiple Choice
+                            Multi-Choice
                         </button>
                         <button
                             onClick={() => addQuestion('true_false')}
@@ -396,6 +432,13 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
                         >
                             <Plus className="w-4 h-4" />
                             True/False
+                        </button>
+                        <button
+                            onClick={() => addQuestion('drag_and_drop')}
+                            className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-800 hover:bg-blue-200 rounded-lg transition-colors"
+                        >
+                            <Plus className="w-4 h-4" />
+                            Drag & Drop
                         </button>
                         <button
                             onClick={() => addQuestion('short_answer')}
@@ -414,9 +457,7 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
                                 <GripVertical className="w-5 h-5 text-muted-foreground cursor-move" />
                                 <span className="font-medium">Question {qIndex + 1}</span>
                                 <span className="text-xs px-2 py-1 rounded bg-muted">
-                                    {question.question_type === 'multiple_choice' ? 'Multiple Choice'
-                                        : question.question_type === 'short_answer' ? 'Short Answer'
-                                            : 'True/False'}
+                                    {question.question_type.replace(/_/g, ' ').toUpperCase()}
                                 </span>
                             </div>
                             <button
@@ -475,7 +516,46 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
                             </div>
                         </div>
 
-                        {question.question_type !== 'short_answer' && (
+                        {question.question_type === 'drag_and_drop' && (
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Matching Pairs</label>
+                                <div className="space-y-3">
+                                    {question.answers.map((answer, aIndex) => (
+                                        <div key={aIndex} className="flex items-center gap-2">
+                                            <input
+                                                type="text"
+                                                value={answer.option_text}
+                                                onChange={(e) => updateAnswer(qIndex, aIndex, { option_text: e.target.value })}
+                                                className="flex-1 px-4 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary"
+                                                placeholder={`Item ${aIndex + 1}`}
+                                            />
+                                            <span className="text-muted-foreground">Matches</span>
+                                            <input
+                                                type="text"
+                                                value={answer.match_text || ''}
+                                                onChange={(e) => updateAnswer(qIndex, aIndex, { match_text: e.target.value })}
+                                                className="flex-1 px-4 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary"
+                                                placeholder={`Match for Item ${aIndex + 1}`}
+                                            />
+                                            <button
+                                                onClick={() => removeAnswerOption(qIndex, aIndex)}
+                                                className="text-red-500 hover:text-red-600 px-2"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                                <button
+                                    onClick={() => addAnswerOption(qIndex)}
+                                    className="mt-2 text-sm text-primary hover:text-primary/80 flex items-center gap-1"
+                                >
+                                    <Plus className="w-4 h-4" /> Add Pair
+                                </button>
+                            </div>
+                        )}
+
+                        {question.question_type !== 'short_answer' && question.question_type !== 'drag_and_drop' && (
                             <div>
                                 <label className="block text-sm font-medium mb-2">Answer Options</label>
                                 <div className="space-y-2">
@@ -502,9 +582,25 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
                                                 className="flex-1 px-4 py-2 rounded-lg bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary"
                                                 placeholder={`Option ${aIndex + 1}`}
                                             />
+                                            {question.question_type !== 'true_false' && (
+                                                <button
+                                                    onClick={() => removeAnswerOption(qIndex, aIndex)}
+                                                    className="text-red-500 hover:text-red-600 px-2"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
+                                {question.question_type !== 'true_false' && (
+                                    <button
+                                        onClick={() => addAnswerOption(qIndex)}
+                                        className="mt-2 text-sm text-primary hover:text-primary/80 flex items-center gap-1"
+                                    >
+                                        <Plus className="w-4 h-4" /> Add Option
+                                    </button>
+                                )}
                                 <p className="text-xs text-muted-foreground mt-2">Select the radio button for the correct answer</p>
                             </div>
                         )}
@@ -545,6 +641,12 @@ export default function QuizBuilder({ lessonId }: QuizBuilderProps) {
                                 className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors"
                             >
                                 Add True/False
+                            </button>
+                            <button
+                                onClick={() => addQuestion('drag_and_drop')}
+                                className="px-4 py-2 bg-blue-100 text-blue-800 rounded-lg transition-colors"
+                            >
+                                Add Drag & Drop
                             </button>
                         </div>
                     </div>

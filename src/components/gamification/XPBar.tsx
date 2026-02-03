@@ -45,7 +45,7 @@ export function XPBar({ currentXP, level, showLabel = true }: XPBarProps) {
                 relative h-6 w-full
                 bg-zinc-200 dark:bg-zinc-800
                 border-3 border-black dark:border-white
-                overflow-hidden
+                shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]
             ">
                 {/* Progress Fill */}
                 <div

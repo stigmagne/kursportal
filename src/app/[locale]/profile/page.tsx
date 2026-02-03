@@ -3,10 +3,12 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import { User, Mail, Calendar, Tag, Upload, Loader2, Save, Award, Activity } from 'lucide-react';
+import { User, Mail, Calendar, Tag, Upload, Loader2, Save, Award, Activity, Edit2, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { ActivityLog } from '@/components/profile/ActivityLog';
+import { XPBar } from '@/components/gamification/XPBar';
+import { StreakCounter } from '@/components/gamification/StreakCounter';
 import { BadgeCollection } from '@/components/profile/BadgeCollection';
 
 type Tab = 'overview' | 'badges' | 'activity';
@@ -20,6 +22,7 @@ export default function ProfilePage() {
     const [user, setUser] = useState<any>(null);
     const [profile, setProfile] = useState<any>(null);
     const [categories, setCategories] = useState<any[]>([]);
+    const [streakData, setStreakData] = useState<any>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [activeTab, setActiveTab] = useState<Tab>('overview');
 
@@ -60,6 +63,15 @@ export default function ProfilePage() {
                 .eq('user_id', user.id);
 
             setCategories(userCats || []);
+
+            // Fetch user streak
+            const { data: streak } = await supabase
+                .from('user_streaks')
+                .select('*')
+                .eq('user_id', user.id)
+                .single();
+
+            setStreakData(streak);
         } catch (error) {
             console.error('Error fetching profile:', error);
         } finally {
@@ -130,200 +142,234 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="min-h-screen bg-background py-12">
+        <div className="min-h-screen bg-amber-50/50 py-12">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="space-y-8"
                 >
-                    {/* Header */}
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
-                        <p className="text-muted-foreground mt-2">{t('subtitle')}</p>
-                    </div>
-
-                    {/* Tabs */}
-                    <div className="border-b border-gray-200">
-                        <nav className="flex gap-8">
-                            <button
-                                onClick={() => setActiveTab('overview')}
-                                className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'overview'
-                                    ? 'border-blue-500 text-blue-600'
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    }`}
-                            >
-                                <User className="w-4 h-4 inline mr-2" />
-                                {t('overview')}
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('badges')}
-                                className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'badges'
-                                    ? 'border-blue-500 text-blue-600'
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    }`}
-                            >
-                                <Award className="w-4 h-4 inline mr-2" />
-                                {t('badges')}
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('activity')}
-                                className={`pb-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === 'activity'
-                                    ? 'border-blue-500 text-blue-600'
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                    }`}
-                            >
-                                <Activity className="w-4 h-4 inline mr-2" />
-                                {t('activity_log')}
-                            </button>
-                        </nav>
-                    </div>
-
-                    {/* Tab Content */}
-                    {activeTab === 'overview' && (
-                        <div className="space-y-8">
-                            {/* Profile Card */}
-                            <div className="bg-white rounded-2xl border border-gray-200 p-8">
-                                <div className="flex flex-col md:flex-row gap-8">
-                                    {/* Avatar Section */}
-                                    <div className="flex flex-col items-center space-y-4">
-                                        <div className="relative group">
-                                            <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border-4 border-blue-100">
-                                                {profile?.avatar_url ? (
-                                                    <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
-                                                ) : (
-                                                    <User className="w-16 h-16 text-gray-400" />
-                                                )}
+                    {/* Header Card */}
+                    <div className="bg-white border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-xl overflow-hidden">
+                        <div className="h-32 bg-blue-500 border-b-2 border-black pattern-dots pattern-blue-600 pattern-bg-white pattern-size-4 pattern-opacity-10" />
+                        <div className="px-8 pb-8">
+                            <div className="flex flex-col md:flex-row items-start gap-6 -mt-12">
+                                {/* Avatar */}
+                                <div className="relative group">
+                                    <div className="w-32 h-32 rounded-xl border-4 border-white ring-2 ring-black shadow-lg overflow-hidden bg-white relative">
+                                        {profile?.avatar_url ? (
+                                            <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                                <User className="w-16 h-16 text-gray-400" />
                                             </div>
-                                            <label className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                                                <Upload className="w-6 h-6 text-white" />
-                                                <input
-                                                    type="file"
-                                                    accept="image/*"
-                                                    className="hidden"
-                                                    onChange={handleAvatarUpload}
-                                                />
-                                            </label>
+                                        )}
+                                        <label className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                                            <Upload className="w-8 h-8 text-white" />
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                className="hidden"
+                                                onChange={handleAvatarUpload}
+                                            />
+                                        </label>
+                                    </div>
+                                </div>
+
+                                {/* User Info */}
+                                <div className="flex-1 pt-4 md:pt-12 w-full md:w-auto">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <h1 className="text-3xl font-black tracking-tight flex items-center gap-2">
+                                                {profile?.full_name || t('no_name')}
+                                                {profile?.role === 'admin' && (
+                                                    <span className="px-2 py-1 text-xs bg-black text-white rounded border border-black font-mono">
+                                                        ADMIN
+                                                    </span>
+                                                )}
+                                            </h1>
+                                            <p className="text-lg text-gray-600 font-medium">{profile?.bio || t('no_bio')}</p>
                                         </div>
-                                        <p className="text-xs text-gray-500">{t('click_upload')}</p>
+                                        <button
+                                            onClick={() => setIsEditing(!isEditing)}
+                                            className="p-2 bg-white border-2 border-black rounded-lg hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transition-all active:translate-y-0 active:shadow-none"
+                                        >
+                                            {isEditing ? <X className="w-5 h-5" /> : <Edit2 className="w-5 h-5" />}
+                                        </button>
                                     </div>
 
-                                    {/* Info Section */}
-                                    <div className="flex-1 space-y-6">
-                                        {isEditing ? (
-                                            <>
-                                                <div>
-                                                    <label className="block text-sm font-medium mb-2 text-gray-700">{t('full_name')}</label>
-                                                    <input
-                                                        type="text"
-                                                        value={formData.full_name}
-                                                        onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                                                        className="w-full px-4 py-2 rounded-lg bg-white border border-gray-300 focus:border-blue-500 focus:outline-none text-gray-900"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-medium mb-2 text-gray-700">{t('bio')}</label>
-                                                    <textarea
-                                                        value={formData.bio}
-                                                        onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                                                        rows={4}
-                                                        className="w-full px-4 py-2 rounded-lg bg-white border border-gray-300 focus:border-blue-500 focus:outline-none resize-none text-gray-900"
-                                                        placeholder={t('bio_placeholder')}
-                                                    />
-                                                </div>
-                                                <div className="flex gap-3">
-                                                    <button
-                                                        onClick={handleSave}
-                                                        disabled={saving}
-                                                        className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
-                                                    >
-                                                        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                                                        {t('save_changes')}
-                                                    </button>
-                                                    <button
-                                                        onClick={() => setIsEditing(false)}
-                                                        className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors"
-                                                    >
-                                                        {t('cancel')}
-                                                    </button>
-                                                </div>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <div>
-                                                    <h2 className="text-2xl font-bold text-gray-900">{profile?.full_name || t('no_name')}</h2>
-                                                    <p className="text-gray-600 mt-1">{profile?.bio || t('no_bio')}</p>
-                                                </div>
-
-                                                <div className="space-y-3">
-                                                    <div className="flex items-center gap-3 text-sm text-gray-700">
-                                                        <Mail className="w-4 h-4 text-gray-400" />
-                                                        <span>{user?.email}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-3 text-sm text-gray-700">
-                                                        <Calendar className="w-4 h-4 text-gray-400" />
-                                                        <span>{t('joined')} {new Date(profile?.created_at).toLocaleDateString()}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-3 text-sm text-gray-700">
-                                                        <User className="w-4 h-4 text-gray-400" />
-                                                        <span className="capitalize">{profile?.role}</span>
-                                                    </div>
-                                                </div>
-
+                                    {/* Edit Mode */}
+                                    {isEditing && (
+                                        <div className="mt-6 p-6 bg-yellow-50 border-2 border-black rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-4">
+                                            <div>
+                                                <label className="block text-sm font-bold mb-2">{t('full_name')}</label>
+                                                <input
+                                                    type="text"
+                                                    value={formData.full_name}
+                                                    onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+                                                    className="w-full p-3 border-2 border-black rounded-lg focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:outline-none transition-shadow"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-bold mb-2">{t('bio')}</label>
+                                                <textarea
+                                                    value={formData.bio}
+                                                    onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                                                    rows={3}
+                                                    className="w-full p-3 border-2 border-black rounded-lg focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:outline-none transition-shadow resize-none"
+                                                />
+                                            </div>
+                                            <div className="flex justify-end gap-3">
                                                 <button
-                                                    onClick={() => setIsEditing(true)}
-                                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                                                    onClick={() => setIsEditing(false)}
+                                                    className="px-4 py-2 font-bold border-2 border-transparent hover:bg-gray-100 rounded-lg"
                                                 >
-                                                    {t('edit_profile')}
+                                                    {t('cancel')}
                                                 </button>
-                                            </>
-                                        )}
+                                                <button
+                                                    onClick={handleSave}
+                                                    disabled={saving}
+                                                    className="flex items-center gap-2 px-6 py-2 bg-black text-white font-bold border-2 border-black rounded-lg hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] hover:-translate-y-1 transition-all"
+                                                >
+                                                    {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                                    {t('save_changes')}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* User Details Grid */}
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                                        <div className="flex items-center gap-3 p-3 bg-gray-50 border-2 border-gray-200 rounded-lg">
+                                            <Mail className="w-5 h-5 text-gray-500" />
+                                            <div className="overflow-hidden">
+                                                <div className="text-xs font-bold text-gray-400 uppercase">Email</div>
+                                                <div className="text-sm font-medium truncate">{user?.email}</div>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-3 p-3 bg-gray-50 border-2 border-gray-200 rounded-lg">
+                                            <Calendar className="w-5 h-5 text-gray-500" />
+                                            <div>
+                                                <div className="text-xs font-bold text-gray-400 uppercase">{t('joined')}</div>
+                                                <div className="text-sm font-medium">{new Date(profile?.created_at).toLocaleDateString()}</div>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-3 p-3 bg-gray-50 border-2 border-gray-200 rounded-lg">
+                                            <User className="w-5 h-5 text-gray-500" />
+                                            <div>
+                                                <div className="text-xs font-bold text-gray-400 uppercase">Role</div>
+                                                <div className="text-sm font-medium capitalize">{profile?.role}</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            {/* Assigned Categories */}
-                            {categories.length > 0 && (
-                                <div className="bg-white rounded-2xl border border-gray-200 p-8">
-                                    <h3 className="text-xl font-semibold mb-4 flex items-center gap-2 text-gray-900">
-                                        <Tag className="w-5 h-5 text-blue-500" />
-                                        {t('categories')}
-                                    </h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {categories.map((uc: any) => (
-                                            <span
-                                                key={uc.category_id}
-                                                className="px-3 py-1 rounded-full text-sm font-medium border"
-                                                style={{
-                                                    backgroundColor: `${uc.categories.color}20`,
-                                                    borderColor: uc.categories.color,
-                                                    color: uc.categories.color,
-                                                }}
-                                            >
-                                                {uc.categories.name}
-                                            </span>
-                                        ))}
+                    {/* Tabs */}
+                    <div className="flex gap-4 border-b-4 border-black/10 pb-1 overflow-x-auto">
+                        {['overview', 'badges', 'activity'].map((tab) => (
+                            <button
+                                key={tab}
+                                onClick={() => setActiveTab(tab as Tab)}
+                                className={`pb-3 px-6 font-black text-lg border-b-4 transition-all whitespace-nowrap flex items-center gap-2 ${activeTab === tab
+                                    ? 'border-black text-black translate-y-1'
+                                    : 'border-transparent text-gray-400 hover:text-gray-600 hover:border-gray-200'
+                                    }`}
+                            >
+                                {tab === 'overview' && <User className="w-5 h-5" />}
+                                {tab === 'badges' && <Award className="w-5 h-5" />}
+                                {tab === 'activity' && <Activity className="w-5 h-5" />}
+                                {t(tab === 'activity' ? 'activity_log' : tab)}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Content */}
+                    <div className="grid gap-8">
+                        {activeTab === 'overview' && (
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                {/* Left: XP & Progress */}
+                                <div className="lg:col-span-2 space-y-8">
+                                    <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl p-6">
+                                        <h3 className="text-xl font-black mb-6 flex items-center gap-3">
+                                            <div className="p-2 bg-yellow-400 border-2 border-black rounded-lg">
+                                                <Award className="w-6 h-6 text-black" />
+                                            </div>
+                                            {t('your_progress')}
+                                        </h3>
+                                        <XPBar
+                                            currentXP={profile?.total_xp || 0}
+                                            level={profile?.level || 1}
+                                        />
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-4">
-                                        {t('categories_desc')}
-                                    </p>
+
+                                    {/* Categories */}
+                                    {categories.length > 0 && (
+                                        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl p-6">
+                                            <h3 className="text-xl font-black mb-6 flex items-center gap-3">
+                                                <div className="p-2 bg-purple-400 border-2 border-black rounded-lg">
+                                                    <Tag className="w-6 h-6 text-black" />
+                                                </div>
+                                                {t('categories')}
+                                            </h3>
+                                            <div className="flex flex-wrap gap-3">
+                                                {categories.map((uc: any) => (
+                                                    <span
+                                                        key={uc.category_id}
+                                                        className="px-4 py-2 rounded-lg text-sm font-bold border-2 bg-white"
+                                                        style={{
+                                                            borderColor: uc.categories.color,
+                                                            color: uc.categories.color,
+                                                            boxShadow: `4px 4px 0px 0px ${uc.categories.color}`
+                                                        }}
+                                                    >
+                                                        {uc.categories.name}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-                    )}
 
-                    {activeTab === 'badges' && (
-                        <div className="bg-white rounded-2xl border border-gray-200 p-8">
-                            <BadgeCollection />
-                        </div>
-                    )}
+                                {/* Right: Streaks */}
+                                <div>
+                                    <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl p-6 sticky top-8">
+                                        <h3 className="text-xl font-black mb-6 flex items-center gap-3">
+                                            <div className="p-2 bg-orange-500 border-2 border-black rounded-lg">
+                                                <Activity className="w-6 h-6 text-white" />
+                                            </div>
+                                            {t('streak_stats')}
+                                        </h3>
+                                        <StreakCounter
+                                            currentStreak={streakData?.current_streak || 0}
+                                            longestStreak={streakData?.longest_streak || 0}
+                                            lastActivityDate={streakData?.last_activity_date}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
 
-                    {activeTab === 'activity' && (
-                        <div className="bg-white rounded-2xl border border-gray-200 p-8">
-                            <h3 className="text-xl font-semibold mb-6 text-gray-900">{t('activity_log')}</h3>
-                            <ActivityLog />
-                        </div>
-                    )}
+                        {activeTab === 'badges' && (
+                            <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl p-8">
+                                <BadgeCollection />
+                            </div>
+                        )}
+
+                        {activeTab === 'activity' && (
+                            <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl p-8">
+                                <h3 className="text-xl font-black mb-6 flex items-center gap-3">
+                                    <div className="p-2 bg-blue-400 border-2 border-black rounded-lg">
+                                        <Activity className="w-6 h-6 text-black" />
+                                    </div>
+                                    {t('activity_log')}
+                                </h3>
+                                <ActivityLog />
+                            </div>
+                        )}
+                    </div>
                 </motion.div>
             </div>
         </div>

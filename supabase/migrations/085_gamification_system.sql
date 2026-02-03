@@ -5,6 +5,12 @@
 -- 1. BADGES DEFINITION
 -- ============================================
 
+-- Drop tables if they exist to ensure clean state (in case of failed previous runs or old versions)
+DROP TABLE IF EXISTS user_badges CASCADE;
+DROP TABLE IF EXISTS badges CASCADE;
+DROP TABLE IF EXISTS xp_events CASCADE;
+DROP TABLE IF EXISTS user_streaks CASCADE;
+
 CREATE TABLE IF NOT EXISTS badges (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     slug TEXT UNIQUE NOT NULL,
@@ -314,7 +320,7 @@ BEGIN
 
         -- Check for lesson badges
         SELECT COUNT(*) INTO lesson_count
-        FROM lesson_progress
+        FROM lesson_completion
         WHERE user_id = NEW.user_id AND completed = TRUE;
 
         IF lesson_count >= 5 THEN
@@ -326,9 +332,9 @@ BEGIN
 END;
 $$;
 
-DROP TRIGGER IF EXISTS trigger_lesson_xp ON lesson_progress;
+DROP TRIGGER IF EXISTS trigger_lesson_xp ON lesson_completion;
 CREATE TRIGGER trigger_lesson_xp
-    AFTER INSERT OR UPDATE ON lesson_progress
+    AFTER INSERT OR UPDATE ON lesson_completion
     FOR EACH ROW
     EXECUTE FUNCTION trigger_lesson_complete_xp();
 

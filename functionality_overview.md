@@ -22,6 +22,9 @@
 | **Tags-system**               | ✅ Komplett      | 2. feb 2026    |
 | **Obligatorisk vurdering**    | ✅ Komplett      | 27. jan 2026   |
 | **Stripe-integrasjon**        | ⚠️ Database klar | 26. jan 2026   |
+| **Sertifikatsystem**          | ✅ Komplett      | 3. feb 2026    |
+| **E-postvarsling**            | ✅ Komplett      | 3. feb 2026    |
+| **Admin Dashboard**           | ✅ Komplett      | 3. feb 2026    |
 
 ---
 
@@ -169,6 +172,7 @@
 | **Slack**           | Webhook    | Ny bruker, kurs fullført, quiz bestått |
 | **Discord**         | Webhook    | Ny bruker, kurs fullført, quiz bestått |
 | **Microsoft Teams** | Webhook    | Ny bruker, kurs fullført, quiz bestått |
+| **Resend**          | E-postAPI  | Velkomst, sertifikat, påminnelser      |
 | **Stripe**          | Betalinger | Abonnementer og enkeltbetalinger       |
 
 Konfigureres i Admin → Innstillinger → Integrasjoner.
@@ -255,9 +259,9 @@ Alle kryptert med AES-256-GCM (zero-knowledge).
 ### Høy Prioritet
 
 - [x] **Video-integrasjon**: Vimeo + YouTube embedding i leksjoner ✅
-- [ ] **Ferdigstillelsesbevis**: PDF-sertifikat ved fullført kurs
-- [ ] **E-postvarsler**: Automatisk påminnelse om uavsluttede kurs
-- [ ] **Statistikkpanel**: Utvidet statistikk for admin (completion rate, tid brukt)
+- [x] **Ferdigstillelsesbevis**: PDF-sertifikat ved fullført kurs ✅
+- [x] **E-postvarsler**: Automatisk påminnelse om uavsluttede kurs ✅
+- [x] **Statistikkpanel**: Utvidet statistikk for admin (completion rate, tid brukt) ✅
 
 ### Medium Prioritet
 
@@ -277,15 +281,16 @@ Alle kryptert med AES-256-GCM (zero-knowledge).
 
 ### Tekniske Forbedringer
 
-- [ ] **Bedre caching**: Service worker-oppdatering for raskere lasting
+- [x] **Bedre caching**: Service worker-oppdatering for raskere lasting ✅
 - [ ] **Søkefunksjon**: Globalt søk på tvers av kurs og leksjoner
-- [ ] **Tilgjengelighet (a11y)**: WCAG 2.1 AA compliance-gjennomgang
-- [ ] **Performance-optimalisering**: Lazy loading av moduler
+- [x] **Tilgjengelighet (a11y)**: WCAG 2.1 AA compliance-gjennomgang ✅
+- [x] **Performance-optimalisering**: Lazy loading av moduler ✅
 
 ### UI/UX Forbedringer
 
-- [ ] **Profilside badges**: Erstatte emojis med Lucide-ikoner på `/profile`-siden
-- [ ] **Profilside styling**: Oppdatere knapper og rammer i Oversikt-seksjonen til neo-brutalist design
+- [x] **Profilside badges**: Erstatte emojis med Lucide-ikoner på `/profile`-siden ✅
+- [x] **Profilside styling**: Oppdatere knapper og rammer i Oversikt-seksjonen til neo-brutalist design ✅
+- [x] **Kursside styling**: Oppdatere header og modulliste til neo-brutalist design ✅
 
 ### Innholdsforbedringer
 
@@ -296,4 +301,4 @@ Alle kryptert med AES-256-GCM (zero-knowledge).
 
 ---
 
-*Sist oppdatert: 2. februar 2026*
+*Sist oppdatert: 3. februar 2026 (Neo-brutalist Redesign)*

@@ -3,10 +3,11 @@ import { Link, redirect as nextIntlRedirect } from '@/i18n/routing'
 import { notFound, redirect } from 'next/navigation'
 import { ArrowLeft, CheckCircle, Lock, Users, Heart } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-import QuizTaker from '@/components/QuizTaker'
+
 import CourseProgressSidebar from '@/components/CourseProgressSidebar'
 import EnrollButton from '@/components/student/EnrollButton';
 import { getTranslations } from 'next-intl/server';
+import { CourseContentWrapper } from '@/components/courses/CourseContentWrapper';
 
 export default async function CoursePage({ params }: { params: Promise<{ id: string; locale: string }> }) {
     const { id, locale } = await params;
@@ -41,6 +42,10 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
                     title,
                     duration_minutes,
                     order_index
+                ),
+                quizzes(
+                    id,
+                    title
                 )
             )
         `)
@@ -176,22 +181,76 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
         }
     }
 
+    // Fetch discussions and replies for the integrated forum
+    const { data: discussionsData } = await supabase
+        .from('discussion_with_counts')
+        .select('*')
+        .eq('course_id', id)
+        .order('created_at', { ascending: false });
+
+    // Fetch replies for these discussions
+    // Note: In a production app with many discussions, we would load replies on demand.
+    // For this MVP, we fetch all relevant replies to enable the "Single Page" feel in the wrapper.
+    let fullDiscussions: any[] = [];
+
+    if (discussionsData && discussionsData.length > 0) {
+        const discussionIds = discussionsData.map(d => d.id);
+
+        const { data: repliesData } = await supabase
+            .from('discussion_replies')
+            .select(`
+                *,
+                author:profiles(full_name, avatar_url),
+                likes:discussion_likes(id)
+            `)
+            .in('discussion_id', discussionIds)
+            .order('created_at', { ascending: true });
+
+        // Map and combine data
+        fullDiscussions = discussionsData.map(d => {
+            const relevantReplies = repliesData?.filter(r => r.discussion_id === d.id) || [];
+
+            const mappedReplies = relevantReplies.map(r => ({
+                id: r.id,
+                content: r.content,
+                user_id: r.user_id,
+                author_name: r.author?.full_name || 'Ukjent bruker',
+                author_avatar: r.author?.avatar_url,
+                parent_reply_id: r.parent_reply_id,
+                is_solution: r.is_solution,
+                like_count: r.likes?.length || 0,
+                created_at: r.created_at
+            }));
+
+            return {
+                ...d,
+                replies: mappedReplies
+            };
+        });
+    }
+
     return (
         <div className="min-h-screen bg-background">
             {/* Course Header */}
-            <div className="bg-muted/30 border-b border-white/5">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-                    <Link href="/courses" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 text-sm font-medium transition-colors">
-                        <ArrowLeft className="w-4 h-4" />
-                        {t('back_to_catalog')}
-                    </Link>
-                    <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{course.title}</h1>
-                    <p className="text-xl text-muted-foreground">{course.description}</p>
+            <div className="bg-background pb-12">
+                <div className="h-48 bg-yellow-400 border-b-4 border-black pattern-dots pattern-yellow-500 pattern-bg-white pattern-size-4 pattern-opacity-20 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+                </div>
+
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 -mt-24">
+                    <div className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8 md:p-10">
+                        <Link href="/courses" className="inline-flex items-center gap-2 text-gray-500 hover:text-black mb-6 text-sm font-black uppercase tracking-wide transition-colors group">
+                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                            {t('back_to_catalog')}
+                        </Link>
+                        <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">{course.title}</h1>
+                        <p className="text-xl md:text-2xl text-gray-600 font-medium leading-relaxed max-w-3xl">{course.description}</p>
+                    </div>
                 </div>
             </div>
 
             {/* Content Area */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
                 <div className="grid gap-12 lg:grid-cols-[1fr_250px]">
 
                     {/* Main Content */}
@@ -209,60 +268,16 @@ export default async function CoursePage({ params }: { params: Promise<{ id: str
                             />
                         </div>
 
-                        {/* Course Modules and Lessons */}
-                        {course.course_modules && course.course_modules.length > 0 ? (
-                            <div className="space-y-6">
-                                <h2 className="text-2xl font-bold">{t('course_content')}</h2>
-                                {course.course_modules
-                                    .sort((a: any, b: any) => a.order_index - b.order_index)
-                                    .map((module: any, moduleIndex: number) => (
-                                        <div
-                                            key={module.id}
-                                            className="border-2 border-foreground/20 bg-card"
-                                        >
-                                            <div className="px-6 py-4 border-b-2 border-foreground/10 bg-muted/30">
-                                                <h3 className="font-bold text-lg">
-                                                    {t('module')} {moduleIndex + 1}: {module.title}
-                                                </h3>
-                                                {module.description && (
-                                                    <p className="text-sm text-muted-foreground mt-1">
-                                                        {module.description}
-                                                    </p>
-                                                )}
-                                            </div>
-                                            <ul className="divide-y divide-foreground/10">
-                                                {module.lessons
-                                                    ?.sort((a: any, b: any) => a.order_index - b.order_index)
-                                                    .map((lesson: any, lessonIndex: number) => (
-                                                        <li key={lesson.id} className="px-6 py-3 flex items-center justify-between hover:bg-muted/20 transition-colors">
-                                                            <span className="flex items-center gap-3">
-                                                                <span className="text-muted-foreground text-sm font-mono">
-                                                                    {moduleIndex + 1}.{lessonIndex + 1}
-                                                                </span>
-                                                                <span>{lesson.title}</span>
-                                                            </span>
-                                                            {lesson.duration_minutes && (
-                                                                <span className="text-xs text-muted-foreground">
-                                                                    {lesson.duration_minutes} min
-                                                                </span>
-                                                            )}
-                                                        </li>
-                                                    ))}
-                                            </ul>
-                                        </div>
-                                    ))}
-                            </div>
-                        ) : (
-                            <div className="text-muted-foreground italic">
-                                {t('no_content')}
-                            </div>
-                        )}
-
                         <hr className="border-white/10" />
 
-                        <div className="mt-12">
-                            <QuizTaker />
-                        </div>
+                        {/* Integrated Course Content & Discussions */}
+                        <CourseContentWrapper
+                            courseId={course.id}
+                            modules={course.course_modules || []}
+                            discussions={fullDiscussions}
+                            currentUserId={user.id}
+                            locale={locale}
+                        />
                     </div>
 
                     {/* Sidebar / Actions */}

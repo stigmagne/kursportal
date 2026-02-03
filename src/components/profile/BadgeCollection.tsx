@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { Award, Lock } from 'lucide-react';
+import { Award, Lock, Star, Trophy, Medal, Zap, Target, BookOpen, MessageSquare, GraduationCap } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 
@@ -128,12 +128,31 @@ export function BadgeCollection() {
 
     const getTierColor = (tier: string) => {
         switch (tier) {
-            case 'bronze': return 'from-amber-600 to-amber-800';
-            case 'silver': return 'from-gray-400 to-gray-600';
-            case 'gold': return 'from-yellow-400 to-yellow-600';
-            case 'platinum': return 'from-purple-400 to-purple-600';
-            default: return 'from-gray-400 to-gray-600';
+            case 'bronze': return 'from-amber-600 to-amber-800 border-amber-900';
+            case 'silver': return 'from-slate-400 to-slate-600 border-slate-700';
+            case 'gold': return 'from-yellow-400 to-yellow-600 border-yellow-700';
+            case 'platinum': return 'from-purple-400 to-purple-600 border-purple-900';
+            default: return 'from-gray-400 to-gray-600 border-gray-700';
         }
+    };
+
+    const getBadgeIcon = (iconStr: string) => {
+        // Map common emojis to Lucide icons
+        const map: Record<string, React.ReactNode> = {
+            '🏆': <Trophy className="w-8 h-8" />,
+            '🥇': <Medal className="w-8 h-8" />,
+            '🥈': <Medal className="w-8 h-8" />,
+            '🥉': <Medal className="w-8 h-8" />,
+            '⭐': <Star className="w-8 h-8" />,
+            '🌟': <Star className="w-8 h-8" />,
+            '⚡': <Zap className="w-8 h-8" />,
+            '🎯': <Target className="w-8 h-8" />,
+            '📚': <BookOpen className="w-8 h-8" />,
+            '🎓': <GraduationCap className="w-8 h-8" />,
+            '💬': <MessageSquare className="w-8 h-8" />,
+        };
+
+        return map[iconStr] || <Award className="w-8 h-8" />;
     };
 
     if (isLoading) {
@@ -164,11 +183,13 @@ export function BadgeCollection() {
                                 key={badge.id}
                                 initial={{ scale: 0.9, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
-                                className={`relative p-6 rounded-xl bg-linear-to-br ${getTierColor(badge.tier)} text-white shadow-lg`}
+                                className={`relative p-6 rounded-xl bg-linear-to-br ${getTierColor(badge.tier)} text-white shadow-lg border-2`}
                             >
-                                <div className="text-4xl mb-2">{badge.icon}</div>
-                                <h4 className="font-bold text-sm mb-1">{badge.name}</h4>
-                                <p className="text-xs opacity-90">{badge.description}</p>
+                                <div className="mb-3 flex justify-center p-3 bg-white/20 rounded-full w-fit mx-auto backdrop-blur-sm">
+                                    {getBadgeIcon(badge.icon)}
+                                </div>
+                                <h4 className="font-bold text-sm mb-1 text-center">{badge.name}</h4>
+                                <p className="text-xs opacity-90 text-center">{badge.description}</p>
                                 <div className="absolute top-2 right-2">
                                     <Award className="w-4 h-4" />
                                 </div>
@@ -189,11 +210,13 @@ export function BadgeCollection() {
                         {unearnedBadges.map(({ badge, progress, total }) => (
                             <div
                                 key={badge.id}
-                                className="relative p-6 rounded-xl bg-gray-100 border-2 border-gray-200 text-gray-600"
+                                className="relative p-6 rounded-xl bg-gray-50 border-2 border-dashed border-gray-300 text-gray-500 hover:bg-gray-100 transition-colors"
                             >
-                                <div className="text-4xl mb-2 opacity-40">{badge.icon}</div>
-                                <h4 className="font-bold text-sm mb-1">{badge.name}</h4>
-                                <p className="text-xs opacity-75 mb-2">{badge.description}</p>
+                                <div className="mb-3 flex justify-center p-3 bg-gray-200 rounded-full w-fit mx-auto grayscale opacity-50">
+                                    {getBadgeIcon(badge.icon)}
+                                </div>
+                                <h4 className="font-bold text-sm mb-1 text-center">{badge.name}</h4>
+                                <p className="text-xs opacity-75 mb-2 text-center">{badge.description}</p>
 
                                 {/* Progress bar */}
                                 {progress !== undefined && total !== undefined && total > 0 && (

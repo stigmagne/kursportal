@@ -79,7 +79,7 @@ export default function EnrollButton({ courseId, courseName, isEnrolled, onEnrol
         return (
             <button
                 onClick={handleContinue}
-                className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                className="w-full sm:w-auto px-8 py-4 bg-black text-white text-lg font-black uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all flex items-center justify-center gap-2"
             >
                 {t('continue')}
             </button>
@@ -91,7 +91,7 @@ export default function EnrollButton({ courseId, courseName, isEnrolled, onEnrol
             <button
                 onClick={handleEnroll}
                 disabled={isLoading}
-                className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 disabled:opacity-50 transition-colors flex items-center gap-2"
+                className="w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground text-lg font-black uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] disabled:opacity-50 disabled:shadow-none disabled:translate-x-0 disabled:translate-y-0 transition-all flex items-center justify-center gap-2"
             >
                 {isLoading ? (
                     <>

@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { Loader2, CheckCircle } from 'lucide-react';
+import { Download, Loader2, CheckCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 
 export default function CourseProgressSidebar({ courseId, initialProgress = 0 }: { courseId: string; initialProgress?: number }) {
     const t = useTranslations('CourseSidebar');
@@ -14,6 +15,7 @@ export default function CourseProgressSidebar({ courseId, initialProgress = 0 }:
     const [progress, setProgress] = useState(initialProgress);
     const [isLoading, setIsLoading] = useState(true);
     const [isUpdating, setIsUpdating] = useState(false);
+    const [certificateId, setCertificateId] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchProgress = async () => {
@@ -39,6 +41,18 @@ export default function CourseProgressSidebar({ courseId, initialProgress = 0 }:
                 });
 
             setProgress(progressData || 0);
+            // Check for certificate
+            const { data: certData } = await supabase
+                .from('certificates')
+                .select('id')
+                .eq('course_id', courseId)
+                .eq('user_id', user.id)
+                .maybeSingle();
+
+            if (certData) {
+                setCertificateId(certData.id);
+            }
+
             setIsLoading(false);
         };
         fetchProgress();
@@ -82,25 +96,30 @@ export default function CourseProgressSidebar({ courseId, initialProgress = 0 }:
     const isComplete = status === 'completed';
 
     return (
-        <div className="glass p-6 rounded-xl border border-white/10 sticky top-24">
-            <h3 className="font-semibold mb-4">{t('title')}</h3>
-            <div className="space-y-4">
-                <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-                    <div
-                        className="h-full transition-all duration-500 bg-primary"
-                        style={{ width: `${progress}%` }}
-                    />
+        <div className="bg-white p-6 rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] sticky top-24">
+            <h3 className="font-black text-lg mb-4 uppercase tracking-wide flex items-center gap-2">
+                <span className="w-2 h-2 bg-black rounded-full" />
+                {t('title')}
+            </h3>
+            <div className="space-y-6">
+                <div>
+                    <div className="w-full bg-gray-100 border-2 border-black rounded-full h-4 overflow-hidden mb-2">
+                        <div
+                            className="h-full transition-all duration-500 bg-blue-500 border-r-2 border-black"
+                            style={{ width: `${progress}%` }}
+                        />
+                    </div>
+                    <p className="text-xs font-bold text-right uppercase tracking-wider">
+                        {progress}% {t('completed')}
+                    </p>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                    {progress}% {t('completed')}
-                </p>
 
                 <button
                     onClick={handleMarkComplete}
                     disabled={isComplete || isUpdating}
-                    className={`w-full py-2.5 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 ${isComplete
-                        ? 'bg-green-500/20 text-green-500 cursor-default'
-                        : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20'
+                    className={`w-full py-3 rounded-lg font-black uppercase tracking-wider border-2 flex items-center justify-center gap-2 transition-all ${isComplete
+                        ? 'bg-green-100 text-green-700 border-green-700 cursor-default opacity-100'
+                        : 'bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-[4px] active:translate-y-[4px]'
                         }`}
                 >
                     {isUpdating && <Loader2 className="w-4 h-4 animate-spin" />}
@@ -108,6 +127,19 @@ export default function CourseProgressSidebar({ courseId, initialProgress = 0 }:
                     {!isUpdating && !isComplete && t('mark_complete')}
                 </button>
             </div>
+
+            {certificateId && (
+                <div className="mt-6 pt-6 border-t-2 border-dashed border-gray-300 animate-in fade-in slide-in-from-top-4 duration-700">
+                    <Link
+                        href={`/certificates/${certificateId}`}
+                        className="w-full py-3 rounded-lg border-2 border-black bg-yellow-400 text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] active:shadow-none active:translate-x-[4px] active:translate-y-[4px] transition-all flex items-center justify-center gap-2 font-black uppercase tracking-wide text-sm"
+                    >
+                        <Download className="w-4 h-4" />
+                        {t('download_certificate') || 'Last ned kursbevis'}
+                    </Link>
+                </div>
+            )}
+
         </div>
     );
 }

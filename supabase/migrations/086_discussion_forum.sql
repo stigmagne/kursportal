@@ -71,16 +71,9 @@ DROP POLICY IF EXISTS "Users can view discussions" ON course_discussions;
 CREATE POLICY "Users can view discussions" ON course_discussions
     FOR SELECT USING (
         EXISTS (
+            -- Rely on courses RLS to determine visibility
             SELECT 1 FROM courses c
             WHERE c.id = course_id
-            AND (
-                c.is_public = true
-                OR EXISTS (
-                    SELECT 1 FROM profiles p 
-                    WHERE p.id = (select auth.uid()) 
-                    AND p.group_id = ANY(c.target_groups)
-                )
-            )
         )
     );
 
@@ -99,7 +92,7 @@ DROP POLICY IF EXISTS "Users can delete own discussions" ON course_discussions;
 CREATE POLICY "Users can delete own discussions" ON course_discussions
     FOR DELETE USING (
         auth.uid() = user_id 
-        OR EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = true)
+        OR EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND role = 'admin')
     );
 
 -- ============================================
@@ -140,7 +133,7 @@ DROP POLICY IF EXISTS "Users can delete own replies" ON discussion_replies;
 CREATE POLICY "Users can delete own replies" ON discussion_replies
     FOR DELETE USING (
         auth.uid() = user_id 
-        OR EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND is_admin = true)
+        OR EXISTS (SELECT 1 FROM profiles WHERE id = (select auth.uid()) AND role = 'admin')
     );
 
 -- ============================================
