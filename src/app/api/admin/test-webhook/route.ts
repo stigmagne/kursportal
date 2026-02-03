@@ -1,6 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 
+const ALLOWED_WEBHOOK_HOSTS = [
+    'hooks.slack.com',
+    'discord.com',
+    'discordapp.com',
+    'outlook.office.com',
+    'outlook.office365.com',
+];
+
+function isAllowedWebhookUrl(urlString: string): boolean {
+    try {
+        const url = new URL(urlString);
+        if (url.protocol !== 'https:') return false;
+        return ALLOWED_WEBHOOK_HOSTS.some(host => url.hostname.endsWith(host));
+    } catch {
+        return false;
+    }
+}
+
 export async function POST(request: NextRequest) {
     const supabase = await createClient();
 
@@ -25,6 +43,13 @@ export async function POST(request: NextRequest) {
 
         if (!channel || !webhookUrl) {
             return NextResponse.json({ error: 'Missing channel or webhookUrl' }, { status: 400 });
+        }
+
+        if (!isAllowedWebhookUrl(webhookUrl)) {
+            return NextResponse.json(
+                { error: 'Invalid webhook URL. Only Slack, Discord and Teams webhook URLs are allowed.' },
+                { status: 400 }
+            );
         }
 
         let body: object;
@@ -87,7 +112,7 @@ export async function POST(request: NextRequest) {
             const errorText = await response.text();
             return NextResponse.json({ success: false, error: errorText }, { status: 400 });
         }
-    } catch (error) {
-        return NextResponse.json({ success: false, error: String(error) }, { status: 500 });
+    } catch {
+        return NextResponse.json({ success: false, error: 'Failed to send test webhook' }, { status: 500 });
     }
 }
