@@ -59,7 +59,7 @@ BEGIN
         INSERT INTO public.lesson_content (lesson_id, type, order_index, case_study_data)
         VALUES (v_lesson_id, 'case_study', 0, '{
             "situation": "I et nytt boligprosjekt oppsto det vannlekkasje fra badet ned i stuen etter 6 måneder. Undersøkelser viste at membranen rundt sluket ikke var tett. Håndverkeren hadde stresset med å bli ferdig før helgen og slurvet med å rengjøre slukmansjetten før oppsmøring.",
-            "reflection": "Hva er konsekvensen av 'bare litt støv' i membranen? Hvorfor er proffe håndverkere ekstra nøye med akkurat dette?",
+            "reflection": "Hva er konsekvensen av ''bare litt støv'' i membranen? Hvorfor er proffe håndverkere ekstra nøye med akkurat dette?",
             "learning_point": "60% av byggfeil er vannrelaterte. Rene overflater og nøyaktighet rundt sluk er kritisk. Det tar 5 minutter ekstra å gjøre det rett, men koster 100.000 kroner å fikse det etterpå."
         }');
 
@@ -72,7 +72,7 @@ BEGIN
         VALUES (v_lesson_id, 'case_study', 0, '{
             "situation": "Betonglaget og Tømrerlaget trenger begge tårnkranen kl 09:00. Bas for Tømrer mener de har booket den, men Bas for Betong sier de må støpe NÅ før betongen herder. Det oppstår høylytt krangel og kranfører stopper arbeidet i forvirring.",
             "reflection": "Hvordan påvirker denne konflikten hele byggeplassen? Hvordan burde dette vært løst i forkant?",
-            "learning_point": "Ressurskonflikter må løses i morgenmøter (driftsmøter), ikke i 'kampens hete'. Hvis akutt behov oppstår, må Basene kommunisere rolig for å finne løsning, eller kontakte byggeleder. Skriking stopper produksjonen."
+            "learning_point": "Ressurskonflikter må løses i morgenmøter (driftsmøter), ikke i ''kampens hete''. Hvis akutt behov oppstår, må Basene kommunisere rolig for å finne løsning, eller kontakte byggeleder. Skriking stopper produksjonen."
         }');
     END IF;
 END $$;
