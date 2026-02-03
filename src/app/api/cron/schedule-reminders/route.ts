@@ -82,7 +82,14 @@ export async function GET(request: NextRequest) {
                 continue; // User opted out
             }
 
-            const userEmail = (enrollment.profiles as any)?.email;
+            // Safe access to joined data which might be arrays or objects depending on generic types
+            const courseData = enrollment.courses;
+            const courseTitle = Array.isArray(courseData) ? courseData[0]?.title : (courseData as any)?.title;
+
+            const profileData = enrollment.profiles;
+            const userEmail = Array.isArray(profileData) ? profileData[0]?.email : (profileData as any)?.email;
+            const userName = Array.isArray(profileData) ? profileData[0]?.full_name : (profileData as any)?.full_name || 'Student';
+
             if (!userEmail) continue;
 
             // Queue the email
@@ -92,10 +99,10 @@ export async function GET(request: NextRequest) {
                     user_id: enrollment.user_id,
                     email_type: 'reminder',
                     recipient_email: userEmail,
-                    subject: `Påminnelse: ${enrollment.courses?.title}`,
+                    subject: `Påminnelse: ${courseTitle}`,
                     template_data: {
-                        user_name: (enrollment.profiles as any)?.full_name || 'Student',
-                        course_title: enrollment.courses?.title,
+                        user_name: userName,
+                        course_title: courseTitle,
                         course_id: enrollment.course_id,
                         course_url: `/courses/${enrollment.course_id}`
                     }

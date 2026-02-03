@@ -1,10 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
-import { createClient } from '@/utils/supabase/server';
-import dynamicClient from 'next/dynamic';
-const AnalyticsCharts = dynamicClient(() => import('@/components/admin/AnalyticsCharts').then(mod => mod.AnalyticsCharts), {
-    ssr: false,
-    loading: () => <div className="h-[300px] w-full animate-pulse bg-muted/20 rounded-xl" />
-});
+import AnalyticsChartsWrapper from '@/components/admin/AnalyticsChartsWrapper';
 import { getTranslations } from 'next-intl/server';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from '@/i18n/routing';
@@ -61,7 +56,7 @@ export default async function AnalyticsPage() {
                 </div>
             </div>
 
-            <AnalyticsCharts
+            <AnalyticsChartsWrapper
                 activityData={activityData || []}
                 courseData={courseStats}
             />

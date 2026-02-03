@@ -1,10 +1,6 @@
 import { createClient } from '@/utils/supabase/server';
 import { notFound, redirect } from 'next/navigation';
-import dynamic from 'next/dynamic';
-const CertificateView = dynamic(() => import('@/components/certificate/CertificateView'), {
-    ssr: false,
-    loading: () => <div className="h-[600px] w-full animate-pulse bg-muted/20 rounded-xl" />
-});
+import CertificateViewWrapper from '@/components/certificate/CertificateViewWrapper';
 import { Link } from '@/i18n/routing';
 import { ArrowLeft } from 'lucide-react';
 
@@ -66,7 +62,7 @@ export default async function CertificatePage({ params }: { params: Promise<{ id
                     <h1 className="text-2xl font-bold">Ditt Kursbevis</h1>
                 </div>
 
-                <CertificateView data={certificateData} />
+                <CertificateViewWrapper data={certificateData} />
             </div>
         </div>
     );
