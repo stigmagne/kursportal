@@ -40,6 +40,10 @@ export async function updateSession(request: NextRequest, response?: NextRespons
 
     // OPTIMIZATION: On public routes, skip getUser() if no auth cookies exist
     // This prevents unnecessary formatting latency for guest users
+    const pathname = request.nextUrl.pathname
+    // Extract locale-agnostic path
+    const pathWithoutLocale = pathname.replace(/^\/(no|en)/, '') || '/'
+
     const isPublicPath = pathWithoutLocale === '/' ||
         pathWithoutLocale.startsWith('/login') ||
         pathWithoutLocale.startsWith('/auth') ||
@@ -54,11 +58,6 @@ export async function updateSession(request: NextRequest, response?: NextRespons
         const { data: { user: authUser } } = await supabase.auth.getUser()
         user = authUser;
     }
-
-    const pathname = request.nextUrl.pathname
-
-    // Extract locale-agnostic path
-    const pathWithoutLocale = pathname.replace(/^\/(no|en)/, '') || '/'
 
     // SECURITY: Protect admin routes - require authentication AND admin role
     if (pathWithoutLocale.startsWith('/admin')) {
