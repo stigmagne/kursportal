@@ -38,9 +38,22 @@ export async function updateSession(request: NextRequest, response?: NextRespons
     // supabase.auth.getUser(). A simple mistake could make it very hard to debug
     // issues with users being randomly logged out.
 
-    const {
-        data: { user },
-    } = await supabase.auth.getUser()
+    // OPTIMIZATION: On public routes, skip getUser() if no auth cookies exist
+    // This prevents unnecessary formatting latency for guest users
+    const isPublicPath = pathWithoutLocale === '/' ||
+        pathWithoutLocale.startsWith('/login') ||
+        pathWithoutLocale.startsWith('/auth') ||
+        pathWithoutLocale === '/pricing';
+
+    const hasAuthCookie = request.cookies.getAll().some(c => c.name.startsWith('sb-'));
+
+    let user = null;
+
+    if (hasAuthCookie || !isPublicPath) {
+        // Only call getUser if we might have a session or MUST check auth
+        const { data: { user: authUser } } = await supabase.auth.getUser()
+        user = authUser;
+    }
 
     const pathname = request.nextUrl.pathname
 
