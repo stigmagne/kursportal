@@ -85,8 +85,8 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ processed: results.length, results });
 
-    } catch (error: any) {
+    } catch (error) {
         console.error('Cron job error:', error);
-        return new NextResponse('Internal Server Error: ' + error.message, { status: 500 });
+        return new NextResponse('Internal Server Error', { status: 500 });
     }
 }

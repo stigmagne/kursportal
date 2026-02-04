@@ -33,8 +33,8 @@ export default function LoginPage() {
             return;
         }
 
-        if (password.length < 6) {
-            setMessage('Password must be at least 6 characters');
+        if (password.length < 12) {
+            setMessage('Password must be at least 12 characters');
             setIsLoading(false);
             return;
         }
@@ -112,8 +112,8 @@ export default function LoginPage() {
                     router.push('/dashboard');
                 }
             }
-        } catch (error: any) {
-            setMessage(error.message || 'An error occurred');
+        } catch {
+            setMessage(mode === 'signin' ? 'Invalid email or password' : 'Registration failed. Please try again.');
         } finally {
             setIsLoading(false);
         }
