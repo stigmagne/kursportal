@@ -74,7 +74,10 @@ export default function JournalPage() {
         if (!passphrase) return;
 
         try {
-            const derivedKey = await deriveKey(passphrase);
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) throw new Error("Not authenticated");
+
+            const derivedKey = await deriveKey(passphrase, user.id);
             setKey(derivedKey);
             setIsUnlocked(true);
 
@@ -206,8 +209,8 @@ export default function JournalPage() {
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
                         className={`flex-1 flex items-center justify-center gap-2 py-3 font-medium transition-colors ${activeTab === tab.id
-                                ? 'bg-primary text-primary-foreground'
-                                : 'hover:bg-muted'
+                            ? 'bg-primary text-primary-foreground'
+                            : 'hover:bg-muted'
                             }`}
                     >
                         <tab.icon className="w-4 h-4" />

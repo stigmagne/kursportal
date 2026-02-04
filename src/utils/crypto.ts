@@ -4,15 +4,12 @@
  * Strategy:
  * 1. User provides a Passphrase.
  * 2. We derive a symmetric Key (AES-GCM) from the Passphrase using PBKDF2.
- *    (Note: For a real production app, we might use a random salt stored with the user,
- *     but for simplicity and recoverability across devices (if they use same phrase), 
- *     we'll use a deterministic salt or require the user to input it.
- *     Here we use a fixed app-specific salt for simplicity, but a user-specific salt is better).
+ *    Salt is now user-specific (userId + app prefix) for better security isolation.
  * 3. We Encrypt content -> Ciphertext + IV.
  * 4. We Decrypt content <- Ciphertext + IV + Key.
  */
 
-const SALT_STRING = "COURSE_HUB_JOURNAL_SALT_v1"; // In prod, ideally unique per user
+const SALT_PREFIX = "COURSE_HUB_JOURNAL_v2_"; // Prefix combined with userId for per-user salt
 
 // Convert string to buffer
 const str2ab = (str: string) => new TextEncoder().encode(str);
@@ -39,8 +36,11 @@ const base64ToArrayBuffer = (base64: string) => {
     return bytes.buffer;
 };
 
-// DERIVE KEY from Passphrase
-export async function deriveKey(passphrase: string): Promise<CryptoKey> {
+// DERIVE KEY from Passphrase with per-user salt
+export async function deriveKey(passphrase: string, userId: string): Promise<CryptoKey> {
+    // Create per-user salt by combining prefix with userId
+    const userSalt = `${SALT_PREFIX}${userId}`;
+
     const keyMaterial = await window.crypto.subtle.importKey(
         "raw",
         str2ab(passphrase),
@@ -52,7 +52,7 @@ export async function deriveKey(passphrase: string): Promise<CryptoKey> {
     return window.crypto.subtle.deriveKey(
         {
             name: "PBKDF2",
-            salt: str2ab(SALT_STRING), // For better security, fetch user's unique salt from DB
+            salt: str2ab(userSalt),
             iterations: 100000,
             hash: "SHA-256"
         },

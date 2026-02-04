@@ -51,7 +51,7 @@ export default function NewJournalEntry() {
             if (!user) throw new Error("Not authenticated");
 
             // 1. Derive Key
-            const key = await deriveKey(passphrase);
+            const key = await deriveKey(passphrase, user.id);
 
             // 2. Encrypt
             const { ciphertext, iv } = await encryptJournalEntry(content, key);

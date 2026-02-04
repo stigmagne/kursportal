@@ -68,7 +68,10 @@ export default function AssessmentTaker({
         setIsSubmitting(true);
 
         try {
-            const key = cryptoKey || await deriveKey(passphrase);
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) throw new Error("Not authenticated");
+
+            const key = cryptoKey || await deriveKey(passphrase, user.id);
 
             // Encrypt all responses
             const responsesJson = JSON.stringify(responses);
@@ -151,8 +154,8 @@ export default function AssessmentTaker({
                                                 type="button"
                                                 onClick={() => handleScaleChange(question.id, value)}
                                                 className={`flex-1 py-3 text-sm font-bold border-2 transition-all ${isSelected
-                                                        ? 'bg-primary text-primary-foreground border-primary'
-                                                        : 'bg-background border-black dark:border-white hover:bg-muted'
+                                                    ? 'bg-primary text-primary-foreground border-primary'
+                                                    : 'bg-background border-black dark:border-white hover:bg-muted'
                                                     }`}
                                             >
                                                 {value}
@@ -173,8 +176,8 @@ export default function AssessmentTaker({
                                             type="button"
                                             onClick={() => handleChoiceChange(question.id, option)}
                                             className={`px-4 py-2 text-sm font-medium border-2 transition-all ${isSelected
-                                                    ? 'bg-primary text-primary-foreground border-primary'
-                                                    : 'bg-background border-black dark:border-white hover:bg-muted'
+                                                ? 'bg-primary text-primary-foreground border-primary'
+                                                : 'bg-background border-black dark:border-white hover:bg-muted'
                                                 }`}
                                         >
                                             {option}
