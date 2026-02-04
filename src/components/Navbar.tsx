@@ -47,7 +47,7 @@ export default function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-                        <span className="bg-linear-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+                        <span className="bg-linear-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent font-extrabold">
                             Kursportal
                         </span>
                     </Link>

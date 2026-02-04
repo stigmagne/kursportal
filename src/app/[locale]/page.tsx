@@ -38,7 +38,7 @@ export default function Home() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <Link href="/courses" className="px-8 py-4 bg-primary text-white font-bold text-lg hover:translate-y-1 transition-all flex items-center gap-2 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none">
+            <Link href="/courses" className="px-8 py-4 bg-primary text-primary-foreground font-bold text-lg hover:translate-y-1 transition-all flex items-center gap-2 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none">
               {t('start_learning')} <ArrowRight className="w-5 h-5" />
             </Link>
             <Link href="/journal" className="px-8 py-4 bg-white text-black font-bold text-lg hover:bg-gray-50 hover:translate-y-1 transition-all border-2 border-black flex items-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none">
