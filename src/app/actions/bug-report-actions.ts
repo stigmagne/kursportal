@@ -22,7 +22,7 @@ export async function submitBugReport(formData: BugReportInput) {
 
     const validated = bugReportSchema.safeParse(formData);
     if (!validated.success) {
-        return { error: validated.error.errors[0].message };
+        return { error: validated.error.issues[0].message };
     }
 
     // Fetch user profile for email and name
