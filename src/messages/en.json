@@ -1,4 +1,31 @@
 {
+    "Footer": {
+        "quick_links": "Quick Links",
+        "sign_in": "Sign In",
+        "interested": "Interested?",
+        "report_bug": "Report Bug",
+        "privacy_security": "Privacy & Security",
+        "privacy_text": "Journal and Self-Assessment use Zero-Knowledge encryption. Everything is encrypted locally on your device – only you have access to the content.",
+        "all_rights_reserved": "All rights reserved.",
+        "zero_knowledge": "Journal & Self-Assessment: Zero-Knowledge"
+    },
+    "Contact": {
+        "title": "Interested?",
+        "subtitle": "Get in touch to learn more about how we can help your business with psychological safety.",
+        "name_label": "Name",
+        "name_placeholder": "Your name",
+        "email_label": "Email",
+        "email_placeholder": "your@email.com",
+        "company_label": "Company (optional)",
+        "company_placeholder": "Company name",
+        "message_label": "Message",
+        "message_placeholder": "Tell us what you would like to know more about...",
+        "send_button": "Send message",
+        "sending": "Sending...",
+        "thank_you": "Thank you for your inquiry!",
+        "we_will_contact": "We will get back to you as soon as possible.",
+        "direct_contact": "Or contact us directly at"
+    },
     "Navbar": {
         "home": "Home",
         "dashboard": "Dashboard",
@@ -9,24 +36,27 @@
         "admin": "Admin",
         "signIn": "Sign In",
         "signOut": "Sign Out",
-        "pricing": "Pricing"
+        "interested": "Interested?"
     },
     "Home": {
-        "new_courses": "New Courses Available",
-        "hero_title_1": "Master Your",
-        "hero_title_highlight": "Growth",
-        "hero_title_2": "Secure Your",
-        "hero_title_highlight_2": "Thoughts",
-        "hero_subtitle": "A premium hub for interactive learning, quizzing, and zero-knowledge private journaling. Your data belongs to you.",
-        "start_learning": "Start Learning",
-        "private_journal": "Private Journal",
+        "badge": "For invited members",
+        "hero_title_1": "Build",
+        "hero_title_highlight": "Trust",
+        "hero_title_2": "Strengthen",
+        "hero_title_highlight_2": "Voice",
+        "hero_subtitle": "A platform for psychological safety in the workplace. Courses, tools, and a safe channel to speak up – without fear of consequences.",
+        "sign_in": "Sign In",
+        "learn_more": "Learn more about us",
         "features": {
-            "interactive_courses": "Interactive Courses",
-            "interactive_courses_desc": "Deep dive into structured content designed for retention and growth.",
-            "smart_quizzes": "Smart Quizzes",
-            "smart_quizzes_desc": "Test your knowledge with dynamic quizzes that track your progress.",
+            "courses_tools": "Courses & Tools",
+            "courses_tools_desc": "Learn about psychological safety, communication, and conflict resolution – at your own pace.",
+            "self_assessment": "Self-Assessment",
+            "self_assessment_desc": "Measure your own work environment and track your progress over time. Anonymous and completely private.",
             "zk_journal": "Zero-Knowledge Journal",
-            "zk_journal_desc": "Write freely. Your journal is encrypted on your device. Even we can't read it."
+            "zk_journal_desc": "Write freely and safely. Your journal is encrypted on your device – only you have the key.",
+            "zk_what_is": "What does this mean?",
+            "zk_explanation": "Zero-Knowledge means we can never see your content. Everything is encrypted locally in your browser with a password only you know. We only store encrypted data – no one can decrypt it without your password.",
+            "zk_read_more": "Learn more about encryption"
         }
     },
     "Login": {
@@ -48,7 +78,40 @@
         "no_account": "Don't have an account? ",
         "has_account": "Already have an account? ",
         "sign_up_link": "Sign up",
-        "sign_in_link": "Sign in"
+        "sign_in_link": "Sign in",
+        "forgot_password": "Forgot password?"
+    },
+    "ForgotPassword": {
+        "title": "Forgot Password",
+        "subtitle": "Enter your email and we'll send you a link to reset your password.",
+        "email_label": "Email",
+        "email_placeholder": "your@email.com",
+        "send_button": "Send Reset Link",
+        "sending": "Sending...",
+        "back_to_login": "Back to login",
+        "success_title": "Check Your Email",
+        "success_message": "We've sent you a password reset link. Check your inbox.",
+        "error_not_found": "Error resetting password. Please try again."
+    },
+    "ResetPassword": {
+        "title": "New Password",
+        "subtitle": "Enter your new password below.",
+        "new_password_label": "New Password",
+        "confirm_password_label": "Confirm Password",
+        "password_placeholder": "At least 12 characters",
+        "reset_button": "Reset Password",
+        "resetting": "Resetting...",
+        "checking_token": "Verifying reset link...",
+        "success": "Password Reset!",
+        "redirecting": "Redirecting to login...",
+        "error_weak": "Password must be at least 12 characters.",
+        "error_mismatch": "Passwords do not match.",
+        "error_invalid_token": "Invalid or expired reset link. Request a new one.",
+        "strength": {
+            "weak": "Weak password",
+            "medium": "Medium password",
+            "strong": "Strong password"
+        }
     },
     "Dashboard": {
         "title": "My Dashboard",
@@ -336,6 +399,18 @@
         },
         "unknown_user": "Unknown User"
     },
+    "AdminSidebar": {
+        "panel_title": "Admin Panel",
+        "dashboard": "Dashboard",
+        "courses": "Courses",
+        "invitations": "Invitations",
+        "tags": "Tags",
+        "users": "Users",
+        "certificates": "Certificates",
+        "analytics": "Analytics",
+        "settings": "Settings",
+        "sign_out": "Sign out"
+    },
     "AdminAnalytics": {
         "title": "Analytics Dashboard",
         "subtitle": "Platform performance and insights",
@@ -517,5 +592,58 @@
         "content_placeholder": "Describe your problem or question in detail...",
         "posting": "Posting...",
         "post": "Post"
+    },
+    "BugReport": {
+        "title": "Report Bug",
+        "description": "Describe the problem you're experiencing, and we'll help you as quickly as possible.",
+        "titleLabel": "Title",
+        "titlePlaceholder": "Brief summary of the bug",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "Detailed description of what happened...",
+        "submit": "Submit Report",
+        "submitting": "Submitting...",
+        "success": "Thank you! Bug report submitted.",
+        "error": "Could not submit report. Please try again."
+    },
+    "AdminBugReports": {
+        "title": "Bug Reports",
+        "filter": "Filter",
+        "filterAll": "All",
+        "noReports": "No bug reports yet",
+        "descriptionLabel": "Description",
+        "pageUrl": "Page URL",
+        "browserInfo": "Browser Info",
+        "updateStatus": "Update Status",
+        "updatePriority": "Update Priority",
+        "adminNotes": "Admin Notes",
+        "adminNotesPlaceholder": "Internal notes about this bug...",
+        "status": {
+            "open": "Open",
+            "in-progress": "In Progress",
+            "resolved": "Resolved",
+            "closed": "Closed"
+        },
+        "priority": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High",
+            "critical": "Critical"
+        }
+    },
+    "Certificates": {
+        "title": "Certificates",
+        "download_pdf": "Download PDF",
+        "share_linkedin": "Share on LinkedIn",
+        "verify": "Verify Certificate",
+        "issued": "Issued",
+        "course": "Course",
+        "verification_code": "Verification Code",
+        "scan_qr": "Scan the QR code to verify",
+        "certificate_of_completion": "Certificate of Completion",
+        "issued_to": "Issued to",
+        "my_certificates": "My Certificates",
+        "no_certificates": "No certificates yet",
+        "earned_certificate": "You've earned a certificate!",
+        "view_certificate": "View Certificate"
     }
 }

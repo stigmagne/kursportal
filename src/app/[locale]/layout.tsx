@@ -12,6 +12,7 @@ import { ServiceWorkerProvider } from '@/components/providers/ServiceWorkerProvi
 import { AssessmentProvider } from '@/components/providers/AssessmentProvider';
 import { UserProvider } from '@/components/providers/UserProvider';
 import MobileBottomNav from '@/components/MobileBottomNav';
+import Footer from '@/components/Footer';
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -82,6 +83,7 @@ export default async function LocaleLayout({
                                     </main>
                                 </AssessmentProvider>
                             </ClientErrorBoundary>
+                            <Footer />
                             <MobileBottomNav />
                             <ToastProvider />
                         </UserProvider>

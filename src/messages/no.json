@@ -1,4 +1,31 @@
 {
+    "Footer": {
+        "quick_links": "Hurtiglenker",
+        "sign_in": "Logg Inn",
+        "interested": "Interessert?",
+        "report_bug": "Rapporter feil",
+        "privacy_security": "Personvern og Sikkerhet",
+        "privacy_text": "Journal og Selvevaluering bruker Zero-Knowledge kryptering. Alt krypteres lokalt på din enhet – kun du har tilgang til innholdet.",
+        "all_rights_reserved": "Alle rettigheter reservert.",
+        "zero_knowledge": "Journal & Selvevaluering: Zero-Knowledge"
+    },
+    "Contact": {
+        "title": "Interessert?",
+        "subtitle": "Ta kontakt med oss for å høre mer om hvordan vi kan hjelpe din bedrift med psykologisk trygghet.",
+        "name_label": "Navn",
+        "name_placeholder": "Ditt navn",
+        "email_label": "E-post",
+        "email_placeholder": "din@epost.no",
+        "company_label": "Bedrift (valgfritt)",
+        "company_placeholder": "Navn på bedrift",
+        "message_label": "Melding",
+        "message_placeholder": "Fortell oss hva du ønsker å høre mer om...",
+        "send_button": "Send melding",
+        "sending": "Sender...",
+        "thank_you": "Takk for din henvendelse!",
+        "we_will_contact": "Vi tar kontakt med deg så snart som mulig.",
+        "direct_contact": "Eller kontakt oss direkte på"
+    },
     "Navbar": {
         "home": "Hjem",
         "dashboard": "Oversikt",
@@ -9,24 +36,27 @@
         "admin": "Admin",
         "signIn": "Logg inn",
         "signOut": "Logg ut",
-        "pricing": "Priser"
+        "interested": "Interessert?"
     },
     "Home": {
-        "new_courses": "Nye kurs tilgjengelig",
-        "hero_title_1": "Mestre din",
-        "hero_title_highlight": "Vekst",
-        "hero_title_2": "Sikre dine",
-        "hero_title_highlight_2": "Tanker",
-        "hero_subtitle": "En premium hub for interaktiv læring, quiz og null-kunnskap privat journalføring. Dine data tilhører deg.",
-        "start_learning": "Start Læring",
-        "private_journal": "Privat Journal",
+        "badge": "For inviterte medlemmer",
+        "hero_title_1": "Bygg",
+        "hero_title_highlight": "Tillit",
+        "hero_title_2": "Styrk",
+        "hero_title_highlight_2": "Stemmen",
+        "hero_subtitle": "En plattform for psykologisk trygghet på arbeidsplassen. Kurs, verktøy og en trygg kanal for å si ifra – uten frykt for konsekvenser.",
+        "sign_in": "Logg Inn",
+        "learn_more": "Les mer om oss",
         "features": {
-            "interactive_courses": "Interaktive Kurs",
-            "interactive_courses_desc": "Dykk dypt i strukturert innhold designet for læring og vekst.",
-            "smart_quizzes": "Smarte Quizer",
-            "smart_quizzes_desc": "Test kunnskapen din med dynamiske quizer som sporer fremgangen din.",
-            "zk_journal": "Null-Kunnskap Journal",
-            "zk_journal_desc": "Skriv fritt. Journalen din er kryptert på enheten din. Selv ikke vi kan lese den."
+            "courses_tools": "Kurs og Verktøy",
+            "courses_tools_desc": "Lær om psykologisk trygghet, kommunikasjon og konflikthåndtering – i ditt eget tempo.",
+            "self_assessment": "Selvevaluering",
+            "self_assessment_desc": "Mål ditt eget arbeidsmiljø og se utviklingen over tid. Anonymt og helt privat.",
+            "zk_journal": "Zero-Knowledge Journal",
+            "zk_journal_desc": "Skriv fritt og trygt. Journalen din er kryptert på din enhet – kun du har nøkkelen.",
+            "zk_what_is": "Hva betyr dette?",
+            "zk_explanation": "Zero-Knowledge betyr at vi aldri kan se innholdet ditt. Alt krypteres lokalt i nettleseren din med et passord kun du kjenner. Vi lagrer kun kryptert data – ingen kan dekryptere det uten ditt passord.",
+            "zk_read_more": "Les mer om kryptering"
         }
     },
     "Login": {
@@ -51,7 +81,40 @@
         "sign_in_link": "Logg inn",
         "invitation_code": "Invitasjonskode",
         "invitation_placeholder": "Skriv inn invitasjonskode på 8 tegn.",
-        "invitation_help": "Du trenger en invitasjonskode for å registrere deg. Kontakt en administrator hvis du ikke har en."
+        "invitation_help": "Du trenger en invitasjonskode for å registrere deg. Kontakt en administrator hvis du ikke har en.",
+        "forgot_password": "Glemt passord?"
+    },
+    "ForgotPassword": {
+        "title": "Glemt passord",
+        "subtitle": "Skriv inn e-posten din, så sender vi deg en lenke for å tilbakestille passordet.",
+        "email_label": "E-post",
+        "email_placeholder": "din@epost.no",
+        "send_button": "Send tilbakestillingslenke",
+        "sending": "Sender...",
+        "back_to_login": "Tilbake til pålogging",
+        "success_title": "Sjekk e-posten din",
+        "success_message": "Vi har sendt deg en lenke for å tilbakestille passordet ditt. Sjekk innboksen din.",
+        "error_not_found": "Feil ved tilbakestilling av passord. Prøv igjen."
+    },
+    "ResetPassword": {
+        "title": "Nytt passord",
+        "subtitle": "Skriv inn ditt nye passord nedenfor.",
+        "new_password_label": "Nytt passord",
+        "confirm_password_label": "Bekreft passord",
+        "password_placeholder": "Minst 12 tegn",
+        "reset_button": "Tilbakestill passord",
+        "resetting": "Tilbakestiller...",
+        "checking_token": "Verifiserer tilbakestillingslenke...",
+        "success": "Passordet tilbakestilt!",
+        "redirecting": "Sender deg til innlogging...",
+        "error_weak": "Passordet må være minst 12 tegn.",
+        "error_mismatch": "Passordene samsvarer ikke.",
+        "error_invalid_token": "Ugyldig eller utløpt tilbakestillingslenke. Be om en ny.",
+        "strength": {
+            "weak": "Svakt passord",
+            "medium": "Middels passord",
+            "strong": "Sterkt passord"
+        }
     },
     "Dashboard": {
         "title": "Min Læringsplattform",
@@ -512,6 +575,7 @@
         "invitations": "Invitasjoner",
         "tags": "Tags",
         "users": "Brukere",
+        "certificates": "Sertifikater",
         "analytics": "Analyse",
         "settings": "Innstillinger",
         "sign_out": "Logg ut"
@@ -725,5 +789,58 @@
         "content_placeholder": "Beskriv problemet eller spørsmålet ditt i detalj...",
         "posting": "Legger inn...",
         "post": "Publiser"
+    },
+    "BugReport": {
+        "title": "Rapporter feil",
+        "description": "Beskriv problemet du opplever, så skal vi hjelpe deg så raskt som mulig.",
+        "titleLabel": "Tittel",
+        "titlePlaceholder": "Kort oppsummering av feilen",
+        "descriptionLabel": "Beskrivelse",
+        "descriptionPlaceholder": "Detaljert beskrivelse av hva som skjedde...",
+        "submit": "Send inn rapport",
+        "submitting": "Sender...",
+        "success": "Takk! Feilrapporten er sendt inn.",
+        "error": "Kunne ikke sende rapport. Prøv igjen."
+    },
+    "AdminBugReports": {
+        "title": "Feilrapporter",
+        "filter": "Filter",
+        "filterAll": "Alle",
+        "noReports": "Ingen feilrapporter ennå",
+        "descriptionLabel": "Beskrivelse",
+        "pageUrl": "Side-URL",
+        "browserInfo": "Nettleserinfo",
+        "updateStatus": "Oppdater status",
+        "updatePriority": "Oppdater prioritet",
+        "adminNotes": "Admin-notater",
+        "adminNotesPlaceholder": "Interne notater om denne feilen...",
+        "status": {
+            "open": "Åpen",
+            "in-progress": "Pågår",
+            "resolved": "Løst",
+            "closed": "Lukket"
+        },
+        "priority": {
+            "low": "Lav",
+            "medium": "Middels",
+            "high": "Høy",
+            "critical": "Kritisk"
+        }
+    },
+    "Certificates": {
+        "title": "Sertifikater",
+        "download_pdf": "Last ned PDF",
+        "share_linkedin": "Del på LinkedIn",
+        "verify": "Verifiser sertifikat",
+        "issued": "Utstedt",
+        "course": "Kurs",
+        "verification_code": "Verifikasjonskode",
+        "scan_qr": "Skann QR-koden for å verifisere",
+        "certificate_of_completion": "Sertifikat for gjennomført kurs",
+        "issued_to": "Utstedt til",
+        "my_certificates": "Mine sertifikater",
+        "no_certificates": "Ingen sertifikater ennå",
+        "earned_certificate": "Du har tjent et sertifikat!",
+        "view_certificate": "Se sertifikat"
     }
 }

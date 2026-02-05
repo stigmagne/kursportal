@@ -3,18 +3,22 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import { User, Mail, Calendar, Tag, Upload, Loader2, Save, Award, Activity, Edit2, X } from 'lucide-react';
+import { User, Mail, Calendar, Tag, Upload, Loader2, Save, Award, Activity, Edit2, X, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { ActivityLog } from '@/components/profile/ActivityLog';
 import { XPBar } from '@/components/gamification/XPBar';
 import { StreakCounter } from '@/components/gamification/StreakCounter';
 import { BadgeCollection } from '@/components/profile/BadgeCollection';
+import CertificatePDF from '@/components/CertificatePDF';
+import { getUserCertificates, type Certificate } from '@/app/actions/certificate-actions';
 
-type Tab = 'overview' | 'badges' | 'activity';
+type Tab = 'overview' | 'badges' | 'activity' | 'certificates';
 
 export default function ProfilePage() {
     const t = useTranslations('Profile');
+    const tCerts = useTranslations('Certificates');
+    const locale = useLocale();
     const supabase = createClient();
     const router = useRouter();
     const [loading, setLoading] = useState(true);
@@ -23,6 +27,7 @@ export default function ProfilePage() {
     const [profile, setProfile] = useState<any>(null);
     const [categories, setCategories] = useState<any[]>([]);
     const [streakData, setStreakData] = useState<any>(null);
+    const [certificates, setCertificates] = useState<Certificate[]>([]);
     const [isEditing, setIsEditing] = useState(false);
     const [activeTab, setActiveTab] = useState<Tab>('overview');
 
@@ -72,6 +77,12 @@ export default function ProfilePage() {
                 .single();
 
             setStreakData(streak);
+
+            // Fetch user certificates
+            const certsResult = await getUserCertificates();
+            if (certsResult.success && certsResult.certificates) {
+                setCertificates(certsResult.certificates);
+            }
         } catch (error) {
             console.error('Error fetching profile:', error);
         } finally {
@@ -269,7 +280,7 @@ export default function ProfilePage() {
 
                     {/* Tabs */}
                     <div className="flex gap-4 border-b-4 border-black/10 pb-1 overflow-x-auto">
-                        {['overview', 'badges', 'activity'].map((tab) => (
+                        {['overview', 'badges', 'certificates', 'activity'].map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab as Tab)}
@@ -280,8 +291,9 @@ export default function ProfilePage() {
                             >
                                 {tab === 'overview' && <User className="w-5 h-5" />}
                                 {tab === 'badges' && <Award className="w-5 h-5" />}
+                                {tab === 'certificates' && <FileText className="w-5 h-5" />}
                                 {tab === 'activity' && <Activity className="w-5 h-5" />}
-                                {t(tab === 'activity' ? 'activity_log' : tab)}
+                                {tab === 'certificates' ? tCerts('title') : t(tab === 'activity' ? 'activity_log' : tab)}
                             </button>
                         ))}
                     </div>
@@ -356,6 +368,35 @@ export default function ProfilePage() {
                         {activeTab === 'badges' && (
                             <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl p-8">
                                 <BadgeCollection />
+                            </div>
+                        )}
+
+                        {activeTab === 'certificates' && (
+                            <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl p-8">
+                                <h3 className="text-xl font-black mb-6 flex items-center gap-3">
+                                    <div className="p-2 bg-green-400 border-2 border-black rounded-lg">
+                                        <FileText className="w-6 h-6 text-black" />
+                                    </div>
+                                    {tCerts('my_certificates')}
+                                </h3>
+                                {certificates.length > 0 ? (
+                                    <div className="grid gap-6">
+                                        {certificates.map((cert) => (
+                                            <CertificatePDF
+                                                key={cert.id}
+                                                certificate={cert}
+                                                userName={profile?.full_name || 'User'}
+                                                courseTitle={cert.course_id}
+                                                locale={locale}
+                                            />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-12">
+                                        <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                                        <p className="text-gray-500 text-lg font-medium">{tCerts('no_certificates')}</p>
+                                    </div>
+                                )}
                             </div>
                         )}
 

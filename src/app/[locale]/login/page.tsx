@@ -177,8 +177,18 @@ export default function LoginPage() {
                                         required
                                     />
                                 </div>
+                                {/* Forgot Password Link - Only show during signin */}
+                                {mode === 'signin' && (
+                                    <div className="text-right">
+                                        <Link
+                                            href="/forgot-password"
+                                            className="text-sm text-primary hover:underline transition-colors"
+                                        >
+                                            {t('forgot_password')}
+                                        </Link>
+                                    </div>
+                                )}
                             </div>
-
 
                             {/* Invitation Code - Only show during signup */}
                             {mode === 'signup' && (

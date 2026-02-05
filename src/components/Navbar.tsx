@@ -111,10 +111,10 @@ export default function Navbar() {
                                 ) : (
                                     <div className="flex items-center gap-2">
                                         <Link
-                                            href="/pricing"
+                                            href="/contact"
                                             className="text-sm font-medium hover:text-primary transition-colors"
                                         >
-                                            {t('pricing')}
+                                            {t('interested')}
                                         </Link>
                                         <Link
                                             href="/login"

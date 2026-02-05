@@ -1,13 +1,12 @@
 import { SupabaseClient } from '@supabase/supabase-js';
+import { USER_GROUPS } from '@/config/groups';
 
-export type TargetGroup = 'sibling' | 'parent' | 'team-member' | 'team-leader';
+export type TargetGroup = typeof USER_GROUPS[number]['value'];
 
-export const TARGET_GROUP_LABELS: Record<TargetGroup, string> = {
-    'sibling': 'Søsken',
-    'parent': 'Foreldre',
-    'team-member': 'Team-medlem',
-    'team-leader': 'Leder'
-};
+export const TARGET_GROUP_LABELS: Record<string, string> = USER_GROUPS.reduce((acc, group) => ({
+    ...acc,
+    [group.value]: group.label
+}), {});
 
 /**
  * Fetches the user's target groups from the database
@@ -36,12 +35,14 @@ export function hasGroupAccess(userGroups: TargetGroup[], requiredGroup: TargetG
 /**
  * Gets the conflicting group for a given target group
  */
-export function getConflictingGroup(group: TargetGroup): TargetGroup {
-    const conflicts: Record<TargetGroup, TargetGroup> = {
+export function getConflictingGroup(group: TargetGroup): TargetGroup | undefined {
+    const conflicts: Partial<Record<TargetGroup, TargetGroup>> = {
         'sibling': 'parent',
         'parent': 'sibling',
         'team-member': 'team-leader',
-        'team-leader': 'team-member'
+        'team-leader': 'team-member',
+        'construction_worker': 'site_manager',
+        'site_manager': 'construction_worker'
     };
     return conflicts[group];
 }

@@ -9,6 +9,7 @@ import ReactMarkdown from 'react-markdown';
 import ModuleManager from '@/components/admin/ModuleManager';
 import EnrollmentManager from '@/components/admin/EnrollmentManager';
 import { useTranslations } from 'next-intl';
+import { USER_GROUPS } from '@/config/groups';
 
 type Tab = 'editor' | 'modules' | 'enrollments' | 'preview';
 
@@ -406,14 +407,7 @@ export default function CourseEditor({ courseId }: { courseId?: string }) {
                             </p>
 
                             <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-                                {[
-                                    { value: 'sibling', label: 'Søsken', desc: 'For voksne søsken' },
-                                    { value: 'parent', label: 'Foreldre', desc: 'For foreldre/foresatte' },
-                                    { value: 'team-member', label: 'Teammedlem', desc: 'For ansatte i team' },
-                                    { value: 'team-leader', label: 'Teamleder', desc: 'For ledere og mellomledere' },
-                                    { value: 'construction_worker', label: 'Håndverker', desc: 'For fagarbeidere i bygg' },
-                                    { value: 'site_manager', label: 'Bas/Byggeleder', desc: 'For byggledelse' },
-                                ].map((group) => (
+                                {USER_GROUPS.map((group) => (
                                     <button
                                         key={group.value}
                                         onClick={() => {

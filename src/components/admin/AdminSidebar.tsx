@@ -10,7 +10,8 @@ import {
     FileText,
     LogOut,
     Ticket,
-    Tag
+    Tag,
+    Award
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/utils/supabase/client';
@@ -33,6 +34,7 @@ export default function AdminSidebar() {
         { name: t('invitations'), href: '/admin/invitations', icon: Ticket },
         { name: t('tags'), href: '/admin/tags', icon: Tag },
         { name: t('users'), href: '/admin/users', icon: Users },
+        { name: t('certificates'), href: '/admin/certificates/generate', icon: Award },
         { name: t('analytics'), href: '/admin/analytics', icon: FileText },
         { name: t('settings'), href: '/admin/settings', icon: Settings },
     ];

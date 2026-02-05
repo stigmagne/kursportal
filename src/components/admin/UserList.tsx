@@ -19,6 +19,7 @@ import { Badge } from '@/components/ui/badge';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import { toggleBanUser, anonymizeUser, updateUser } from '@/app/actions/admin-user-actions';
 import { useRouter } from 'next/navigation';
+import { USER_GROUPS } from '@/config/groups';
 
 interface UserListProps {
     initialUsers: AdminUser[];
@@ -374,9 +375,11 @@ export default function UserList({ initialUsers }: UserListProps) {
                                     onChange={e => setEditForm({ ...editForm, category: e.target.value })}
                                 >
                                     <option value="">Ingen</option>
-                                    <option value="søsken">Søsken</option>
-                                    <option value="foreldre">Foreldre</option>
-                                    <option value="helsepersonell">Helsepersonell</option>
+                                    {USER_GROUPS.map(group => (
+                                        <option key={group.value} value={group.value}>
+                                            {group.label}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             <div>

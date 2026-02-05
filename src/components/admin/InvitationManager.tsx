@@ -8,20 +8,10 @@ import { Copy, RefreshCw, Plus, Users, Building2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 
-type TargetGroup = 'sibling' | 'parent' | 'team-member' | 'team-leader';
+import { USER_GROUPS } from '@/config/groups';
+import { TargetGroup } from '@/utils/userGroups';
 
-interface GroupInfo {
-    id: TargetGroup;
-    label: string;
-    description: string;
-}
 
-const MAIN_GROUPS: GroupInfo[] = [
-    { id: 'sibling', label: 'Søsken', description: 'Søsken av pasienter' },
-    { id: 'parent', label: 'Foreldre', description: 'Foreldre og foresatte' },
-    { id: 'team-member', label: 'Team-medlem', description: 'Ansatte og fagpersoner' },
-    { id: 'team-leader', label: 'Team-leder', description: 'Ledere og koordinatorer' }
-];
 
 interface Subgroup {
     name: string;
@@ -122,7 +112,7 @@ export default function InvitationManager() {
         }
     };
 
-    const selectedGroupInfo = MAIN_GROUPS.find(g => g.id === targetGroup);
+    const selectedGroupInfo = USER_GROUPS.find(g => g.value === targetGroup);
 
     return (
         <div className="grid gap-8 md:grid-cols-2">
@@ -140,18 +130,18 @@ export default function InvitationManager() {
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Hovedgruppe</label>
                         <div className="grid grid-cols-2 gap-2">
-                            {MAIN_GROUPS.map((group) => (
+                            {USER_GROUPS.map((group) => (
                                 <button
-                                    key={group.id}
+                                    key={group.value}
                                     type="button"
-                                    onClick={() => setTargetGroup(group.id)}
-                                    className={`p-3 rounded-lg border text-left transition-all ${targetGroup === group.id
-                                            ? 'border-primary bg-primary/10 ring-2 ring-primary/20'
-                                            : 'border-input hover:border-primary/50'
+                                    onClick={() => setTargetGroup(group.value)}
+                                    className={`p-3 rounded-lg border text-left transition-all ${targetGroup === group.value
+                                        ? 'border-primary bg-primary/10 ring-2 ring-primary/20'
+                                        : 'border-input hover:border-primary/50'
                                         }`}
                                 >
                                     <div className="font-medium text-sm">{group.label}</div>
-                                    <div className="text-xs text-muted-foreground">{group.description}</div>
+                                    <div className="text-xs text-muted-foreground">{group.desc}</div>
                                 </button>
                             ))}
                         </div>
