@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { CheckCircle2, XCircle, Shield } from 'lucide-react';
 import { verifyCertificate } from '@/app/actions/certificate-actions';
-import { unstable_setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 
 interface VerifyPageProps {
     params: {
@@ -12,7 +12,7 @@ interface VerifyPageProps {
 }
 
 export default async function VerifyPage({ params }: VerifyPageProps) {
-    unstable_setRequestLocale(params.locale);
+    setRequestLocale(params.locale);
 
     const result = await verifyCertificate(params.code);
 
