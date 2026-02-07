@@ -114,7 +114,7 @@ export function LessonComments({ lessonId }: LessonCommentsProps) {
     };
 
     return (
-        <div className="bg-white text-gray-900 rounded-xl p-6 space-y-6 border border-gray-200">
+        <div className="bg-background text-foreground p-6 space-y-6 border-2 border-black dark:border-white shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_#fff]">
             <h3 className="text-xl font-semibold flex items-center gap-2">
                 <MessageSquare className="w-5 h-5" />
                 {t('title')} ({comments.length})
@@ -123,12 +123,12 @@ export function LessonComments({ lessonId }: LessonCommentsProps) {
             {/* New Comment Form */}
             <div className="space-y-3">
                 {replyTo && (
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Reply className="w-4 h-4" />
                         {t('replying_to')}
                         <button
                             onClick={() => setReplyTo(null)}
-                            className="text-blue-600 hover:underline"
+                            className="text-primary hover:underline"
                         >
                             {t('cancel')}
                         </button>
@@ -138,13 +138,13 @@ export function LessonComments({ lessonId }: LessonCommentsProps) {
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder={t('placeholder')}
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                    className="w-full px-4 py-3 bg-background border-2 border-black dark:border-white resize-none focus:outline-none focus:ring-2 focus:ring-primary text-foreground"
                     rows={3}
                 />
                 <button
                     onClick={postComment}
                     disabled={!newComment.trim() || isPosting}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    className="px-4 py-2 bg-primary text-primary-foreground font-bold border-2 border-black dark:border-white shadow-[3px_3px_0_0_#000] dark:shadow-[3px_3px_0_0_#fff] hover:translate-x-px hover:translate-y-px hover:shadow-[1px_1px_0_0_#000] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                     <Send className="w-4 h-4" />
                     {isPosting ? t('posting') : t('post')}
@@ -155,11 +155,11 @@ export function LessonComments({ lessonId }: LessonCommentsProps) {
             {isLoading ? (
                 <div className="space-y-4">
                     {[1, 2, 3].map(i => (
-                        <div key={i} className="h-24 bg-gray-100 rounded animate-pulse" />
+                        <div key={i} className="h-24 bg-muted animate-pulse" />
                     ))}
                 </div>
             ) : comments.length === 0 ? (
-                <p className="text-center text-gray-500 py-8">
+                <p className="text-center text-muted-foreground py-8">
                     {t('no_comments')}
                 </p>
             ) : (
@@ -200,7 +200,7 @@ function CommentItem({ comment, onReply, onDelete, locale, t, isReply = false }:
     return (
         <div className={`${isReply ? 'ml-12' : ''}`}>
             <div className="flex gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                     {comment.user.avatar_url ? (
                         <img
                             src={comment.user.avatar_url}
@@ -208,7 +208,7 @@ function CommentItem({ comment, onReply, onDelete, locale, t, isReply = false }:
                             className="w-full h-full rounded-full object-cover"
                         />
                     ) : (
-                        <span className="text-sm font-medium text-blue-600">
+                        <span className="text-sm font-medium text-primary">
                             {comment.user.full_name.charAt(0).toUpperCase()}
                         </span>
                     )}
@@ -216,8 +216,8 @@ function CommentItem({ comment, onReply, onDelete, locale, t, isReply = false }:
 
                 <div className="flex-1 space-y-2">
                     <div className="flex items-center gap-2">
-                        <span className="font-medium text-gray-900">{comment.user.full_name}</span>
-                        <span className="text-xs text-gray-500">
+                        <span className="font-medium text-foreground">{comment.user.full_name}</span>
+                        <span className="text-xs text-muted-foreground">
                             {formatDistanceToNow(new Date(comment.created_at), {
                                 addSuffix: true,
                                 locale: locale === 'no' ? nb : undefined,
@@ -225,12 +225,12 @@ function CommentItem({ comment, onReply, onDelete, locale, t, isReply = false }:
                         </span>
                     </div>
 
-                    <p className="text-sm text-gray-700">{comment.content}</p>
+                    <p className="text-sm text-foreground">{comment.content}</p>
 
                     <div className="flex items-center gap-4 text-sm">
                         <button
                             onClick={() => onReply(comment.id)}
-                            className="text-gray-600 hover:text-blue-600 flex items-center gap-1"
+                            className="text-muted-foreground hover:text-primary flex items-center gap-1"
                         >
                             <Reply className="w-4 h-4" />
                             {t('reply')}
@@ -239,7 +239,7 @@ function CommentItem({ comment, onReply, onDelete, locale, t, isReply = false }:
                         {currentUser?.id === comment.user_id && (
                             <button
                                 onClick={() => onDelete(comment.id)}
-                                className="text-gray-600 hover:text-red-600 flex items-center gap-1"
+                                className="text-muted-foreground hover:text-red-600 flex items-center gap-1"
                             >
                                 <Trash2 className="w-4 h-4" />
                                 {t('delete')}

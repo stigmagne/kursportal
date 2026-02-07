@@ -253,7 +253,16 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
                             <div key={block.id} className="content-block">
                                 {block.type === 'text' && block.text_content && (
                                     <div className="bg-white dark:bg-zinc-900 border-2 border-black dark:border-white rounded-lg p-6 sm:p-8 shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_#fff]">
-                                        <div className="prose dark:prose-invert prose-table:border-2 prose-table:border-foreground/20 prose-th:bg-muted prose-th:p-3 prose-th:border prose-td:p-3 prose-td:border max-w-none">
+                                        <div className="prose dark:prose-invert prose-headings:font-bold 
+                                                        prose-h2:text-xl prose-h2:border-b-2 prose-h2:border-primary/30 prose-h2:pb-2 prose-h2:mb-4
+                                                        prose-h3:text-lg prose-h3:text-primary
+                                                        prose-ul:list-disc prose-ul:pl-5
+                                                        prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-primary/5 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic
+                                                        prose-strong:text-primary
+                                                        prose-table:border-2 prose-table:border-foreground/20
+                                                        prose-th:bg-muted prose-th:p-3 prose-th:border prose-th:border-foreground/20
+                                                        prose-td:p-3 prose-td:border prose-td:border-foreground/20
+                                                        max-w-none">
                                             <ReactMarkdown remarkPlugins={[remarkGfm]}>{block.text_content}</ReactMarkdown>
                                         </div>
                                     </div>
@@ -326,10 +335,10 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
                         </div>
                     )
                 }
-            </div >
+            </div>
 
             {/* Quiz Section */}
-            < div className="mt-12 pt-8 border-t-2 border-black dark:border-white" >
+            <div className="mt-12 pt-8 border-t-2 border-black dark:border-white">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 bg-primary/10 rounded-lg border-2 border-black dark:border-white">
                         <MessageSquare className="w-5 h-5 text-primary" />
@@ -337,7 +346,7 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
                     <h2 className="text-xl font-bold">Quiz</h2>
                 </div>
                 <QuizTaker lessonId={lesson.id} userId={userId} />
-            </div >
-        </div >
+            </div>
+        </div>
     );
 }
