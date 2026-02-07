@@ -11,6 +11,12 @@ import QuizTaker from './QuizTaker';
 import { CaseStudyView } from './CaseStudyView';
 import { ExpertVideoView } from './ExpertVideoView';
 
+// Fix double-escaped newlines from database (\\n → \n)
+function normalizeContent(text: string): string {
+    if (!text) return text;
+    return text.replace(/\\n/g, '\n');
+}
+
 interface LessonViewerProps {
     lesson: any;
     userId: string;
@@ -86,7 +92,7 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
     // Parse content into sections for tabs
     const sections = useMemo(() => {
         if (hasDirectContent) {
-            return parseContentSections(lesson.content);
+            return parseContentSections(normalizeContent(lesson.content));
         }
         return [];
     }, [lesson.content, hasDirectContent]);
@@ -205,7 +211,7 @@ export default function LessonViewer({ lesson, userId }: LessonViewerProps) {
                                             prose-th:bg-muted prose-th:p-3 prose-th:border prose-th:border-foreground/20
                                             prose-td:p-3 prose-td:border prose-td:border-foreground/20
                                             max-w-none">
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{lesson.content}</ReactMarkdown>
+                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{normalizeContent(lesson.content)}</ReactMarkdown>
                             </div>
                         )}
 
