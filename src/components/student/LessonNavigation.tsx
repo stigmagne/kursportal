@@ -93,7 +93,7 @@ export function LessonNavigation({
 
     if (isLoading) {
         return (
-            <div className="sticky bottom-0 bg-background border-t-2 border-black dark:border-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+            <div className="sticky bottom-0 z-10 bg-white dark:bg-zinc-950 border-t-2 border-black dark:border-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
                 <div className="max-w-4xl mx-auto flex items-center justify-between">
                     <div className="h-10 w-24 bg-muted rounded animate-pulse"></div>
                     <div className="h-10 w-32 bg-muted rounded animate-pulse"></div>
@@ -104,7 +104,7 @@ export function LessonNavigation({
     }
 
     return (
-        <div className="sticky bottom-0 bg-background border-t-2 border-black dark:border-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <div className="sticky bottom-0 z-10 bg-white dark:bg-zinc-950 border-t-2 border-black dark:border-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
             <div className="max-w-4xl mx-auto flex items-center justify-between gap-2">
                 {/* Previous Button */}
                 {prevLesson ? (
